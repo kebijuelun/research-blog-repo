@@ -1,178 +1,175 @@
-# GDPO：用“去耦归一化”解决多奖励 RL 训练信号塌缩
+# GDPO：多奖励 RL 中更稳定、更精细的优势归一化方案
 
-这篇论文聚焦一个经常被忽视的问题： **多奖励 RL 里直接套用 GRPO 可能会把训练信号“压扁”** 。作者提出 GDPO（Group reward-Decoupled Normalization Policy Optimization），通过“按奖励分开归一化 + 批量归一化”的方式，保留不同奖励组合的差异，从而显著提升训练稳定性和多任务表现。
-
-下面按照“问题 → 方法 → 实验 → 结论”的逻辑，做一篇 **长篇精炼解读** 。
-
----
-
-## 1. 背景：多奖励 RL 里，GRPO 真的合适吗？
-
-随着 LLM 的应用越来越复杂，我们经常需要同时优化多个目标：  
-    - 正确性  
-    - 格式规范  
-    - 输出长度  
-    - Bug 率  
-    - 安全性/对齐指标  
-
-这些目标在实际系统中就是 **多奖励强化学习** （Multi-reward RL）。  
-目前业界常见做法是： **把所有奖励加起来，然后用 GRPO 优化** 。
-
-问题是： **加起来再归一化会丢信息** 。  
-当多个奖励组合在一起时，GRPO 会把不同组合映射到相同的 Advantage 值，这相当于 **把细粒度偏好压成了粗粒度信号** ，导致训练不稳定甚至塌缩。
+这篇论文要解决的是一个越来越常见的现实问题：当我们希望 LLM 同时满足 **准确性、格式规范、长度约束、Bug-free** 等多个偏好时，强化学习要如何稳定、精确地优化这些多维奖励？  
+作者指出：大家默认把 GRPO 直接套在多奖励设置上，但这会让 **不同的奖励组合在优势函数里被“压扁成同一个信号”** ，导致训练信号分辨率下降，甚至训练崩溃。GDPO 就是为了解决这个问题。
 
 ---
 
-## 2. 关键问题：GRPO 在多奖励下的“信号塌缩”
+## 1. 背景：为什么多奖励 RL 让 GRPO 失灵？
 
-论文给了一个非常直观的例子：
+目前的主流做法是把多个奖励加总，然后再走 GRPO 的 group-wise normalization：
 
-    - 两个二值奖励 $r_1, r_2 \in \{0,1\}$  
-    - 每次 rollout 两个样本  
-    - 可能的奖励组合包括 $(0,1)$、$(0,2)$、$(1,2)$ 等  
+$$
+r^{(i,j)}_{\text{sum}} = r_1^{(i,j)} + \cdots + r_n^{(i,j)}
+$$
 
-GRPO 的做法是先求和，然后组内归一化。结果是：
+$$
+A^{(i,j)}_{\text{sum}} =
+\frac{
+r_{\text{sum}}^{(i,j)} - \mathrm{mean}\{ r_{\text{sum}}^{(i,1)}, \ldots, r_{\text{sum}}^{(i,G)}\}
+}{
+\mathrm{std}\{ r_{\text{sum}}^{(i,1)}, \ldots, r_{\text{sum}}^{(i,G)} \}
+}
+$$
 
-    - $(0,1)$ 和 $(0,2)$ 在 GRPO 里得到 **完全相同** 的优势  
-    - 训练信号无法区分 “拿到一个奖励” 和 “两个奖励都拿到”
-
-这会导致两类问题：  
-    1. **优化信号分辨率变低** （advantage groups 太少）  
-    2. **训练稳定性变差** （甚至出现 early collapse）  
+这在单奖励时很好用，但 **多奖励下会出现“优势塌缩”** ：  
+不同 reward 组合（比如 $(0,1)$ 与 $(0,2)$）会被映射到相同的 advantage。  
+结果就是模型看不出“更好”与“稍好”的差异，训练信号变粗糙，最终影响收敛。
 
 ---
 
-## 3. 方法：GDPO 的核心改动
+## 2. GDPO：核心思想是“先分开归一化，再汇总”
 
-GDPO 的核心思想非常简单，但效果很好：
-
-### ✅ 步骤 1：每个奖励单独做组内归一化
-
-对每个 reward 单独计算：
+GDPO 的关键就是 **把每个奖励单独做 group-wise normalization** ，再加总：
 
 $$
-A_k^{(i,j)} =
-\frac{r_k^{(i,j)} - \mathrm{mean}(r_k^{(i,1)},\ldots,r_k^{(i,G)})}
-{\mathrm{std}(r_k^{(i,1)},\ldots,r_k^{(i,G)})}
+A^{(i,j)}_k =
+\frac{r_k^{(i,j)} - \mathrm{mean}\{r_k^{(i,1)},\ldots,r_k^{(i,G)}\}}
+{\mathrm{std}\{r_k^{(i,1)},\ldots,r_k^{(i,G)}\}}
+\quad \text{for } k=1..n
 $$
 
-### ✅ 步骤 2：把归一化后的各奖励加起来
-
 $$
-A_{\text{sum}}^{(i,j)} = A_1^{(i,j)} + \cdots + A_n^{(i,j)}
+A_{\text{sum}}^{(i,j)} = \sum_{k=1}^n A^{(i,j)}_k
 $$
 
-### ✅ 步骤 3：再做一次 **batch-wise** 归一化
+然后再做一个 batch-wise 归一化，保证不同奖励数量下数值尺度稳定：
 
 $$
 \hat{A}^{(i,j)}_{\text{sum}} =
-\frac{A_{\text{sum}}^{(i,j)}-\mathrm{mean}(\text{batch})}
-{\mathrm{std}(\text{batch})+\epsilon}
+\frac{
+A^{(i,j)}_{\text{sum}} - \mathrm{mean}\{A_{\text{sum}}\}
+}{
+\mathrm{std}\{A_{\text{sum}}\} + \epsilon
+}
 $$
 
-这样可以保证：  
-    - **奖励数量增加时，优势不会无限放大**  
-    - 同时保留细粒度组合差异  
-    - 训练更稳定  
+这样做的效果是： **不同 reward 组合会保留不同的优势信号** ，训练信号更细腻、稳定性更强。
 
 ---
 
-## 4. 图解理解：GDPO vs GRPO
+## 3. 直观图解：GDPO vs GRPO
 
-![Figure 1](figs/gdpo_grpo.png)  
-> 图解：这是两奖励两 rollouts 的例子，GRPO 只产生 2 个优势群，而 GDPO 能区分更多组合，训练信号更细。
+![Figure 1](figs/teaser.png)  
+> 图解：GDPO 的流程是“每个 reward 各自 group-normalize，再求和，再 batch-normalize”。这样优势尺度不会随着 reward 数增加而失控。
 
-![Figure 2](figs/distinct_group_combined_horizontal.png)  
-> 图解：随着 reward 数量和 rollout 数量增加，GDPO 能保持更多 distinct advantage groups，而 GRPO 迅速塌缩。
+![Figure 2](figs/gdpo_grpo.png)  
+> 图解：两奖励、两 rollout 的 toy case 中，GRPO 把多个奖励组合压缩成 2 组优势，而 GDPO 保留 3 组，更细粒度。
 
----
-
-## 5. 实验 1：Tool Calling
-
-任务：同时优化 **格式奖励** 和 **正确性奖励**
-
-![Figure 3](figs/all_median_iqr.png)  
-> 图解：GDPO 在正确性和格式奖励上都稳定上升，而 GRPO w/o std 在格式奖励完全失败。
-
-**结论** ：GDPO 更稳定，同时格式合规率显著提升。
+![Figure 3](figs/distinct_group_combined_horizontal.png)  
+> 图解：奖励数量或 rollout 数增长时，GDPO 的 distinct advantage groups 明显更多，信号更细腻。
 
 ---
 
-## 6. 实验 2：数学推理（accuracy + length）
+## 4. 实验一：Tool Calling（格式 + 正确性）
 
-这一实验比较经典：  
-目标是 **提高数学正确率** ，同时 **限制输出长度** 。
+![Figure 4](figs/all_median_iqr.png)  
+> 图解：GDPO 在 tool-calling 任务中，格式 reward 和正确性 reward 都稳定提升，GRPO w/o std 则格式完全崩溃。
 
-![Figure 4](figs/1.5b_combined_correctness_length_maxlen.png)  
-> 图解：GRPO 在训练后期出现正确率下降、最大输出长度暴涨的现象；GDPO 维持稳定上升。
-
-![Figure 5](figs/7b_combined_correctness_length_maxlen.png)  
-> 图解：更大模型上趋势相同，GDPO 更稳定。
-
-![Figure 6](figs/4b_combined_correctness_length_maxlen.png)  
-> 图解：Qwen3-4B 也呈现相同趋势，GDPO 长度控制更稳定。
+结论很明确：  
+- GDPO 在 **格式 + 正确性** 上都更强  
+- 去掉 std 的 GRPO 虽然提升了 advantage 细粒度，但训练稳定性差，格式奖励直接失败
 
 ---
 
-## 7. 实验 3：Coding Reasoning（三奖励）
+## 5. 实验二：数学推理（正确性 + 长度约束）
 
-加入第三个目标： **Bug Reward**  
-同时优化：  
-    - Pass Rate  
-    - Length Constraint  
-    - Bug Ratio  
+![Figure 5](figs/1.5b_combined_correctness_length_maxlen.png)  
+> 图解：GRPO 先快速拉满长度 reward，但后期正确性下降；GDPO 先短期损失正确性，随后恢复并持续提升。
 
-结论： **GDPO 在 2-obj 和 3-obj 场景下都优于 GRPO** ，且 bug ratio 明显下降。
+结论：GDPO 可以 **同时保证长度约束 + 准确率增长** ，而 GRPO 在训练后期会崩。
+
+此外在更大模型上依旧稳定：
+
+![Figure 6](figs/7b_combined_correctness_length_maxlen.png)  
+> 图解：7B 模型上 GDPO 仍能维持正确性提升，并更好控制长度。
+
+![Figure 7](figs/4b_combined_correctness_length_maxlen.png)  
+> 图解：4B 模型趋势一致，GDPO 稳定性更强。
 
 ---
 
-## 8. Reward 优先级问题：权重 vs 条件奖励
+## 6. 实验三：编码任务（三奖励）
 
-论文还讨论了一个实用问题：
+在 coding reasoning 任务里奖励包括：
 
-**当某个目标比另一个目标容易很多时，单纯调权重没用。**
+- **Pass rate**  
+- **Length constraint（条件化）**  
+- **Bug-free reward**
 
-他们提出：  
-    - 使用 **条件奖励** （例如只有正确时才给 length reward）  
-    - 可以更好地引导模型先优化难目标  
+GDPO 在两奖励和三奖励设置下都表现更好：  
+- Pass rate 更高  
+- Length exceed 更低  
+- Bug ratio 更小  
 
-公式如下：
+说明 **GDPO 在多奖励数量增加时依旧可扩展** 。
+
+---
+
+## 7. 优先级偏好：权重不够，条件化更有效
+
+论文还讨论了一个很现实的问题：  
+当某个奖励更“容易”时（比如长度），模型会优先讨好它，即使你把它权重调低。
+
+### 发现：
+- 简单调权重，效果不稳定  
+- 更有效的做法是 **条件化奖励** （只有 correctness 通过时才给长度 reward）
+
+条件化形式：
 
 $$
-\tilde{\mathcal{R}}_{\text{length}} =
+\tilde{R}_{\text{length}} =
 \begin{cases}
-1, & \text{if response length} \leq l \text{ and } \mathcal{R}_{\text{correct}} = 1 \\
+1, & \text{if length} \le l \ \text{and}\ R_{\text{correct}}=1 \\
 0, & \text{otherwise}
 \end{cases}
 $$
 
-结果显示：  
-GDPO + 条件奖励可以更好地在 accuracy 和 length 之间做平衡。
+结论：  
+- 条件化奖励能避免模型被“简单奖励”带偏  
+- 在这种设计下，GDPO 的效果更明显、更稳定
 
 ---
 
-## 9. 关键 takeaway
+## 8. 关键结论（博主视角总结）
 
-    - **GRPO 在多奖励场景下会“压缩信号”**  
-    - **GDPO 用去耦归一化保留优势差异**  
-    - **训练更稳定，效果更好，适配多任务**  
-    - **奖励权重在难度差异大时无效，条件奖励更靠谱**  
-
----
-
-## 10. 结论与展望
-
-GDPO 并不是重构 RL 框架，而是对 GRPO 做了一个 **非常轻量但关键的改动** 。  
-它解决了多奖励 RL 中长期存在但被忽略的问题：
-
-    - 信号分辨率低  
-    - 优势塌缩  
-    - 训练不稳定  
-
-在工具调用、数学推理、编程推理三大任务上，GDPO 都体现出明显优势。  
-从实践角度看，它非常适合用作 **多奖励 LLM RLHF 或 RLAIF 的默认优化方式** 。
+- **GRPO 在多奖励下存在固有缺陷：信号塌缩 + 训练不稳定**  
+- **GDPO 的改动非常简单，但收益巨大**  
+  - 优势信号更细粒度  
+  - 多奖励扩展更稳定  
+  - 多任务表现更一致  
+- **权重调优并不是万能钥匙** ，当奖励难度差异大时， **条件化奖励更靠谱**  
+- GDPO 已经在 tool-calling、math reasoning、coding reasoning 三个任务上验证
 
 ---
 
-本文参考自 GDPO: Group reward-Decoupled Normalization Policy Optimization for Multi-reward RL Optimization  
-https://arxiv.org/abs/2601.05242
+## 9. 适用场景建议
+
+如果你在做以下任务，GDPO 基本是 **“默认更稳的选择”** ：
+
+- 多奖励 RLHF / RLAIF  
+- 有格式/长度/安全等多维目标  
+- 想让奖励之间“各管各的”，而不是互相抵消
+
+---
+
+## 10. 结语
+
+总体来看，这篇 GDPO 的贡献不在于复杂技巧，而是 **把“多奖励归一化”这个默认细节补上了正确答案** 。  
+对于多目标 RL 来说，这个修正的意义非常实际：更稳、更准、更可控。
+
+本文参考自 [GDPO: Group reward-Decoupled Normalization Policy Optimization for Multi-reward RL Optimization](https://arxiv.org/abs/2601.05242)
+
+---
+
+如果你想进一步了解实现细节或复现实验，我也可以帮你继续整理 GDPO 在 HF-TRL / verl / NeMo-RL 的实现差异。
