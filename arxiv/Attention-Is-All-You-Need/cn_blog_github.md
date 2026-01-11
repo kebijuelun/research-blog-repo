@@ -20,7 +20,7 @@ Transformer 仍是 encoder-decoder，但每层只有：
 
 并且每个子层都有残差连接 + LayerNorm。
 
-![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/Attention-Is-All-You-Need/Figures/ModalNet-21.png)
+![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Attention-Is-All-You-Need/Figures/ModalNet-21.png)
 > 图解：左边是 Encoder 堆叠，右边是 Decoder 堆叠。每层都由 Self-Attention 和 FFN 组成，Decoder 额外多了 encoder-decoder attention。核心变化是：不再有 RNN 或 CNN，全部靠 attention 完成信息交互。
 
 ### 2. Scaled Dot-Product Attention
@@ -32,7 +32,7 @@ $$
 
 缩放因子 $\frac{1}{\sqrt{d_k}}$ 的意义是：避免 dot-product 值过大导致 softmax 梯度消失。
 
-![Figure 2](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/Attention-Is-All-You-Need/Figures/ModalNet-19.png)
+![Figure 2](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Attention-Is-All-You-Need/Figures/ModalNet-19.png)
 > 图解：左图展示了 Query-Key 的相似度计算，再通过 softmax 得到权重，对 Value 加权求和。缩放因子保证不同维度下的稳定训练。
 
 ### 3. Multi-Head Attention：多视角并行关注
@@ -42,7 +42,7 @@ $$
 \mathrm{MultiHead}(Q, K, V) = \mathrm{Concat}(\mathrm{head}_1,...,\mathrm{head}_h)W^O
 $$
 
-![Figure 3](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/Attention-Is-All-You-Need/Figures/ModalNet-20.png)
+![Figure 3](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Attention-Is-All-You-Need/Figures/ModalNet-20.png)
 > 图解：多头相当于让模型在多个子空间并行做注意力，每个头关注不同关系，最后拼接再线性变换。
 
 ### 4. Position-wise Feed-Forward
@@ -91,10 +91,10 @@ Transformer 在 WSJ parsing 上也很强：
 ## 附加洞察：Self-Attention 的解释性
 论文给了 attention visualization，显示不同 head 学到了不同结构信息，比如长距离依赖和指代消解。
 
-![Figure 4](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/Attention-Is-All-You-Need/vis/making_more_difficult5_new.png)
+![Figure 4](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Attention-Is-All-You-Need/vis/making_more_difficult5_new.png)
 > 图解：注意力头能捕捉到“making ... more difficult”这样的长距离依赖，说明模型在语义结构上有一定可解释性。
 
-![Figure 5](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/Attention-Is-All-You-Need/vis/anaphora_resolution_new.png)
+![Figure 5](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Attention-Is-All-You-Need/vis/anaphora_resolution_new.png)
 > 图解：注意力头能够将代词（如 “its”）指向正确的名词，表现出类似指代消解的能力。
 
 ## 总结：Transformer 为什么改变了世界？

@@ -44,13 +44,13 @@ mHC 还针对系统瓶颈设计了三类优化:
 
 ## 图解: 结构与不稳定性
 
-![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/mHC-Manifold-Constrained-Hyper-Connections/images/page-14-img-1.png)
+![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/mHC-Manifold-Constrained-Hyper-Connections/images/page-14-img-1.png)
 > 图解: 对比标准 Residual、HC 与 mHC 的残差流结构。mHC 通过将残差矩阵投影到约束流形, 恢复了恒等映射的稳定性质, 同时保留多流交互能力。
 
-![Figure 2](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/mHC-Manifold-Constrained-Hyper-Connections/images/page-14-img-2.png)
+![Figure 2](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/mHC-Manifold-Constrained-Hyper-Connections/images/page-14-img-2.png)
 > 图解: HC 在训练中出现明显的 loss 突增与梯度异常, 而 mHC 的曲线更稳定, 说明约束残差映射显著缓解训练不稳定。
 
-![Figure 3](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/mHC-Manifold-Constrained-Hyper-Connections/images/page-14-img-3.png)
+![Figure 3](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/mHC-Manifold-Constrained-Hyper-Connections/images/page-14-img-3.png)
 > 图解: HC 的残差映射在多层组合后信号增益出现极端值 (爆炸), mHC 则保持在可控范围, 稳定性大幅提升。
 
 ## 关键实验结果 (中等粒度)
@@ -62,14 +62,14 @@ mHC 不仅稳定训练, 还在多个 benchmark 上超过 HC:
 - DROP: mHC 比 HC 提升约 2.3%
 - 训练过程 loss 与 gradient norm 明显更平稳
 
-![Figure 5](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/mHC-Manifold-Constrained-Hyper-Connections/images/page-14-img-5.png)
+![Figure 5](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/mHC-Manifold-Constrained-Hyper-Connections/images/page-14-img-5.png)
 > 图解: mHC 相比 HC 和 Baseline 具有更稳定的梯度与 loss 曲线, 显示其在大模型训练中更可靠。
 
 ### 2) 规模扩展
 
 mHC 的效果在 3B / 9B / 27B 规模上均保持优势, 说明其 **可扩展性** 不依赖单一模型规模。
 
-![Figure 6](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/mHC-Manifold-Constrained-Hyper-Connections/images/page-14-img-6.png)
+![Figure 6](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/mHC-Manifold-Constrained-Hyper-Connections/images/page-14-img-6.png)
 > 图解: 计算量扩展曲线与 token 扩展曲线显示 mHC 在更大计算预算下仍保持稳定的相对收益。
 
 ## 总结与启发

@@ -79,10 +79,10 @@ $$
 
 ## 4. 图解理解：GDPO vs GRPO
 
-![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/GDPO-Group-reward-Decoupled-Normalization-Policy-Optimization-for-Multi-reward-RL-Optimization/figs/gdpo_grpo.png)  
+![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/GDPO-Group-reward-Decoupled-Normalization-Policy-Optimization-for-Multi-reward-RL-Optimization/figs/gdpo_grpo.png)  
 > 图解：这是两奖励两 rollouts 的例子，GRPO 只产生 2 个优势群，而 GDPO 能区分更多组合，训练信号更细。
 
-![Figure 2](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/GDPO-Group-reward-Decoupled-Normalization-Policy-Optimization-for-Multi-reward-RL-Optimization/figs/distinct_group_combined_horizontal.png)  
+![Figure 2](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/GDPO-Group-reward-Decoupled-Normalization-Policy-Optimization-for-Multi-reward-RL-Optimization/figs/distinct_group_combined_horizontal.png)  
 > 图解：随着 reward 数量和 rollout 数量增加，GDPO 能保持更多 distinct advantage groups，而 GRPO 迅速塌缩。
 
 ---
@@ -91,7 +91,7 @@ $$
 
 任务：同时优化 **格式奖励** 和 **正确性奖励**
 
-![Figure 3](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/GDPO-Group-reward-Decoupled-Normalization-Policy-Optimization-for-Multi-reward-RL-Optimization/figs/all_median_iqr.png)  
+![Figure 3](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/GDPO-Group-reward-Decoupled-Normalization-Policy-Optimization-for-Multi-reward-RL-Optimization/figs/all_median_iqr.png)  
 > 图解：GDPO 在正确性和格式奖励上都稳定上升，而 GRPO w/o std 在格式奖励完全失败。
 
 **结论** ：GDPO 更稳定，同时格式合规率显著提升。
@@ -103,13 +103,13 @@ $$
 这一实验比较经典：  
 目标是 **提高数学正确率** ，同时 **限制输出长度** 。
 
-![Figure 4](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/GDPO-Group-reward-Decoupled-Normalization-Policy-Optimization-for-Multi-reward-RL-Optimization/figs/1.5b_combined_correctness_length_maxlen.png)  
+![Figure 4](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/GDPO-Group-reward-Decoupled-Normalization-Policy-Optimization-for-Multi-reward-RL-Optimization/figs/1.5b_combined_correctness_length_maxlen.png)  
 > 图解：GRPO 在训练后期出现正确率下降、最大输出长度暴涨的现象；GDPO 维持稳定上升。
 
-![Figure 5](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/GDPO-Group-reward-Decoupled-Normalization-Policy-Optimization-for-Multi-reward-RL-Optimization/figs/7b_combined_correctness_length_maxlen.png)  
+![Figure 5](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/GDPO-Group-reward-Decoupled-Normalization-Policy-Optimization-for-Multi-reward-RL-Optimization/figs/7b_combined_correctness_length_maxlen.png)  
 > 图解：更大模型上趋势相同，GDPO 更稳定。
 
-![Figure 6](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/GDPO-Group-reward-Decoupled-Normalization-Policy-Optimization-for-Multi-reward-RL-Optimization/figs/4b_combined_correctness_length_maxlen.png)  
+![Figure 6](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/GDPO-Group-reward-Decoupled-Normalization-Policy-Optimization-for-Multi-reward-RL-Optimization/figs/4b_combined_correctness_length_maxlen.png)  
 > 图解：Qwen3-4B 也呈现相同趋势，GDPO 长度控制更稳定。
 
 ---

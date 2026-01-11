@@ -42,18 +42,18 @@ $$
 
 论文在多个模型上做 PCA 可视化，揭示了合并对功能空间的毁伤：
 
-![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/Qwen3-30B-A3B-layer_0.png)
+![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/Qwen3-30B-A3B-layer_0.png)
 > 图解：Qwen3 早层的专家子空间。剪枝后点云分布仍覆盖原来的结构，合并后整体收缩到中心。
 
-![Figure 2](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/Qwen3-30B-A3B-layer_47.png)
+![Figure 2](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/Qwen3-30B-A3B-layer_47.png)
 > 图解：Qwen3 晚层的专家子空间，合并的塌缩更严重，分布跨度甚至缩小 100 倍量级。
 
 更进一步，附录里的 ERNIE / Mixtral / Llama 结果也一致：
 
-![Figure 3](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/ERNIE-4.5-21B-A3B-PT-layer_1.png)
+![Figure 3](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/ERNIE-4.5-21B-A3B-PT-layer_1.png)
 > 图解：ERNIE 早层，剪枝保留流形几何结构，合并将分布压向中心。
 
-![Figure 4](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/Llama-4-Scout-17B-16E-Instruct-layer_47.png)
+![Figure 4](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/Llama-4-Scout-17B-16E-Instruct-layer_47.png)
 > 图解：Llama-4 晚层，合并后专家几乎全部坍缩成一个小团。
 
 结论非常清晰： **合并会“绑死 router 的控制自由度”，功能空间被硬性压缩** 。
@@ -104,23 +104,23 @@ $\mathcal{X}_j$ 是 expert 被选中的 token 集合。
 
 ### 5.1 总体表现
 
-![Figure 5](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/combined-all-tasks_qwen_and_glm.png)
+![Figure 5](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/combined-all-tasks_qwen_and_glm.png)
 > 图解：Qwen3 和 GLM 在多任务上的对比。50% 压缩时，REAP 的降幅明显更小，而合并在生成类任务上崩得更厉害。
 
 ### 5.2 生成质量差异分析
 
 论文额外分析了合并后生成文本的质量：
 
-![Figure 6](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/ngram_diversity.png)
+![Figure 6](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/ngram_diversity.png)
 > 图解：N-Gram 多样性。合并模型输出更重复，REAP 更接近原模型。
 
-![Figure 7](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/cross_perplexity.png)
+![Figure 7](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/cross_perplexity.png)
 > 图解：交叉困惑度。合并模型的输出偏离 baseline 更严重。
 
-![Figure 8](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/jsd_small.png)
+![Figure 8](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/jsd_small.png)
 > 图解：Logit 分布的 JSD 随输出步数增长，合并模型更快偏离原模型。
 
-![Figure 9](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/combined_weight_dist.png)
+![Figure 9](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/combined_weight_dist.png)
 > 图解：专家之间权重差距巨大，表明直接合并在权重空间上很难“对齐”。
 
 ---
@@ -132,7 +132,7 @@ $\mathcal{X}_j$ 是 expert 被选中的 token 集合。
 - 合并会形成 **“巨大簇 + 大量单例”**  
 - 这会导致 **超大簇内部差异极大**，合并难度指数上升  
 
-![Figure 10](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/restricted_cluster_size_m_smoe.png)
+![Figure 10](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/restricted_cluster_size_m_smoe.png)
 > 图解：限制聚类最大大小时，生成质量急剧下降，说明聚类难以兼顾“压缩率”和“功能一致性”。
 
 ---
@@ -141,10 +141,10 @@ $\mathcal{X}_j$ 是 expert 被选中的 token 集合。
 
 压缩前校准数据很重要，尤其是生成任务：
 
-![Figure 11](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/dataset-ablation-all-models.png)
+![Figure 11](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/dataset-ablation-all-models.png)
 > 图解：用通用数据（c4）校准时，代码生成质量严重崩溃，很多模型甚至输出不可用。
 
-![Figure 12](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/bar-combined-dataset-all-tasks-Qwen3-30B-A3B.png)
+![Figure 12](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/REAP-the-Experts-Why-Pruning-Prevails-for-One-Shot-MoE-compression/fig/bar-combined-dataset-all-tasks-Qwen3-30B-A3B.png)
 > 图解：混合校准数据在 25% 压缩还能撑住，但 50% 压缩时仍远不如领域数据。
 
 ---

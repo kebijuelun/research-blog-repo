@@ -88,12 +88,12 @@ $$
 
 下图展示 HC 在大规模训练中 loss 和梯度的异常波动：
 
-![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/vspace--0.2in/figures/27b_loss_grad.png)
+![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/vspace--0.2in/figures/27b_loss_grad.png)
 > 图解：左图是 HC 相对 mHC 的 loss gap，右图是梯度范数。HC 在 12k step 处出现突增，证明残差流失控。
 
 同时，HC 的残差映射组合出现极端放大（最大增益接近 3000）：
 
-![Figure 2](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/vspace--0.2in/figures/27b_forward_backward_gain.png)
+![Figure 2](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/vspace--0.2in/figures/27b_forward_backward_gain.png)
 > 图解：横轴是层索引，纵轴是前向行和/反向列和的最大值。HC 的增益远离 1，代表严重失衡。
 
 ---
@@ -102,12 +102,12 @@ $$
 
 mHC 把增益控制在 1.6 左右：
 
-![Figure 3](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/vspace--0.2in/figures/27b_mhc_forward_backward_gain.png)
+![Figure 3](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/vspace--0.2in/figures/27b_mhc_forward_backward_gain.png)
 > 图解：mHC 的单层与复合映射增益基本围绕 1，稳定性明显改善。
 
 热力图对比也显示 mHC 更“平稳”：
 
-![Figure 4](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/vspace--0.2in/figures/27b_hc_mhc_heatmap.png)
+![Figure 4](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/vspace--0.2in/figures/27b_hc_mhc_heatmap.png)
 > 图解：HC 显示高幅度混乱区域，而 mHC 更均匀，说明残差流混合受控。
 
 ---
@@ -134,7 +134,7 @@ $$
 ### 7.3 DualPipe 通信重叠
 在 pipeline stage 间重叠 recompute 和通信，减小气泡。
 
-![Figure 5](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/vspace--0.2in/figures/pipeline_crop.png)
+![Figure 5](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/vspace--0.2in/figures/pipeline_crop.png)
 > 图解：展示了 DualPipe 扩展后的调度方式，重点是把 FFN 的残差合并操作放到高优先级 stream，避免阻塞通信。
 
 ---
@@ -143,7 +143,7 @@ $$
 
 27B 模型训练表现：
 
-![Figure 6](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/vspace--0.2in/figures/27b_loss_grad_all.png)
+![Figure 6](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/vspace--0.2in/figures/27b_loss_grad_all.png)
 > 图解：mHC 在 loss 与梯度稳定性上接近 baseline，同时优于 HC。
 
 性能表显示 mHC 稳定超越 baseline 和 HC：
@@ -161,7 +161,7 @@ $$
 
 mHC 的优势在更大计算预算下仍然保留：
 
-![Figure 7](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/vspace--0.2in/figures/scaling_curve.png)
+![Figure 7](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/vspace--0.2in/figures/scaling_curve.png)
 > 图解：左图是 compute scaling（3B/9B/27B），右图是 token scaling（固定 3B 模型）。mHC 的相对收益稳定存在。
 
 ---
@@ -191,7 +191,7 @@ mHC 的优势在更大计算预算下仍然保留：
 
 ## 12. 图示总览：核心结构对比
 
-![Figure 8](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/vspace--0.2in/figures/teaser_arch_comp.png)
+![Figure 8](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/vspace--0.2in/figures/teaser_arch_comp.png)
 > 图解：左是标准残差，中是 HC（无约束混合），右是 mHC（投影到双随机矩阵流形）。mHC 的关键点是 “保留混合能力但防止信号失衡”。
 
 ---

@@ -8,7 +8,7 @@
 ## 1. 背景与动机：Scaling Law 告诉你“算力越大越好”，但没告诉你“怎么配超参”
 传统 Scaling Law 只说 $C = 6ND$ 的算力变大，模型效果变好，但不会告诉你 **给定算力预算 $C$ 时，学习率和 batch size 应该怎么选** 。如果超参不对，甚至会得出“模型越大越差”的错误结论。
 
-![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/How-To-Scale/images/img-1.png)  
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/How-To-Scale/images/img-1.png)  
 > 图解：Scaling Law 展示“性能随算力单调提升”的趋势，但这只在超参接近最优时成立。
 
 核心问题被拆成三类：
@@ -29,7 +29,7 @@ muP 的核心不是“超参迁移”，而是 **保证每一层都能最大化�
 2. **特征学习** ：每层都真正在学  
 3. **非平凡性** ：权重更新不应该被卡死  
 
-![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/How-To-Scale/images/img-2.png)  
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/How-To-Scale/images/img-2.png)  
 > 图解：muP 不是仅为了 HP transfer，而是为了让每一层都能达到“最大特征学习”。
 
 ---
@@ -43,7 +43,7 @@ muP 的关键是： **训练过程中的点积会逐渐相关** ，因此需要�
 
 这就是 muP 的直觉公式来源。
 
-![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/How-To-Scale/images/img-6.png)  
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/How-To-Scale/images/img-6.png)  
 > 图解：点积是否相关，决定你该除以 $n$ 还是 $\sqrt{n}$。
 
 ---
@@ -74,7 +74,7 @@ muP 用三个指数参数化每层：
 - backward 稳定  
 - 最大特征学习  
 
-![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/How-To-Scale/images/img-14.png)  
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/How-To-Scale/images/img-14.png)  
 > 图解：muP 的核心表格，列出了不同层的 a/b/c 指数配置。
 
 ---
@@ -84,7 +84,7 @@ muP 用三个指数参数化每层：
 2. **读出层（lm head）梯度过大，要“打折”**  
 3. **embedding 梯度太小，需要放大**
 
-![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/How-To-Scale/images/img-18.png)  
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/How-To-Scale/images/img-18.png)  
 > 图解：lm head、embedding、hidden layer 的梯度规模不同，必须分层处理。
 
 ---
@@ -95,7 +95,7 @@ muP 只保证 **“宽度变化时 lr 迁移”** ，但 **bsz 和训练时长�
 - 更长训练 → lr 应该下降（左移）
 - 更大 bsz → 训练步数减少 → lr 应该上升（右移）
 
-![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/How-To-Scale/images/img-23.png)  
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/How-To-Scale/images/img-23.png)  
 > 图解：训练时长增加会导致最佳 lr 曲线整体左移。
 
 ---
@@ -112,7 +112,7 @@ $$
 如果数据集变大，$M$ 增加，应该降低 $\lambda$ 才能保持 $\tau_{epoch}$ 不变。  
 如果模型变宽，muP 让 $\eta \propto 1/n$，因此 $\lambda$ 应该 $\propto n$。
 
-![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/How-To-Scale/images/img-36.png)  
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/How-To-Scale/images/img-36.png)  
 > 图解：权重衰减是调整训练时长迁移性的关键旋钮。
 
 ---
@@ -125,7 +125,7 @@ $$
 2. 对多组 $N,D$ 做 grid search  
 3. 拟合 lr 与 bsz 的 power law  
 
-![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/How-To-Scale/images/img-45.png)  
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/How-To-Scale/images/img-45.png)  
 > 图解：DeepSeek 等工作通过拟合得到 lr / bsz 的经验缩放曲线。
 
 ---
@@ -134,7 +134,7 @@ $$
 理论上， **只要不超过 cbsz，模型性能不应依赖 bsz** 。  
 但现实里很多超参只调 lr，所以“最优 bsz”依旧成立。
 
-![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/How-To-Scale/images/img-52.png)  
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/How-To-Scale/images/img-52.png)  
 > 图解：超过 cbsz 后，再加大 bsz 反而会增加计算成本。
 
 ---
@@ -142,7 +142,7 @@ $$
 ## 11. 经验补充：QK LayerNorm 与 Put-Everywhere Norm
 在大模型训练中，QK LayerNorm 能 **显著扩大 lr 可行区间** ，但也可能损害长上下文的注意力分布精度。
 
-![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/How-To-Scale/images/img-68.png)  
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/How-To-Scale/images/img-68.png)  
 > 图解：QK-LN 把 logits 控制在稳定区间，扩大 lr basin。
 
 ---
@@ -150,7 +150,7 @@ $$
 ## 12. Muon 与 muP：同一个目标的不同路径
 Muon 优化器通过 **Spectral Normalization of Updates** 实现“最大更新”，本质上与 muP 的目标一致。
 
-![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/How-To-Scale/images/img-75.png)  
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/How-To-Scale/images/img-75.png)  
 > 图解：Muon 通过近似 SVD 约束更新谱范数，实现最大更新。
 
 ---
@@ -162,7 +162,7 @@ Muon 优化器通过 **Spectral Normalization of Updates** 实现“最大更新
 - RMSNorm 通常比 LayerNorm 更稳更快  
 - MFU 低于 55% 时，说明系统瓶颈严重  
 
-![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/How-To-Scale/images/img-90.png)  
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/How-To-Scale/images/img-90.png)  
 > 图解：训练效率（MFU）决定可规模化能力。
 
 ---
