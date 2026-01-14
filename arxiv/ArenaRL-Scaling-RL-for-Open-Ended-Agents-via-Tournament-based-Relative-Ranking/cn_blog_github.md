@@ -1,0 +1,130 @@
+# ArenaRL：用锦标赛式相对排序扩展开放式智能体强化学习
+
+## 这篇文章解决了什么问题
+开放式智能体任务（旅行规划、深度研究等）没有客观标准答案，主流做法依赖 LLM-as-Judge 的 **点式标量打分** 。作者指出，这会产生“判别塌缩”：当多个高质量轨迹接近时，评分被压缩在窄区间，噪声占主导，RL 更新失真，训练停滞。
+
+ArenaRL 提出一个更稳的方向： **组内相对排序** 。通过成对比较和锦标赛拓扑结构，为每条轨迹生成更有区分度的优势信号，从而提高开放式智能体的推理与规划能力。
+
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/ArenaRL-Scaling-RL-for-Open-Ended-Agents-via-Tournament-based-Relative-Ranking/figs/tongyi.png)
+
+> 图解：论文作者所属团队标识，本文由通义实验室主导提出 ArenaRL 框架。
+
+## 核心思想：从“评分”到“排序”
+ArenaRL 的关键变化是：不再用绝对分数，而是让同一组内的轨迹互相比拼，得到相对排名。
+
+核心流程：
+1. 对同一输入采样一组轨迹 $\mathcal{G}=\{\tau_1,\dots,\tau_N\}$
+2. 用 LLM Judge 做成对比较，得到相对胜负
+3. 用锦标赛拓扑结构把胜负映射为排名
+4. 将排名转为优势 $A_i$，用于 RL 更新
+
+### 排名到优势的映射
+把排名转成一个稳定的优势信号是关键：
+
+$$
+r_i = 1 - \frac{\text{Rank}(\tau_i)}{N-1}
+$$
+
+$$
+A_i = \frac{r_i - \mu_r}{\sigma_r + \epsilon}
+$$
+
+这个设计让每条轨迹都有可比较的梯度信号，而不是被噪声掩盖。
+
+## 方法细节：五种锦标赛拓扑
+作者系统对比了五种拓扑结构，用来在计算成本和排序精度之间平衡：
+
+### 1. Round-Robin（全循环）
+- 精度最高
+- 计算复杂度 $O(N^2)$，训练不可用
+
+### 2. Anchor-Based（锚点排序）
+- 用贪心解码轨迹作为锚点
+- 复杂度 $O(N)$
+- 只能衡量“比锚点好多少”，区分度不足
+
+### 3. Seeded Single-Elimination（带种子单淘汰，主力方案）
+- 先用锚点给轨迹排序并分种子
+- 再进行单淘汰
+- 复杂度 $O(N)$
+- 精度接近 Round-Robin
+
+### 4. Double-Elimination（双淘汰）
+- 对抗波动能力强
+- 如果没有高质量种子，效果一般
+
+### 5. Swiss-System
+- $O(N\log N)$，效果尚可
+- 仍不如带种子单淘汰稳定
+
+结论： **Seeded Single-Elimination 在效率与效果之间最优** 。
+
+![Figure](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/ArenaRL-Scaling-RL-for-Open-Ended-Agents-via-Tournament-based-Relative-Ranking/figs/gaode.png)
+
+> 图解：作者在真实业务数据场景（高德地图）上验证方法有效性，表明 ArenaRL 不只是实验室算法。
+
+## 关键算法：带种子单淘汰
+算法分四阶段：
+
+1. **锚点排序**  
+   先生成一条贪心轨迹 $\tau_{anc}$ 作为锚点，所有轨迹与其比较，得到初步得分。
+
+2. **种子排序**  
+   依据初步得分确定种子顺序，避免高质量轨迹过早相遇。
+
+3. **淘汰赛**  
+   采用单淘汰结构，胜者晋级，败者按轮次分层排名。
+
+4. **排名转优势**  
+   最终按排名计算 $A_i$ 进入 RL 更新。
+
+## 与传统点式打分的核心区别
+点式打分的问题可以简化理解：
+
+- 轨迹越来越好时，得分会塌缩
+- 方差 $\sigma_{\text{group}}$ 变小
+- 归一化后，噪声成为主导梯度
+- RL 被噪声牵引而不是被质量牵引
+
+ArenaRL 改为 **相对排序** ，让优化更稳定、更有方向。
+
+## 基准与实验结果（核心结论）
+论文构建了两个新基准，覆盖真实开放式任务全流程：
+
+- **Open-Travel** ：旅行规划
+- **Open-DeepResearch** ：深度研究报告生成
+
+并在开放写作任务上额外评测。
+
+核心结果：
+- ArenaRL 在 Open-Travel 平均胜率 **41.8%** ，明显优于 GRPO 和 GSPO
+- Open-DeepResearch 上胜率 **64.3%** ，有效生成率 **99%**
+- 在开放式写作任务上也显著领先基线方法
+
+这些结果说明： **相对排序能在开放式任务里提供更稳定、更有效的优化信号** 。
+
+## 更深入的实验发现
+
+### 1. 组大小越大，效果越好
+随着 $N$ 增加，性能单调提升。$N=16$ 时效果最好。
+
+### 2. 评估一致性高
+LLM Judge 与人类评估一致性达到 73.9%，说明提升不是“迎合裁判偏好”。
+
+### 3. 冷启动也能跑起来
+即使没有 SFT 冷启动，ArenaRL 也能从 0 逐步学会旅行规划工具调用。
+
+## 对开放式智能体研究的意义
+ArenaRL 的贡献不只是一个更好的 RL 算法，而是一个 **完整的训练-评测闭环** ：
+
+- 提供高质量基准（Open-Travel / Open-DeepResearch）
+- 提供高效排序机制（Seeded Single-Elimination）
+- 提供更稳定的奖励信号（相对排名优势）
+
+这让开放式智能体训练从“评分噪声”走向“结构化比较”。
+
+## 总结
+ArenaRL 的核心价值在于： **把“打分”变成“对抗”，把“噪声”变成“排序信号”** 。  
+在开放式智能体任务中，这种相对排名机制更接近人类真实的评估方式，也更适合作为 RL 的稳定驱动力。
+
+> 本文参考自 [ArenaRL: Scaling RL for Open-Ended Agents via Tournament-based Relative Ranking](https://arxiv.org/abs/2601.06487)
