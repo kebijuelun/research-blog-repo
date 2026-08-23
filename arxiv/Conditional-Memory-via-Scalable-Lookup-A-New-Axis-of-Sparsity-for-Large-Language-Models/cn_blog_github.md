@@ -37,31 +37,43 @@ Engram 是一个即插即用的条件记忆模块，挂在 Transformer backbone 
 
 **Tokenizer 压缩。** 标准 subword tokenizer 追求无损重建，会给语义等价的串分配完全不同的 ID（比如 `Apple` 和 ` apple`）。Engram 预计算一个满射映射 $\mathcal{P}: V \to V'$，基于 NFKC 归一化、小写化等文本等价规则，把原始 token ID 折叠成"规范 ID"。这一步对 128k 词表实现了约 **23%** 的有效词表压缩（附录里有个很有意思的 case：排名第一的合并项把 `\t`、`\n`、空格、双空格等 163 个 token 全归并成一个规范 ID）。压缩后，位置 $t$ 的后缀 $N$-gram 记为：
 
-$$g_{t,n} = (x'_{t-n+1}, \dots, x'_t), \quad x'_t = \mathcal{P}(x_t)$$
+$$
+g_{t,n} = (x'_{t-n+1}, \dots, x'_t), \quad x'_t = \mathcal{P}(x_t)
+$$
 
 **多头哈希。** 直接参数化所有可能的 $N$-gram 组合空间是不可行的，所以采用哈希技巧。为缓解哈希冲突，每个 $N$-gram 阶数 $n$ 配 $K$ 个独立的哈希头，每个头 $k$ 用一个确定性的轻量乘法-XOR 哈希函数 $\phi_{n,k}$，把压缩后的上下文映射到一张素数大小 $M_{n,k}$ 的嵌入表 $\mathbf{E}_{n,k}$ 中：
 
-$$z_{t,n,k} \triangleq \phi_{n,k}(g_{t,n}), \quad \mathbf{e}_{t,n,k} = \mathbf{E}_{n,k}[z_{t,n,k}]$$
+$$
+z_{t,n,k} \triangleq \phi_{n,k}(g_{t,n}), \quad \mathbf{e}_{t,n,k} = \mathbf{E}_{n,k}[z_{t,n,k}]
+$$
 
 最终的记忆向量由所有阶数、所有头的检索结果拼接而成：
 
-$$\mathbf{e}_t \triangleq \mathop{\Vert}_{n=2}^{N} \mathop{\Vert}_{k=1}^{K} \mathbf{e}_{t,n,k}$$
+$$
+\mathbf{e}_t \triangleq \mathop{\Vert}_{n=2}^{N} \mathop{\Vert}_{k=1}^{K} \mathbf{e}_{t,n,k}
+$$
 
 ### 3.2 上下文感知门控：给静态记忆装上"开关"
 
 查出来的 $\mathbf{e}_t$ 是上下文无关的静态先验，天然有两个问题：缺乏上下文适应性，且可能被哈希冲突或一词多义污染。为此作者设计了一个受 Attention 启发的门控机制：用当前隐状态 $\mathbf{h}_t$（已经过前面 Attention 层聚合了全局上下文）当动态 Query，检索到的记忆 $\mathbf{e}_t$ 同时作为 Key 和 Value 的来源：
 
-$$\mathbf{k}_t = \mathbf{W}_K \mathbf{e}_t, \quad \mathbf{v}_t = \mathbf{W}_V \mathbf{e}_t$$
+$$
+\mathbf{k}_t = \mathbf{W}_K \mathbf{e}_t, \quad \mathbf{v}_t = \mathbf{W}_V \mathbf{e}_t
+$$
 
 为保证梯度稳定，Query 和 Key 先做 RMSNorm，再算标量门 $\alpha_t \in (0,1)$：
 
-$$\alpha_t = \sigma\left( \frac{\mathrm{RMSNorm}(\mathbf{h}_t)^\top \, \mathrm{RMSNorm}(\mathbf{k}_t)}{\sqrt{d}} \right)$$
+$$
+\alpha_t = \sigma\left( \frac{\mathrm{RMSNorm}(\mathbf{h}_t)^\top \, \mathrm{RMSNorm}(\mathbf{k}_t)}{\sqrt{d}} \right)
+$$
 
 门控输出为 $\tilde{\mathbf{v}}_t = \alpha_t \cdot \mathbf{v}_t$。这个设计的语义很明确： **如果查到的记忆和当前上下文矛盾，门就趋向 0，噪声被自动抑制** 。
 
 最后，为了扩大感受野并增强非线性，再接一个短的深度因果卷积（kernel size $w=4$，dilation $\delta$ 取最大 $N$-gram 阶数），配 SiLU 激活和残差：
 
-$$\mathbf{Y} = \mathrm{SiLU}\left( \mathrm{Conv1D}\left( \mathrm{RMSNorm}(\tilde{\mathbf{V}}) \right) \right) + \tilde{\mathbf{V}}$$
+$$
+\mathbf{Y} = \mathrm{SiLU}\left( \mathrm{Conv1D}\left( \mathrm{RMSNorm}(\tilde{\mathbf{V}}) \right) \right) + \tilde{\mathbf{V}}
+$$
 
 Engram 模块通过残差连接注入 backbone：$\mathbf{H}^{(\ell)} \leftarrow \mathbf{H}^{(\ell)} + \mathbf{Y}$，之后照常接 Attention 和 MoE。卷积参数零初始化，保证训练起点严格是恒等映射。
 
@@ -69,7 +81,9 @@ Engram 模块通过残差连接注入 backbone：$\mathbf{H}^{(\ell)} \leftarrow
 
 本文的默认 backbone 不是标准单流残差，而是更先进的多分支架构（Manifold-Constrained Hyper-Connections，mHC），残差流被扩展成 $M$ 条并行分支（实验中 $M=4$）。为适配它，Engram 采用了一种参数共享策略： **所有分支共享同一张稀疏嵌入表和同一个 Value 投影矩阵 $\mathbf{W}_V$，但每个分支有独立的 Key 投影 $\{\mathbf{W}_K^{(m)}\}_{m=1}^M$** ，从而获得分支特异的门控行为：
 
-$$\alpha_t^{(m)} = \sigma\left( \frac{\mathrm{RMSNorm}(\mathbf{h}_t^{(m)})^\top \, \mathrm{RMSNorm}(\mathbf{W}_K^{(m)} \mathbf{e}_t)}{\sqrt{d}} \right)$$
+$$
+\alpha_t^{(m)} = \sigma\left( \frac{\mathrm{RMSNorm}(\mathbf{h}_t^{(m)})^\top \, \mathrm{RMSNorm}(\mathbf{W}_K^{(m)} \mathbf{e}_t)}{\sqrt{d}} \right)
+$$
 
 检索记忆被各分支独立的门调制：$\mathbf{u}_t^{(m)} = \alpha_t^{(m)} \cdot (\mathbf{W}_V \mathbf{e}_t)$。工程上，这 1 个 $\mathbf{W}_V$ 加 $M$ 个 $\mathbf{W}_K^{(m)}$ 可以融合成单次稠密 FP8 矩阵乘，最大化 GPU 计算利用率。
 
@@ -88,7 +102,9 @@ $$\alpha_t^{(m)} = \sigma\left( \frac{\mathrm{RMSNorm}(\mathbf{h}_t^{(m)})^\top 
 
 先定义三个参数量口径：$P_{\mathrm{tot}}$（总可训练参数，不含词表嵌入和 LM head）、$P_{\mathrm{act}}$（每 token 激活参数，决定训练 FLOPs）、以及"免费"的非激活参数 $P_{\mathrm{sparse}} \triangleq P_{\mathrm{tot}} - P_{\mathrm{act}}$。分配比例 $\rho \in [0,1]$ 定义为非激活预算中划给 MoE 专家的份额：
 
-$$P_{\mathrm{MoE}}^{(\mathrm{sparse})} = \rho\, P_{\mathrm{sparse}}, \qquad P_{\mathrm{Engram}} = (1-\rho)\, P_{\mathrm{sparse}}$$
+$$
+P_{\mathrm{MoE}}^{(\mathrm{sparse})} = \rho\, P_{\mathrm{sparse}}, \qquad P_{\mathrm{Engram}} = (1-\rho)\, P_{\mathrm{sparse}}
+$$
 
 $\rho=1$ 就是纯 MoE；$\rho<1$ 则减少路由专家数，把腾出的参数拨给 Engram 嵌入槽。作者在 $2\times10^{20}$ 和 $6\times10^{20}$ 两个 FLOPs 档位、固定稀疏比 $P_{\mathrm{tot}}/P_{\mathrm{act}} \approx 10$ 下做了系统扫描，结果是教科书级的 **U 形曲线** ：
 
@@ -139,7 +155,7 @@ U 形两端各自对应一种失效模式：$\rho \to 100\%$ 时模型没有静�
 - **Engram-27B 在严格同参数、同 FLOPs 下一致性地超过 MoE-27B** 。知识类任务的提升在预期之内（MMLU +3.0、CMMLU +4.0、MMLU-Pro +1.8），但真正惊人的是 **通用推理涨得更多** （BBH +5.0、ARC-Challenge +3.7、DROP +3.3），代码数学同样可观（HumanEval +3.0、GSM8K +2.2、MATH +2.4）；
 - Engram-40B 进一步降低了预训练 loss，且在训练末期与基线的差距仍在拉大——说明更大的记忆容量在当前 token 预算下还没吃饱。
 
-![Figure: benchmark curves](figs/benchmark_curve.png)
+![Figure: benchmark curves](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/centering-Conditional-Memory-via-Scalable-Lookup-A-New-Axis-of-Sparsity-for-Large-Language-Models/figs/benchmark_curve.png)
 
 > 图解：四个模型在预训练最后 10k step 的各 benchmark 轨迹曲线。横轴为训练步数，纵轴为各任务指标。可以看到 Engram-27B（相对 MoE-27B）的提升不是靠个别噪声点，而是在训练过程中稳定拉开差距；Engram-40B 的曲线在训练末期仍保持上扬态势，印证了"记忆容量未饱和"的判断。
 
@@ -177,11 +193,15 @@ U 形两端各自对应一种失效模式：$\rho \to 100\%$ 时模型没有静�
 
 **CKA（表征对齐）。** 用 Centered Kernel Alignment 比较两个模型各层表征的相似结构：
 
-$$\mathrm{CKA}(K, L) = \frac{\mathrm{HSIC}(K, L)}{\sqrt{\mathrm{HSIC}(K, K)\,\mathrm{HSIC}(L, L)}}$$
+$$
+\mathrm{CKA}(K, L) = \frac{\mathrm{HSIC}(K, L)}{\sqrt{\mathrm{HSIC}(K, K)\,\mathrm{HSIC}(L, L)}}
+$$
 
 其中 $K = XX^\top$、$L = YY^\top$ 为 Gram 矩阵。进一步定义软对齐指标 $a_j$——Engram 第 $j$ 层对应的"等效 MoE 深度"（取 CKA 最相似的 top-$k$ 层的加权质心，$k=5$）：
 
-$$a_j = \frac{\sum_{i \in \mathcal{I}_j} S_{i,j} \cdot i}{\sum_{i \in \mathcal{I}_j} S_{i,j}}, \quad \mathcal{I}_j = \operatorname{argtopk}_{i}(S_{i,j})$$
+$$
+a_j = \frac{\sum_{i \in \mathcal{I}_j} S_{i,j} \cdot i}{\sum_{i \in \mathcal{I}_j} S_{i,j}}, \quad \mathcal{I}_j = \operatorname{argtopk}_{i}(S_{i,j})
+$$
 
 结果非常直观： **Engram-27B 第 5 层的表征，最接近 MoE 基线约第 12 层的表征** 。在很宽的层范围内 $a_j > j$，即 Engram 用更浅的层达到了更深的表征——这正是"省下来的层用于推理"的直接证据，也解释了为什么推理类任务涨得比知识类还猛。
 
