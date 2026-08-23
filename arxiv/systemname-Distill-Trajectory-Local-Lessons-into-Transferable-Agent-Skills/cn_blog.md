@@ -20,7 +20,7 @@
 
 ## 方法总览：三阶段流水线
 
-![Figure 1](figures/trace2skill_framwork)
+![Figure 1](figures/trace2skill_framwork.png)
 
 > ⚠️ 图片文件可能缺失：`figures/trace2skill_framwork`
 >

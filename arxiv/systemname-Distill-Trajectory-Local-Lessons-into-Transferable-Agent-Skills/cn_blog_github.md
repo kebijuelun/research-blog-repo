@@ -20,7 +20,7 @@
 
 ## 方法总览：三阶段流水线
 
-![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/systemname-Distill-Trajectory-Local-Lessons-into-Transferable-Agent-Skills/figures/trace2skill_framwork)
+![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/systemname-Distill-Trajectory-Local-Lessons-into-Transferable-Agent-Skills/figures/trace2skill_framwork.png)
 
 > ⚠️ 图片文件可能缺失：`figures/trace2skill_framwork`
 >
