@@ -47,7 +47,6 @@ $$
 并且作者使用的是每层一个可学习 pseudo-query 向量 $w_l$（不是 token 相关 query），因此参数开销很轻量。  
 直观上，这让每一层都能“回看全历史”，但不是平均看，而是按输入内容动态分配注意力。
 
-![AttnRes 总览](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/raisebox--0.1-height/figures/model)
 
 > 图解：这张结构图对比了 Standard Residual、Full AttnRes、Block AttnRes。横向看是信息来源，纵向看是网络深度。AttnRes 的关键变化是把“固定加法路径”替换为“可学习权重的跨层路由”。
 
@@ -66,7 +65,6 @@ Block AttnRes 的做法：
 
 这样把关键开销从 $O(Ld)$ 压到 $O(Nd)$，在工业训练中更可落地。
 
-![Block 大小消融](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/raisebox--0.1-height/figures/block)
 
 > 图解：横轴是 block size（或等价的 block 粒度），纵轴是验证集 loss。可以看到从 Full 到适度分块，性能下降很平滑；约 8 个 block 已能恢复 Full AttnRes 的大部分收益。
 
@@ -78,7 +76,6 @@ Block AttnRes 的做法：
 
 在 Pipeline Parallel 下，历史 block 表示如果每次全量传输会很浪费。作者做了缓存复用，只传增量 block，显著减少跨 stage 冗余通信。
 
-![Pipeline 缓存通信](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/raisebox--0.1-height/figures/pipeline)
 
 > 图解：图中每个 rank 的 cache 会保留已收到的 block 表示。后续 virtual stage 只需补传新增部分，减少重复带宽占用。
 
@@ -107,7 +104,6 @@ $$
 
 在 5.6 PFLOP/s-days 附近，Block AttnRes 对 Baseline 大约等价于 ** 1.25x ** 计算优势。
 
-![Scaling law](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/raisebox--0.1-height/figures/scaling)
 
 > 图解：横轴是计算量（PFLOP/s-days），纵轴是验证 loss。三条曲线斜率接近，但 AttnRes 族在全区间都位于 Baseline 下方，说明这不是“小模型特供收益”。
 
@@ -121,7 +117,6 @@ $$
 - MMLU：+1.1
 - TriviaQA：+1.9
 
-![训练动态对比](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/raisebox--0.1-height/figures/dynamic)
 
 > 图解：这组图通常包含 loss、输出幅度、梯度幅度三部分。AttnRes 版本在训练全程 loss 更低；同时输出/梯度在深层分布更均匀，缓解了 PreNorm 下“越深越失衡”的现象。
 
@@ -136,15 +131,12 @@ $$
 
 ## 机制分析：它到底学到了什么
 
-![注意力热力图](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/raisebox--0.1-height/figures/attn_res_weights)
 
 > 图解：行是当前层，列是历史 source（Full 为层级 source，Block 为块级 source），颜色是权重大小。可见主对角线仍最亮（局部性保留），但有明显非对角峰值（学到跨层跳连），且 embedding source 在多层持续有权重。
 
-![结构矩阵视角](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/raisebox--0.1-height/figures/depth_matrices)
 
 > 图解：作者把残差机制统一成深度 mixing matrix。Residual/Highway/mHC 可以看成不同约束下的线性混合，AttnRes 对应更一般的 softmax 深度注意力。
 
-![架构扫描](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/raisebox--0.1-height/figures/arch_sweep)
 
 > 图解：固定算力和参数预算下，AttnRes 的最优点更偏“深而窄”（更低的 $d_{model}/L_b$），说明它能更有效利用额外深度。
 

@@ -9,7 +9,7 @@ Agentic LLM 的核心特征是 **多轮、长上下文、短追加** 。每一�
 
 问题是： **所有 KV-Cache 读流量都集中在 PE 侧的存储 NIC（SNIC）** ，而 DE 侧 SNIC 处于空闲。最终导致 **PE 端存储带宽饱和、DE 端带宽闲置** ，系统整体吞吐被单点瓶颈限制。
 
-![Figure 1](figures/teaser)
+![Figure 1](figures/teaser.png)
 > 图解：左侧是传统架构，KV-Cache 仅从存储加载到 PE，导致 PE SNIC 饱和；右侧是 DualPath，KV-Cache 可以先加载到 DE，再经 RDMA 传给 PE，均衡所有 SNIC 负载。
 
 ## DualPath 的核心思路：Dual-Path KV-Cache Loading
@@ -38,7 +38,7 @@ DualPath 强制所有 GPU 数据流量（H2D/D2H、KV-Cache 传输）都走 Comp
 
 在 InfiniBand 中使用 VL（Virtual Lane）实现 99% 带宽留给高优先级流量。
 
-![Figure 4](figures/read_lb_48k_1024traj)
+![Figure 4](figures/read_lb_48k_1024traj.png)
 > 图解：存储 NIC 负载均衡效果，纵轴是最大/平均流量比，越接近 1 越均衡。
 
 ### 3. 动态调度：同时平衡 NIC + GPU
@@ -71,7 +71,7 @@ $$
 ### 数据集：Agent Trace
 平均 turn 数 60–157，context 平均 17k–32k，append 仅 429–608 token，KV-Cache 命中率超 98%。
 
-![Figure 7](figures/workload)
+![Figure 7](figures/workload.png)
 > 图解：一个 Agent 轨迹示例，context 每轮递增，append 很短，导致 KV-Cache 读远多于计算。
 
 ### 离线推理（Rollout）
@@ -81,13 +81,13 @@ $$
 - DS 27B：最高 **1.78×** 提升
 - Qwen 32B：趋势一致
 
-![Figure 8](figures/rollout_combined)
+![Figure 8](figures/rollout_combined.png)
 > 图解：不同 batch size 和 MAL 下的 JCT。越大 batch、越长上下文，DualPath 优势越明显。
 
-![Figure 9](figures/27b_rollout_diffpd)
+![Figure 9](figures/27b_rollout_diffpd.png)
 > 图解：不同 P/D 比例下的 JCT。DualPath 在所有比例下稳定领先。
 
-![Figure 10](figures/660b_rollout_var_append_64k_traj512)
+![Figure 10](figures/660b_rollout_var_append_64k_traj512.png)
 > 图解：append 长度越短，DualPath 提升越大，说明瓶颈在存储 I/O 而非计算。
 
 ### 在线服务（Serving）
@@ -96,10 +96,10 @@ $$
 - DS 27B： **1.67× APS**
 - DS 660B： **2.25× APS**
 
-![Figure 11](figures/660b-27b-serving-aps-ttft-ttst-tpot)
+![Figure 11](figures/660b-27b-serving-aps-ttft-ttst-tpot.png)
 > 图解：随着 APS 提升，DualPath 在 TTFT、TTST、TPOT 上都保持稳定，不引入额外解码开销。
 
-![Figure 12](figures/serving-aps-avg-jct)
+![Figure 12](figures/serving-aps-avg-jct.png)
 > 图解：平均 JCT 随 APS 增长趋势，DualPath 能维持低延迟区间更久。
 
 ### 消融实验
@@ -108,7 +108,7 @@ $$
 - Dual-Path Loading：JCT 降低 38.19%
 - 调度算法：JCT 降低 45.62%
 
-![Figure 13](figures/660b_serving_breakdown)
+![Figure 13](figures/660b_serving_breakdown.png)
 > 图解：左图是 TTFT 拆解，DualPath 显著减少读取队列等待；右图是消融结果。
 
 ## 规模化实验

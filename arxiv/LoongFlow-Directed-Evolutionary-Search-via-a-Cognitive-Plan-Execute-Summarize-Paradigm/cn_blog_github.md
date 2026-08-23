@@ -95,11 +95,11 @@ $$
 
 ## 框架全景图
 
-![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/LoongFlow-Directed-Evolutionary-Search-via-a-Cognitive-Plan-Execute-Summarize-Paradigm/media/LoongFlow-overview.jpg)  
+![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/LoongFlow-Directed-Evolutionary-Search-via-a-Cognitive-Plan-Execute-Summarize-Paradigm/LoongFlow-overview.jpg)  
 > 图解：整体流程由 PES 认知闭环驱动，外层用混合记忆结构维持多样性与长期进化稳定性。  
 > 注意：图片文件可能缺失：media/LoongFlow-overview.jpg
 
-![Figure 2](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/LoongFlow-Directed-Evolutionary-Search-via-a-Cognitive-Plan-Execute-Summarize-Paradigm/media/LoongFlow-frame.jpg)  
+![Figure 2](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/LoongFlow-Directed-Evolutionary-Search-via-a-Cognitive-Plan-Execute-Summarize-Paradigm/LoongFlow-frame.jpg)  
 > 图解：Planner 负责基于谱系检索制定计划，Executor 负责实现与本地验证，Summarizer 负责总结反思并写回记忆。  
 > 注意：图片文件可能缺失：media/LoongFlow-frame.jpg
 
@@ -143,11 +143,11 @@ LoongFlow 在 Kaggle 任务上拿到 **14 个 Gold**，涵盖 CV、NLP、Tabular
 
 ## 消融实验：PES 的必要性被验证
 
-![Figure 3](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/LoongFlow-Directed-Evolutionary-Search-via-a-Cognitive-Plan-Execute-Summarize-Paradigm/media/ablation1.png)  
+![Figure 3](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/LoongFlow-Directed-Evolutionary-Search-via-a-Cognitive-Plan-Execute-Summarize-Paradigm/ablation1.png)  
 > 图解：去掉 Planner 后性能明显下降，收敛时间显著变长，说明规划能力是加速进化的关键。  
 > 注意：图片文件可能缺失：media/ablation1.png
 
-![Figure 4](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/LoongFlow-Directed-Evolutionary-Search-via-a-Cognitive-Plan-Execute-Summarize-Paradigm/media/ablation2.png)  
+![Figure 4](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/LoongFlow-Directed-Evolutionary-Search-via-a-Cognitive-Plan-Execute-Summarize-Paradigm/ablation2.png)  
 > 图解：无 Summary 的曲线长期震荡，说明反思记忆是避免循环错误的必要模块。  
 > 注意：图片文件可能缺失：media/ablation2.png
 

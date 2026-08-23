@@ -26,7 +26,6 @@ K2.5 在 K2 的 MoE 基座上加入原生视觉编码器与多模态训练机制
 
 ![Vision-Text Joint Training Curves](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/raisebox--0.15-height/figures/vision-joint.png)  
 > 图解：不同视觉比例下训练曲线对比。早期低比例融合更稳定，文本能力不出现明显“掉落再恢复”。  
-> 注意：图片缺失 `figures/vision-joint.png`。
 
 ### MoonViT-3D：图像与视频共享同一编码器
 K2.5 使用 **MoonViT-3D** ，核心点是：  
