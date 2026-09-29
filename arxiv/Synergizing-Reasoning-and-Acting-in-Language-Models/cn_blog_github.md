@@ -1,90 +1,72 @@
-# ReAct 论文深度解读：让大模型「边思考边行动」，Reasoning + Acting 的协同范式
+# ReAct：让大模型边想边做，推理与行动的协同之道
 
-> 论文：ReAct: Synergizing Reasoning and Acting in Language Models（ICLR 2023）
-> 作者团队：Princeton University + Google Research Brain
-> 项目主页与代码：https://react-lm.github.io/
+大语言模型（LLM）擅长"想"（Chain-of-Thought 推理），也能被训练去"做"（生成动作与环境交互），但在 ReAct 之前，这两件事一直被当作两个独立的问题来研究。这篇来自 Princeton 和 Google Brain 的 ICLR 2023 论文提出了一个简单却影响深远的范式： **让模型交替生成推理轨迹（Thought）和任务动作（Action）** ，用推理来指导行动，用行动来获取信息反哺推理。效果有多硬？在 ALFWorld 和 WebShop 两个交互式决策任务上，仅凭一两个 in-context 示例的 prompting，成功率就分别绝对提升 **34%** 和 **10%**，超过用 $10^3 \sim 10^5$ 条数据训练的模仿学习/强化学习方法。可以说，今天几乎所有 Agent 框架里"思考-行动-观察"的循环，都源自这篇工作。
 
-## 一句话概览
+## 背景：会想的不会做，会做的不会想
 
-这篇文章提出了 **ReAct** （Reasoning + Acting）范式：让 LLM 以交错的方式同时生成 **推理轨迹（reasoning traces / thoughts）** 和 **任务动作（actions）** —— 推理帮助模型制定、跟踪、更新行动计划并处理异常，行动则让模型与外部环境（如 Wikipedia、网页、文字游戏）交互来获取新知识。仅靠 1~6 个 few-shot 示例，ReAct 就在问答、事实验证、文字游戏、网页购物四类任务上全面超越「只推理」或「只行动」的基线，甚至打败了用 $10^3 \sim 10^5$ 条数据训练的模仿学习 / 强化学习方法。
+先从一个生活直觉说起。人在厨房做菜时，行动和内心独白是无缝交织的：切完菜会想"现在该烧水了"（跟踪进度），发现没盐会想"用酱油代替"（处理异常），不知道怎么做面团会去上网搜（主动获取信息）。 **推理指导行动，行动支撑推理** ，这是人类智能的核心特征。
 
-## 背景：Reasoning 和 Acting 一直是「两条平行线」
+但在 LLM 研究中，这两种能力是割裂的：
 
-人类智能的一个独特之处，就是能把「动手做」和「心里琢磨」无缝结合起来。认知科学里称之为 inner speech（内部言语）—— 做菜时我们会自言自语「菜切好了，该烧水了」（跟踪进度）、「没盐了，用酱油代替吧」（处理异常）、「面团怎么揉？上网搜一下」（意识到需要外部信息）。
+- **只推理（Reason Only）** ：以 CoT 为代表，模型在封闭的内部表示里"空想"，不与外部世界交互。问题是它无法更新知识，容易产生事实幻觉，而且一步错步步错（error propagation）。
+- **只行动（Act Only）** ：以 WebGPT、SayCan 为代表，模型把观测转成文本、生成动作去执行，但缺乏对高层目标的抽象推理和工作记忆，容易在长程任务中迷失方向、陷入重复。
 
-但在 LLM 研究里，这两条路线此前是分开发展的：
+一个很自然的问题就出来了：能不能让推理和行动像人类一样 **协同（synergize）** 起来，并且比单独使用其中任何一个都强？ReAct 给出了肯定的答案。
 
-- **Chain-of-Thought（CoT）推理**：让模型生成中间推理步骤，在算术、常识推理上效果显著。但 CoT 是一个 **静态黑盒** —— 模型只能用内部参数知识「闭门造车」，不与外部世界交互，因此极易产生 **事实幻觉（hallucination）** 和 **错误传播（error propagation）**。
-- **Acting / 决策类工作**：如 WebGPT、SayCan 等，把多模态观测转成文本，让 LM 生成动作或计划去执行。但这些方法没有用 LM 对高层目标做抽象推理，也没有维护一个「工作记忆」来支撑行动，往往需要昂贵的模仿学习或 RL 训练。
+## ReAct 方法：把"思考"也定义为一种动作
 
-这篇文章要回答的核心问题就是：**推理和行动能否以协同（synergistic）的方式结合？这种结合能否比单独推理或单独行动带来系统性收益？**
+### 核心思想：扩展动作空间
 
-## 核心方法：ReAct 到底怎么做的
+形式上，考虑一个与环境交互的 Agent：在时间步 $t$，它接收到观测 $o_t$，并根据上下文 $c_t = (o_1, a_1, \cdots, o_{t-1}, a_{t-1}, o_t)$ 按策略 $\pi(a_t | c_t)$ 选择动作。当从上下文到动作的映射高度隐含、需要复杂推理时，直接学这个映射非常困难。
 
-### 形式化定义
+ReAct 的想法简单到令人惊讶： **把动作空间从 $\mathcal{A}$ 扩展为 $\hat{\mathcal{A}} = \mathcal{A} \cup \mathcal{L}$** ，其中 $\mathcal{L}$ 是语言空间。一个落在语言空间里的"动作"就是一条 **思考（thought / reasoning trace）** ——它不改变外部环境、不产生观测反馈，只是对当前上下文做推理，把有用信息写回上下文 $c_{t+1} = (c_t, \hat{a}_t)$，为后续的推理或行动铺路。
 
-先考虑一个通用的 agent-环境交互设定：在时间步 $t$，agent 从环境接收到观测 $o_t \in \mathcal{O}$，并按照某个策略 $\pi(a_t \mid c_t)$ 采取动作 $a_t \in \mathcal{A}$，其中上下文为：
+这个设计的聪明之处在于：它 **完全没有引入新架构、新训练目标** ，只是把"想"和"做"统一到了同一个序列生成问题里。于是整个能力可以直接由冻结的大模型（论文用 PaLM-540B，附录含 GPT-3 实验）通过 few-shot prompting 激发出来——每个 in-context 示例就是一条人类书写的"思考-行动-观测"交替轨迹。
 
-$$
-c_t = (o_1, a_1, \cdots, o_{t-1}, a_{t-1}, o_t)
-$$
+### 思考的密度：因任务而异
 
-当 $c_t \mapsto a_t$ 的映射高度隐含、需要复杂计算时（比如要综合前面所有的搜索记录才能给出最终答案），直接学这个策略非常困难。
+论文区分了两种用法：
 
-ReAct 的想法非常简单：**把 agent 的动作空间扩充为 $\hat{\mathcal{A}} = \mathcal{A} \cup \mathcal{L}$**，其中 $\mathcal{L}$ 是语言空间。一个落在语言空间里的动作 $\hat{a}_t \in \mathcal{L}$ 被称为 **thought（思考 / 推理轨迹）** —— 它不影响外部环境，因此不会得到观测反馈；它的作用是 **对当前上下文做推理、提炼有用信息，并把结果写回上下文**：
+- **知识密集型任务** （如问答）：思考与行动 **密集交替** ，轨迹由多个 Thought-Action-Observation 步骤组成。
+- **决策型任务** （如游戏、网页导航）：动作可能多达几十步，思考只需 **稀疏地出现在关键位置** （分解目标、跟踪进度、判断下一步），由模型自己决定何时思考。
 
-$$
-c_{t+1} = (c_t, \hat{a}_t)
-$$
+思考的类型也是自由多样的：分解任务目标、注入常识知识、从观测中提取关键信息、跟踪子目标完成进度、处理异常并调整计划等等。
 
-从而支撑后续的推理或行动。说白了，**思考就是一个「只对上下文生效、不对环境生效」的动作**。由于语言空间 $\mathcal{L}$ 是无限的，在这个扩充动作空间里直接学习很难，所以本文采用 **冻结的 PaLM-540B + few-shot in-context prompting** 的方式：每个 in-context 示例就是一条人类书写的「思考-动作-观测」交错轨迹。
+![Figure 1 ReAct 总览](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Synergizing-Reasoning-and-Acting-in-Language-Models/iclr2023/figure/teaser-new.png)
 
-![Figure 1: ReAct 与其他提示方法的对比](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Synergizing-Reasoning-and-Acting-in-Language-Models/iclr2023/figure/teaser-new.png)
+> 图解：上半部分 (1) 是解决 HotpotQA 问题时四种 prompting 方法的对比。(a) Standard 直接给答案；(b) CoT 只推理，因幻觉（把不存在的事实编出来）而答错；(c) Act-only 只与环境交互，因缺乏推理无法综合出最终答案；(d) ReAct 交替生成 Thought 和 Act，通过 Wikipedia API 查证事实后答对。下半部分 (2) 是 ALFWorld 游戏：Act-only 因没有推理而在房间里反复打转产生幻觉动作，ReAct 则先分解目标（找胡椒瓶 → 检查桌面 → 放到抽屉），逐步完成任务。
 
-> 图解：这是全文最重要的一张图。(1) 部分对比了四种 prompting 方法解决同一道 HotpotQA 多跳问题：(a) **Standard** 直接给答案，答错；(b) **CoT**（Reason Only）有推理但不查证，幻觉出错误事实；(c) **Act-only** 只查不想，虽然查到了信息却无法综合出正确答案；(d) **ReAct**（Reason + Act）交替生成 Thought / Act / Obs，先拆解问题、再搜索、再从观测中提取关键信息，最终答对。(2) 部分对比 AlfWorld 文字游戏：(a) Act-only 因无法分解目标、丢失状态而陷入循环；(b) ReAct 用稀疏的 thought 分解目标（找胡椒瓶→用台灯查看），并注入「台灯一般在桌上/架子上」这类常识来指导搜索，顺利完成任务。图中 Act / Thought 由模型生成，Obs 由环境返回。
+### 为什么 ReAct 好用
 
-### 思考的类型与生成节奏
+作者总结了四个特性，值得逐条看：
 
-论文指出 thought 可以承担多种职能：
+- **设计直观** ：标注者只需像人一样边做边把想法写下来，不需要特殊的格式设计或示例筛选。
+- **通用灵活** ：自由文本的思考空间 + 灵活的出现时机，同一范式覆盖 QA、事实核查、文字游戏、网页导航。
+- **性能强且鲁棒** ：只用 1~6 个示例就能泛化到新任务，且对 prompt 选择不敏感。
+- **人类对齐、可控** ：推理过程完全透明，人甚至可以直接 **编辑模型的思考** 来纠正其行为（后文有实验展示）。
 
-- **分解任务目标、制定行动计划**（"I need to search x, find y, then find z"）
-- **注入与任务相关的常识**（"台灯更可能在桌子或架子上"）
-- **从观测中提取关键信息**（"x was started in 1844"）
-- **跟踪进度、切换子目标**（"Now I clean a knife. Next, I need to put it..."）
-- **处理异常、调整计划**（搜索不到时改用别的关键词重新搜索）
-- **常识 / 算术推理**（"1844 < 1989"）与 **合成最终答案**
+## 实验一：知识密集型推理任务（HotpotQA 与 FEVER）
 
-针对不同任务，思考出现的节奏也不同：
+### 任务设置与动作空间
 
-- **知识密集型推理任务**（HotpotQA / FEVER）：思考与动作 **密集交替**，轨迹由多个 thought-action-observation 三元组构成；
-- **决策任务**（ALFWorld / WebShop）：动作数量可能很多，思考只需 **稀疏地** 出现在最关键的位置，由 LM 自己决定何时想、何时做。
+先看推理主导的场景。两个基准：
 
-### 相比前人的四个优势
+- **HotpotQA** ：需要在两篇以上维基百科段落间做多跳推理的问答；
+- **FEVER** ：判断一个陈述是 SUPPORTS、REFUTES 还是 NOT ENOUGH INFO 的事实核查。
 
-1. **直观易设计**：标注者只需要把自己解题时的想法用自然语言打在动作旁边，无需特殊格式设计；
-2. **通用灵活**：灵活的 thought 空间让它适用于问答、事实验证、文字游戏、网页导航等动作空间迥异的任务；
-3. **性能强且鲁棒**：只用 1~6 个 in-context 示例就能泛化到新任务，跨领域一致超过只推理 / 只行动的基线；
-4. **对人类友好且可控**：整个决策过程可解释、可诊断，人类甚至可以通过 **编辑 thought** 实时纠正 agent 行为（后文有实验）。
+论文刻意采用 **question-only** 设定：模型只拿到问题，不给任何支持段落，只能靠内部知识或与外部交互获取信息。环境是一个极简的 Wikipedia API，只有三个动作：
 
-## 实验一：知识密集型推理任务（HotpotQA & FEVER）
-
-### 实验设置
-
-两个数据集：**HotpotQA**（需要对两个以上 Wikipedia 段落做多跳推理）和 **FEVER**（事实验证，判断 claim 是 SUPPORTS / REFUTES / NOT ENOUGH INFO）。采用 **question-only** 设定：模型只拿到问题 / 断言，不给支撑段落，只能依靠内部知识或与外部环境交互检索。
-
-作者设计了一个极简的 Wikipedia API，只有三个动作：
-
-- `search[entity]`：返回对应维基页面的前 5 句，若不存在则给出 5 个相似实体建议；
-- `lookup[string]`：返回页面中包含该字符串的下一句（模拟浏览器 Ctrl+F）；
+- `search[entity]`：返回对应词条页面的前 5 句，或给出最相似的 5 个词条建议；
+- `lookup[string]`：模拟 Ctrl+F，返回页面中包含该字符串的下一句；
 - `finish[answer]`：提交答案结束任务。
 
-注意这个检索能力 **远弱于** SOTA 的 lexical / neural retriever —— 这是故意的，目的是模拟人类逛维基的方式，强迫模型用语言推理来驱动检索。
+注意，这个检索能力远弱于 SOTA 的检索器——这是故意的，目的是模拟人查维基的方式， **逼着模型用显式的语言推理来驱动检索** 。
 
-对比方法由 ReAct 轨迹消融而来：**Standard**（去掉 thought 和 action）、**CoT**（去掉 action 和 observation，纯推理）、**CoT-SC**（采样 21 条 CoT 轨迹做 self-consistency 多数投票）、**Act**（去掉 thought，纯行动）。ReAct 的 prompt 用 6 个（HotpotQA）/ 3 个（FEVER）手工编写的 few-shot 轨迹。
+### 与基线的对比结果
 
-### 主要结果
+基线由对 ReAct 轨迹做消融得到：Standard（去掉一切推理和动作）、CoT（去掉动作和观测，纯推理）、CoT-SC（CoT + 21 次采样自洽投票）、Act（去掉思考，纯动作）。PaLM-540B 上的结果：
 
-| Prompt 方法 | HotpotQA (EM) | Fever (Acc) |
+| 方法 | HotpotQA (EM) | FEVER (Acc) |
 |---|---|---|
 | Standard | 28.7 | 57.1 |
 | CoT | 29.4 | 56.3 |
@@ -93,122 +75,118 @@ $$
 | ReAct | 27.4 | 60.9 |
 | CoT-SC → ReAct | 34.2 | **64.6** |
 | ReAct → CoT-SC | **35.1** | 62.0 |
-| Supervised SoTA（参考） | 67.5 | 89.5 |
+| 监督学习 SOTA | 67.5 | 89.5 |
 
 几个关键观察：
 
-- **ReAct 稳定超过 Act**（两个任务都是），说明「用推理指导行动」有价值，尤其是在合成最终答案这一步；
-- **ReAct 在 FEVER 上明显超过 CoT**（60.9 vs. 56.3），因为 SUPPORTS/REFUTES 往往只差一个细节，必须查证；但在 HotpotQA 上略逊于 CoT（27.4 vs. 29.4）；
-- **最好的方法是 ReAct 与 CoT-SC 的组合**（两个方向各赢一个任务）。
+- **ReAct 稳定优于 Act** （两个任务都是），说明"推理指导行动"确实有价值，尤其是在综合最终答案这一步。
+- **ReAct 与 CoT 各有胜负** ：FEVER 上 ReAct 明显更好（60.9 vs 56.3），因为核查任务对事实准确性敏感；HotpotQA 上 ReAct 略逊于 CoT（27.4 vs 29.4）。
+- **组合方法最强** ：ReAct 与 CoT-SC 互为兜底（一个失败就切换到另一个），在两个任务上分别达到 35.1 和 64.6，全面超越单一方法。
 
-### 人工分析：ReAct 和 CoT 到底差在哪
+为什么组合有效？因为两种方法的知识来源互补：CoT 依赖参数化的内部知识，擅长组织推理结构但会幻觉；ReAct 依赖外部检索，事实性强但推理灵活性受限。组合策略让模型在"内部知识不自信"时去查，在"查不到"时退回推理。
 
-作者随机抽了 ReAct 和 CoT 各 50 条正确 + 50 条错误轨迹（共 200 条），人工标注成功 / 失败模式：
+### 人工剖析：ReAct 到底赢在哪、输在哪
 
-| 类别 | 类型 | 定义 | ReAct | CoT |
+论文随机抽取了 200 条轨迹做人工标注，按成功/失败模式分类，结论非常有信息量：
+
+| 模式 | 类型 | 定义 | ReAct | CoT |
 |---|---|---|---|---|
-| Success | True positive | 推理与事实都正确 | 94% | 86% |
-| Success | False positive | 推理或事实有幻觉 | 6% | 14% |
-| Failure | Reasoning error | 推理链错误（含陷入重复循环） | 47% | 16% |
-| Failure | Search result error | 搜索为空或无有效信息 | 23% | - |
-| Failure | Hallucination | 幻觉的推理或事实 | 0% | 56% |
-| Failure | Label ambiguity | 预测对但与标签不精确匹配 | 29% | 28% |
+| 成功 | 真阳性 | 推理轨迹与事实均正确 | 94% | 86% |
+| 成功 | 假阳性 | 存在幻觉的推理或事实 | 6% | 14% |
+| 失败 | 推理错误 | 推理轨迹错误（含陷入重复循环） | 47% | 16% |
+| 失败 | 检索错误 | 搜索为空或无用 | 23% | - |
+| 失败 | 幻觉 | 编造的推理或事实 | 0% | **56%** |
+| 失败 | 标签歧义 | 答案对但没精确匹配标签 | 29% | 28% |
 
-可以看到一个清晰的 **trade-off**：
+三点 takeaway：
 
-- **幻觉是 CoT 的头号杀手**：占其失败案例的 56%，而 ReAct 失败案例中的幻觉率为 **0%** —— 外部知识库让 ReAct 的轨迹更 grounded、更可信；
-- **但交错结构也限制了 ReAct 的推理灵活性**：其 reasoning error（47%）高于 CoT（16%），其中一个特有错误模式是模型陷入「重复生成相同 thought 和 action」的死循环（作者猜测是 greedy decoding 的锅）；
-- **搜索质量对 ReAct 至关重要**：23% 的失败源于搜索没有返回有效信息，模型很难从中恢复。
+- **幻觉是 CoT 的头号杀手** ：占其失败案例的 56%，而 ReAct 因接地于外部知识库，失败案例中幻觉为 0%。
+- **ReAct 的代价是推理灵活性** ：交替结构约束了推理步的组织，其推理错误率（47%）高于 CoT（16%），典型失败是模型陷入"重复上一步思考与动作"的死循环（作者推测 greedy decoding 难辞其咎）。
+- **检索质量是 ReAct 的生命线** ：23% 的失败源于搜索没有返回有用信息，一旦检索跑偏，模型很难恢复。
 
-### 组合策略：内部知识 + 外部知识
+> 博主点评：这张表其实预言了后来 Agent 工程的两大主题——"如何让推理跳出循环"和"检索失败如何兜底"。ReAct 不是完美的终态，但它把问题结构清楚地暴露了出来。
 
-基于上述互补性，作者提出两种启发式切换策略：
+另外一个有趣的发现：有些 HotpotQA 问题的标准答案本身已经过时，只有 ReAct 能通过与真实 Wikipedia 交互拿到最新答案。
 
-- **ReAct → CoT-SC**：ReAct 在规定步数内没给出答案（HotpotQA 设 7 步、FEVER 设 5 步），就退回 CoT-SC；
-- **CoT-SC → ReAct**：$n$ 条 CoT-SC 样本中多数答案出现次数不足 $n/2$（说明内部知识不自信），就退回 ReAct。
+![Figure 过时标签示例](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Synergizing-Reasoning-and-Acting-in-Language-Models/iclr2023/figure/date.png)
 
-![Figure 2: 不同 CoT-SC 采样数量下的性能](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Synergizing-Reasoning-and-Acting-in-Language-Models/iclr2023/figure/cots_scale.png)
+> 图解：一个 HotpotQA 案例，数据集的标注答案已过时。Standard、CoT、Act 都只能复现旧答案或答错，而 ReAct 通过搜索-查证-再搜索的循环，结合推理得出更新后的正确答案。这展示了"接地的推理"相对"背下来的知识"的本质优势。
 
-> 图解：横轴是 CoT-SC 的采样数量，纵轴是 HotpotQA EM。两条 ReAct + CoT-SC 组合曲线在所有采样数量下都显著高于纯 CoT-SC —— 组合方法只用 3~5 个样本就达到了 CoT-SC 用 21 个样本的水平，说明「内部知识 + 外部检索」恰当组合的性价比极高。（FEVER 上的对应曲线见原文 fever_cots_scale 图，趋势一致。）
+### 微调：ReAct 的 scalability 更好
 
-### 微调实验：ReAct 是更可迁移的技能
+论文还做了 bootstrap 式微调实验：用各方法生成的 3000 条答对的轨迹，微调较小的 PaLM-8B/62B。
 
-作者还做了 bootstrap 式微调：用 ReAct 自己生成的 3,000 条答对的轨迹，微调较小的 PaLM-8B / 62B。
+![Figure 微调 scaling 结果](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Synergizing-Reasoning-and-Acting-in-Language-Models/iclr2023/figure/hotpot_finetune.png)
 
-![Figure 3: HotpotQA 上 prompting 与 finetuning 的 scaling 结果](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Synergizing-Reasoning-and-Acting-in-Language-Models/iclr2023/figure/hotpot_finetune.png)
+> 图解：横轴是模型规模（prompting 的 540B、微调的 8B 和 62B），纵轴是 HotpotQA 准确率。prompting 阶段小模型的 ReAct 反而最差（同时学推理和行动太难）；但只用 3000 条数据微调后，ReAct 一跃成为最优——8B 微调的 ReAct 超过所有 62B prompting 方法，62B 微调的 ReAct 超过所有 540B prompting 方法。相比之下，微调 Standard/CoT 效果差得多，因为那本质上是教模型"背（可能幻觉的）知识"，而微调 ReAct 教的是"如何推理和查证"这种可泛化的技能。
 
-> 图解：横轴/分组为不同方法与模型规模（PaLM-8B、62B、540B），纵轴为 HotpotQA EM。可以看到：小模型直接 prompt ReAct 效果最差（同时学推理和行动太难了），但 **微调后 ReAct 逆袭成为最佳** —— 微调后的 PaLM-8B ReAct 超过所有 PaLM-62B 的 prompting 方法，微调后的 PaLM-62B ReAct 甚至超过所有 540B prompting 方法。而微调 Standard / CoT 效果差得多，因为那本质上是在教模型 **背诵（可能幻觉的）知识**；微调 ReAct / Act 教的是 **如何检索和使用知识**，是一种更可泛化的技能。
+## 实验二：交互式决策任务（ALFWorld 与 WebShop）
 
-## 实验二：交互式决策任务（ALFWorld & WebShop）
+解决了"行动帮推理"之后，下一个问题是反过来： **推理能不能帮行动** ？作者在两个长程、稀疏奖励的交互任务上做了验证。
 
-### ALFWorld：文字版家务游戏
+### ALFWorld：文字版家庭机器人
 
-ALFWorld 是与 embodied benchmark ALFRED 对齐的合成文字游戏，包含 6 类任务（如「把干净的生菜放到餐桌上」），一个任务实例可能有 50+ 个位置、需要专家策略 50+ 步才能完成。它内置的挑战是：agent 需要用常识推断物品的可能位置（台灯多半在桌子上）—— 恰好是 LLM 预训练常识的用武之地。
+ALFWorld 是一个合成文字游戏，Agent 要在模拟家庭环境中完成"把干净的刀放到台面上"这类高层目标。一个任务实例可能包含 50+ 个位置、需要 50+ 步操作，挑战在于子目标规划、状态跟踪和系统性探索（比如逐个检查柜子）。ReAct 的 prompt 为每类任务标注 2~3 条轨迹，思考是稀疏的：分解目标、跟踪子目标、确定下一步、用常识推断物品位置。
 
-ReAct 为每类任务手工标注 3 条轨迹，每条轨迹包含 **稀疏 thought**，承担四种职能：分解目标、跟踪子目标完成、决定下一个子目标、用常识推断物品位置。评测在 134 个未见过的游戏上进行，每个任务类型用 3 条标注轨迹的两两排列构造 6 个 prompt 做鲁棒性测试。基线是 BUTLER（每类任务用 $10^5$ 条专家轨迹训练的模仿学习 agent）。
+134 个未见游戏上的成功率（%）：
 
-| 方法 | Pick | Clean | Heat | Cool | Look | Pick 2 | All |
+| 方法 | Pick | Clean | Heat | Cool | Look | Pick 2 | 总体 |
 |---|---|---|---|---|---|---|---|
-| Act (best of 6) | 88 | 42 | 74 | 67 | 72 | **41** | 45 |
-| ReAct (avg) | 65 | 39 | 83 | 76 | 55 | 24 | 57 |
-| ReAct (best of 6) | **92** | 58 | **96** | 86 | **78** | **41** | **71** |
-| ReAct-IM (best of 6) | 62 | **68** | 87 | 57 | 39 | 33 | 53 |
-| BUTLER (best of 8) | 46 | 39 | 74 | **100** | 22 | 24 | 37 |
+| Act（6 次最优） | 88 | 42 | 74 | 67 | 72 | 41 | 45 |
+| ReAct（6 次平均） | 65 | 39 | 83 | 76 | 55 | 24 | 57 |
+| ReAct（6 次最优） | **92** | 58 | **96** | 86 | **78** | 41 | **71** |
+| ReAct-IM（6 次最优） | 62 | **68** | 87 | 57 | 39 | 33 | 53 |
+| BUTLER（模仿学习，$10^5$ 条专家轨迹） | 46 | 39 | 74 | **100** | 22 | 24 | 37 |
 
-结果相当惊人：**ReAct 最佳 trial 达到 71% 平均成功率**，远超 Act 的 45% 和 BUTLER 的 37%；甚至 ReAct **最差的** trial（48%）都比这两个方法的最佳 trial 强。6 组对照实验中 ReAct 对 Act 的相对提升在 33%~90% 之间，平均 62%。定性看，没有任何 thought 的 Act 无法正确分解目标，还会丢失环境状态（附录里有个典型例子：Act 还没走到水槽边就试图洗菜，失败后陷入无限循环）。
+结果相当惊人：
 
-### WebShop：网购决策
+- ReAct 最优达到 **71%**，大幅超过 Act 的 45% 和 BUTLER 的 37%——而且 ReAct **最差的一次（48%）都比另两者最好的成绩高** 。
+- 6 次受控对比中，ReAct 相对 Act 的提升稳定在 33%~90%（平均 62%），说明稀疏思考的价值是系统性的，不是 prompt 运气。
+- 定性看，没有思考的 Act 无法把目标分解成子目标，会丢失环境状态（比如忘了自己已经拿着刀），陷入"去台面→清洗→什么都没发生→再去台面"的死循环。
 
-WebShop 是一个更「真实世界」的环境：118 万真实商品、1.2 万条人类购物指令，要求 agent 通过搜索、点选商品、选规格、下单来满足指令（如「我要 3 盎司装亮柑橘味敏感肌除臭剂，价格低于 50 刀」）。指标是平均分（所选商品覆盖目标属性的比例）和成功率（完全满足所有要求的比例）。基线为 IL（1,012 条人工轨迹模仿学习）和 IL+RL（再加 10,587 条指令做 RL）。
+### 消融：什么样的思考才有用？——ReAct vs. Inner Monologue
+
+最接近的先前工作是 Inner Monologue（IM），它也闭环、也有"内心独白"，但独白内容仅限于对环境状态的复述和待办事项。论文构造了 IM 风格的密集外部反馈思考作为对照（ReAct-IM）。
+
+结果是 ReAct 以 71 vs 53 的总体成功率明显胜出，并在 6 类任务中的 5 类占优。原因在于 IM 式思考缺乏两样东西： **高层目标分解** （导致搞不清子目标是否完成、下一步该做什么）和 **常识推理** （导致不知道台灯大概率在桌子上，只能盲目乱找）。
+
+> 博主点评：这个消融很关键——它说明值钱的不是"在动作之间插话"这个形式，而是插进去的话里有没有 **抽象推理和常识** 。这也解释了为什么后来很多 Agent 系统中 prompt 里那句"先规划再执行"如此重要。
+
+### WebShop：真实网页导航
+
+WebShop 是一个模拟网购环境，包含 118 万真实商品和 1.2 万条人类指令，Agent 要通过搜索、点选选项、下单，买到满足全部属性要求（如"3 盎司、柑橘味、敏感肌适用、低于 50 美元"）的商品。对比基线是用 1012 条人工轨迹训练的 IL，以及再加 10587 条指令训练的 IL+RL。
 
 | 方法 | Score | 成功率 |
 |---|---|---|
-| Act | 62.3 | 30.1 |
-| ReAct | **66.6** | **40.0** |
+| Act（one-shot） | 62.3 | 30.1 |
+| **ReAct（one-shot）** | **66.6** | **40.0** |
 | IL | 59.9 | 29.1 |
 | IL+RL | 62.4 | 28.7 |
-| Human Expert | 82.1 | 59.6 |
+| 人类专家 | 82.1 | 59.6 |
 
-one-shot 的 Act 就已经和 IL / IL+RL 打平，加上稀疏推理后 ReAct 把成功率绝对提升了 **10 个百分点**。作者发现 ReAct 更擅长用推理弥合嘈杂观测与动作之间的鸿沟（例如：「这个商品有 'apple cinnamon' 和 '0.53 ounce (pack of 16)' 选项，符合要求，可以买」）。不过与人类专家（59.6%）仍有不小差距 —— 人类会做更多探索和查询改写，这对 prompting 方法仍具挑战。
+one-shot 的 ReAct 成功率 40.0%，比此前最好的 IL+RL 绝对提升约 10%。案例显示，ReAct 会通过思考弥合噪声观测与指令之间的差距（"这个商品有 'apple cinnamon' 和 '16 包装' 选项，符合要求，可以买了"），而 Act 常常在第一个看起来差不多的商品上直接下单、买错属性。当然，与人类专家（59.6%）仍有明显差距——人会做更多探索和查询改写，这对 prompting 方法仍是难点。
 
-### 消融：内部推理 vs. 外部反馈（对比 Inner Monologue）
+### 人在回路：直接编辑模型的"想法"
 
-最接近的先前工作是 Inner Monologue（IM），其「内心独白」其实只是对环境状态的复述。作者构造了 **ReAct-IM** 消融：把同样的专家轨迹用 IM 风格的稠密外部反馈重新标注，只允许思考「分解当前目标」和「当前子目标是什么」，**不允许** 判断子目标是否完成、决定下一子目标、调用常识推断物品位置。
+最后一个展示非常优雅。既然思考是显式的文本，人就能直接改它。
 
-结果 ReAct 以 71% vs. 53% 大幅胜出，6 类任务中 5 类占优。定性看，ReAct-IM 常搞错子目标是否完成（比如一个错误 thought「我需要找一把干净的刀」会让模型误以为刀已经洗好了，然后反复执行放置动作卡死），也缺乏常识定位能力。这证明 **灵活、稀疏、多样的内部推理** 才是 ReAct 的关键，而不是简单复述环境反馈。
+![Figure 人类编辑思考纠偏](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Synergizing-Reasoning-and-Acting-in-Language-Models/iclr2023/figure/human_edit.png)
 
-## 附录亮点
+> 图解：ALFWorld 中一段 ReAct 轨迹 (a) 在第 17 步产生了幻觉式思考（误以为任务已完成），导致后续动作跑偏、任务失败；(b) 人类只手动编辑了第 17 和 23 步的两条思考，轨迹立刻恢复正确的推理与动作并最终成功。这说明 ReAct 的决策过程不仅可解释、可诊断，还 **可编辑、可控制** ——这是黑盒式 Agent 难以企及的特性。
 
-### GPT-3 上同样有效
+## 与相关工作的关系
 
-| 任务 | PaLM-540B | GPT-3 |
-|---|---|---|
-| HotpotQA (EM) | 29.4 | **30.8** |
-| ALFWorld（成功率 %） | 70.9 | **78.4** |
-
-GPT-3（text-davinci-002）在两个任务上都超过 PaLM-540B，可能因为经过了指令微调，说明 ReAct prompting 的效果可以跨模型迁移。
-
-### ReAct 能拿到「最新」知识
-
-![Figure 4: 标签过时的 HotpotQA 样例](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Synergizing-Reasoning-and-Acting-in-Language-Models/iclr2023/figure/date.png)
-
-> 图解：一个关于酒店规模的 HotpotQA 问题，数据集标注的答案已过时（酒店后来扩建了）。Standard 和 CoT 因幻觉给出错误答案；Act 虽然能联网却缺乏推理指导而失败；只有 ReAct 通过「推理 + 真实网络交互」检索到了最新信息并给出合理答案。这说明对于 Internet-augmented LM 来说，推理能力是获取 up-to-date 知识的关键拼图。
-
-### 人类可以「编辑思考」来纠正 agent
-
-![Figure 5: Human-in-the-loop 行为纠正示例](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/arxiv/Synergizing-Reasoning-and-Acting-in-Language-Models/iclr2023/figure/human_edit.png)
-
-> 图解：AlfWorld 中一个人类实时纠正 ReAct 的例子。(a) ReAct 轨迹因 Act 17 处一条幻觉 thought 而失败；(b) 人类只需删掉那句幻觉、并在 Act 23 处加一句提示，ReAct 就调整行为并成功完成任务。对人类来说，解题从「敲几十条动作」变成「改两句想法」，且这种 on-the-go 的策略编辑对 Act 和 RL 方法几乎不可能（你没法改模型参数，改几个动作也改变不了整体行为）。这开启了新型人机协作的可能。
-
-## 局限与展望
-
-- **上下文长度瓶颈**：复杂任务、大动作空间需要更多 demonstration，容易超出 in-context learning 的输入长度限制；
-- **推理灵活性受损**：交错结构带来 groundedness 的同时也降低了推理自由度，易出现「重复循环」错误（可能与 greedy decoding 有关，更好的解码策略或许能缓解）；
-- **依赖检索质量**：搜索无效时模型难以恢复；
-- **微调方向有潜力**：3,000 条轨迹微调已展现很好效果，用更多高质量人工标注 + 多任务训练 + 结合 RL，可能进一步释放 LLM 的 agent 潜力。
+简要看定位：推理一侧，CoT、least-to-most、Self-Consistency、STaR 等都只做"孤立、固定的推理"，不与环境交互；行动一侧，WebGPT 靠昂贵的 RLHF 学浏览器操作，SayCan 用 affordance 模型给动作打分，Inner Monologue 只有环境反馈式独白。ReAct 的独特位置在于： **纯 prompting、零训练成本、思考与行动在统一序列中交替** ，且思考内容是自由形式的高层推理而非状态复述。它的决策过程只需要自然语言标注，远比收集人类反馈便宜。
 
 ## 总结
 
-ReAct 的贡献不在于复杂的技术，而在于一个 **简单却深刻的视角转换**：把「思考」看作一种不改变环境、只更新上下文的动作，推理与行动便能在同一个自回归生成过程中自然交错 —— reason to act（用推理指导行动），act to reason（用行动获取知识）。这种范式在四类任务上证明了系统性收益，同时带来了可解释、可诊断、可被人类实时编辑的决策轨迹。今天我们在各类 LLM Agent 框架中习以为常的 Thought-Action-Observation 循环，正是从这里开始的。
+- **核心思想** ：把"思考"视为不改变环境的特殊动作，让 LLM 交替生成 Thought 与 Action，实现推理与行动的双向协同（reason to act, act to reason）。
+- **推理任务上** ：ReAct 消除了 CoT 最主要的失败模式——幻觉（失败案例占比 56% → 0%），与 CoT-SC 组合后在 HotpotQA/FEVER 上取得 prompting 最佳成绩（35.1 / 64.6）。
+- **决策任务上** ：仅 one/two-shot 的 ReAct 在 ALFWorld 上成功率 71%（vs 模仿学习 37%）、WebShop 上 40.0%（绝对 +10%），远超用数万条数据训练的 IL/RL。
+- **思考的质量比形式重要** ：消融显示稀疏、含常识与目标分解的思考显著优于 IM 式的状态复述（71 vs 53）。
+- **附带红利** ：轨迹天然可解释、可诊断，人类可通过编辑思考直接纠正 Agent 行为。
+- **可扩展性** ：微调实验中 ReAct 展现出最好的 scaling 特性——它教模型的是"如何查证"而非"背诵知识"。
+
+局限与展望：复杂任务下 prompt 需要的示例容易超出上下文长度；推理错误（死循环）和检索失败仍是主要瓶颈。作者认为用更多高质量人工轨迹微调、结合强化学习，是进一步释放 LLM 智能体潜力的方向——从今天 Agent 生态的发展看，这个判断相当有先见之明。
 
 > 本文参考自 [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)
