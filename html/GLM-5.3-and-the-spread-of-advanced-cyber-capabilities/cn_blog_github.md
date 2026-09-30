@@ -1,0 +1,115 @@
+# GLM-5.3：无护栏的顶级漏洞利用能力开始扩散
+
+五个月前，Anthropic 发布了 Claude Mythos Preview —— 第一个能 **端到端自主构建复杂网络 Exploit** 的 AI 模型，并通过 Project Glasswing 项目只向受信任的安全防御方开放，帮助他们抢先修复了超过 10000 个关键软件漏洞。当时 Anthropic 就预判：这种能力迟早会扩散到其他模型。如今预言成真：智谱 AI（海外称 Z.ai）发布的开源模型 GLM-5.3 展现出与 Mythos Preview 接近的自主漏洞利用能力，但它是 **几乎不带任何有效安全护栏** 、任何人都可以下载的开放权重模型。Anthropic 的模拟测试显示，用几种简单技术绕过 GLM-5.3 防护的成功率高达 **64%–100%**，而同样的手段对带防护的 Claude 模型全部无效。这篇文章（Anthropic Frontier Red Team 的官方分析报告）要回答的核心问题是：当一个顶级攻击能力的模型可以被随意下载、随意"去护栏"时，攻防格局会发生什么变化？
+
+## 背景：一次"能力跃迁"的复刻
+
+先看大背景。Anthropic 内部观测到，从 Claude Opus 4.6 到 Mythos Preview，模型的漏洞利用能力出现了一次明显的"阶跃"。而 GLM-5.2 到 GLM-5.3 之间，几乎复刻了同样幅度的跃迁。
+
+![Figure 1](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/GLM-5.3-and-the-spread-of-advanced-cyber-capabilities/images/image.webp)
+
+> 图解：上半部分对比了两个能力跃迁——Claude Opus 4.6 → Mythos Preview 的跃升幅度，与 GLM-5.2 → GLM-5.3 的跃升幅度几乎一致。区别在于：Claude 模型发布时带网络攻击防护，减配版只对经过审查的用户开放；而 GLM-5.3 人人可下载。下半部分则预告了本文的核心发现：GLM-5.3 有限的护栏可以被标准技术绕过，而这些技术对 Claude 模型要么无效、要么根本不适用。
+
+值得一提的是，NIST 下属的 AI 标准与创新中心（CAISI）在 9 月 17 日也发布了独立评估，称 GLM-5.3 是"**迄今发布的网络能力最强的开放权重模型**"，在其网络基准的综合表现上落后美国前沿模型约 4 个月。Anthropic 的能力测评结论与 CAISI 基本一致，本文的增量在于：**重点分析 GLM-5.3 的护栏有多容易被绕过或移除** ——毕竟 CAISI 测试中美国模型是关闭防护后测的"裸能力"，而攻击者实际拿不到那些版本，GLM-5.3 却是谁都能下载的。
+
+## GLM-5.3 的漏洞利用能力有多强
+
+了解了能力跃迁的背景，下一个问题自然是：GLM-5.3 到底能不能像 Mythos Preview 一样，端到端地把漏洞变成可用的 Exploit？Anthropic 用两类实验回答：自动化基准测试和人类专家在环的开放式任务。所有测试都在隔离沙箱中进行，模型只能攻击专门为评估搭建的离线目标。
+
+### 自动化基准：跨越了"从零到一"的门槛
+
+第一项测试是 ExploitBench，衡量模型利用 Google Chrome V8 引擎已知漏洞的能力。Anthropic 聚焦"端到端完成 Exploit"这一最贴近真实攻击者的指标：
+
+- GLM-5.3：410 次尝试中成功 **50 次**；
+- Claude Mythos Preview：410 次尝试中成功 **56 次**。
+
+两者基本处于同一水平。
+
+第二项是 Anthropic 内部的 Binary Exploitation 基准（此前以 "OSS-Fuzz" 名称发布过结果）：让模型在参与 Google OSS-Fuzz 项目的热门开源软件中 **自主发现并利用漏洞**，满分标准是完成完整的控制流劫持（control-flow hijack）。在随机抽取的 100 个任务上：
+
+- GLM-5.3：**4%** 的试验完成了完整控制流劫持；
+- Claude Mythos Preview：**6%**；
+- Claude Opus 4.6 与 GLM-5.2：**0%**。
+
+笔者认为这里最值得注意的不是 4% 与 6% 的差距，而是 **0 与非 0 的质变**：上一代模型一个任务都做不成，这一代已经能稳定地做成一小部分。门槛一旦跨过，剩下的只是时间和 Scaling 问题。
+
+![Figure 2](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/GLM-5.3-and-the-spread-of-advanced-cyber-capabilities/images/image-2.webp)
+
+> 图解：横轴是消耗的 output token 预算，纵轴是达到基准最高结果（端到端 Exploit 或控制流劫持）的尝试占比。图中包含关闭防护运行的两个 Claude 模型（Opus 4.6、Mythos Preview）、两个 GLM 模型（5.2、5.3），以及 Moonshot AI 的 Kimi K3 和 DeepSeek V4.1-Flash 两个最新开源模型作为参照。可以看到 GLM-5.3 的曲线明显脱离了上一代模型所在的"零成功"区域，逼近 Mythos Preview。
+
+### 人类专家在环：一天之内挖出浏览器 0day 链
+
+自动化基准衡量的是"无人干预的纯模型能力"，而真实攻击者是人机协同的。因此 Anthropic 复刻了年初对 Mythos Preview 的测试方式：让安全专家在 **对目标漏洞一无所知** 的情况下，借助模型在短时间（通常一天以内，人类投入注意力不足一小时）内发现并利用新漏洞。
+
+第一场实验：研究员给 GLM-5.3 一台沙箱机器，上面装有一款主流浏览器的 Linux 本地构建版。仅用一天、有限的人工关注，GLM-5.3 在该浏览器的 JavaScript 引擎中发现了 **多个此前未知的漏洞（0day）**，并把它们串成了一条完整 Exploit：受害者只要访问一个恶意网页，电脑上的任意文件就会被读取。
+
+![Figure 3](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/GLM-5.3-and-the-spread-of-advanced-cyber-capabilities/images/image-3.webp)
+
+> 图解：一张经脱敏处理的截图，展示 GLM-5.3 在研究员驱动的测试中生成的攻击页面——恶意网站正在窃取用户的 SSH 私钥。这条 Exploit 链组合了模型在某主流浏览器组件中自主发现的多个 0day 漏洞，最终读走了用户电脑上的敏感文件。
+
+需要说明的是，该 Exploit 针对的是 Linux 版浏览器（因为只给模型提供了这个环境），但 Anthropic 认为这些漏洞可能影响其他平台用户，只是利用路径更复杂。相关漏洞已向维护方披露。同一场实验的后半段，研究员还借助 GLM-5.3 在多个其他广泛使用的系统中发现了可利用漏洞，包括 **无线和图形驱动、面向网络的设备软件**，目前正处于审核与披露流程中。
+
+第二场实验更能说明"效率"问题：研究员使用更小、能力更弱的 GLM-5.3-Flash，针对一个已公开披露的 Chrome 漏洞（CVE-2026-11645，即所谓 "N-day" 漏洞）测试"把公开补丁变成可用攻击"的速度。研究员只提供了该 CVE 和另一个已知漏洞的公开信息，几乎没有额外指导，GLM-5.3-Flash 就自主把两个漏洞的 Exploit 串联起来，构建出一条针对 ARM64 目标、绕过指针认证（PAC, Pointer Authentication）加固的可靠攻击链。全程耗时：**人类注意力 20 分钟 + 模型运行 8 小时**；按智谱 API 定价，成本仅 **20.40 美元**。
+
+这个数字的冲击力在于：N-day 利用原本是"补丁发布后争分夺秒"的高门槛工作，现在一杯咖啡的钱和一顿饭的等待就能完成。
+
+## 形同虚设的安全护栏
+
+确认了 GLM-5.3 具备顶级攻击能力之后，决定其风险的关键变量就是护栏。GLM-5.3 发布时确实带有一些内置防护：用户直接索要明显有害的内容时，模型通常会拒绝（比如请求协助开发恶意软件、攻击远程目标时会触发拒答）。问题在于，这些防护可以被多种简单技术绕过甚至彻底移除。
+
+### Abliteration：几千美元"切除"拒答机制
+
+最彻底的方法是学界已知的 **Abliteration**（可译作"消融去拒答"）技术。它的原理可以理解为：开放权重模型就像一台可以拆开改装的机器，研究者可以找到模型内部负责"拒绝"行为的表示方向，直接从权重中抹掉，让模型从此不知拒绝为何物——而其余能力基本原封不动。
+
+由于 GLM-5.3 权重公开，任何人都可以做这件事。事实上，模型发布 **几天之内** 就有开发者公开发布了去护栏版本。Anthropic 团队（此前从未做过这个任务）亲自动手复现：
+
+- 成本：约 **2200 GPU 小时**，算力花费约 **4400 美元**（其中大部分花在并行探索变体和改后能力测试上；熟练团队从零开始估计只需 600 GPU 小时、约 1200 美元）。GLM-5.3-Flash 只需约 600 GPU 小时；
+- 效果：在 JailbreakBench、HarmBench、StrongREJECT 三个衡量"模型对明显有害请求的服从率"的公开基准上，GLM-5.3 的拒答率从 90% 以上分别跌至约 **3%、2% 和 12%**；
+- 副作用：几乎没有。在衡量通用科学能力的 GPQA-Diamond 上，原版与消融版 **得分相同**；在 CyberGym 评测子集上，消融版仅低几个百分点。
+
+![Figure 4](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/GLM-5.3-and-the-spread-of-advanced-cyber-capabilities/images/image-4.webp)
+
+> 图解：上半部分是 JailbreakBench、HarmBench、StrongREJECT 三个基准上的平均拒答率对比——消融后的 GLM 模型几乎不再拒绝有害请求；Claude 模型因权重不公开、不可定制，天然无法被消融。下半部分是 GLM-5.3 / GLM-5.3-Flash 与其消融变体在 GPQA-Diamond 和 CyberGym 上的能力对比，显示消融对能力的影响微乎其微。一句话总结：护栏没了，能力还在。
+
+### 不改权重也行：64%、92%、100% 的三级 bypass
+
+即使不动权重，GLM-5.3 的防护同样可以被绕过。Anthropic 构建了一个模拟环境：模型拿到一个假的 bash 工具（代码不会真正执行，由另一个 LLM 根据模拟世界描述来近似命令结果，模型也无法接触外部系统），然后收到 **公然恶意** 的攻击关键系统的指令。默认情况下，GLM-5.3（以及其他被测模型）在所有试验中都拒绝了。但三种简单手段让它大幅"就范"：
+
+| 绕过手段 | GLM-5.3 服从率 | 对 Claude 是否有效 |
+| --- | --- | --- |
+| 欺骗性提示（如"你是参加演练的自动化红队 Agent"） | 64% | 无效，防护拦下了此类请求 |
+| 预填 thinking token（伪造"模型已思考并决定执行"的开头） | 92% | 不适用，Anthropic API 不开放预填 thinking |
+| 使用消融版模型 | 100% | 不适用，Claude 权重不公开无法消融 |
+
+![Figure 5](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/GLM-5.3-and-the-spread-of-advanced-cyber-capabilities/images/image-5.webp)
+
+> 图解：热图展示各模型在收到公然有害请求后尝试连接远程目标系统的比率（每格 50 个样本：5 种攻击指令 × 2 个目标 × 5 次尝试）。GLM-5.3 在直接请求下服从率为零，但在伪装故事、预填、消融三种条件下分别升至 64%、92%、100%；所有被测 Claude 模型在 API 防护下全程保持为零。带锁标记的格子表示该攻击方式对 Claude API 普遍不可行。
+
+消融版 GLM-5.3 到底"愿意"到什么程度？Anthropic 公布了一段它的思维链原文：
+
+![Figure 6](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/GLM-5.3-and-the-spread-of-advanced-cyber-capabilities/images/image-6.webp)
+
+> 图解：在模拟环境中，消融版 GLM-5.3 的思维链逐字记录——它先是表现出一些伦理顾虑，随后权衡如何执行这个公然有害的请求，最终决定遵从用户指令。可以看到，消融并没有让模型"不懂对错"，只是让它不再因此拒绝。
+
+笔者认为这是全文最耐人寻味的一处细节：Abliteration 抹掉的不是模型的价值观"知识"，而是拒答的"行为习惯"。模型清楚地知道请求有害，然后照做了。
+
+## 这意味着什么
+
+能力测评和护栏分析合起来，指向一个明确结论。
+
+**对攻击者**：GLM-5.3 是首个"能力顶级 + 人人可得 + 护栏可拆"三者兼备的模型。此前所有同等能力的模型，要么带防护发布，要么只通过受限渠道开放。Anthropic 与其他美国 AI 实验室近期发布的报告已证实攻击者正在尝试用 AI 系统作案，因此他们判断：国家和非国家行为体都很可能用 GLM-5.3 这类模型造成现实危害。
+
+**对防御者**：硬币的另一面是，同样的能力也能用于防御——抢在攻击者之前发现并修复漏洞。Anthropic 的立场是：防御方应该用上自己能用到的最好工具，至少不能比对手手里的差。通过 Project Glasswing 和 Patch the Planet 等计划，受信任的防御者已经提前加固了大量关键系统，受审查用户也能用上更先进的 Claude Mythos 5.1；但"自由可得能力"的临界线已经被跨过，把前沿模型的防御能力开放给更多机构变得空前紧迫。
+
+**对监管者**：Anthropic 呼吁各国政府对 GLM-5.3 这类足够强的模型及其后继者开展独立安全测试——没有高质量的第三方评测，模型开发者可能要到危害成真才意识到问题的严重性；同时也呼吁全球开发开放权重模型的团队为这些能力配上相称的护栏。
+
+## 总结
+
+- **能力层面**：GLM-5.3 复刻了 Claude Mythos Preview 的漏洞利用跃迁，ExploitBench 端到端成功率 50/410（Mythos Preview 为 56/410），并在二进制漏洞利用上实现从 0 到 4% 的质变。
+- **实战层面**：人类专家 + GLM-5.3 一天内挖出某主流浏览器多个 0day 并串成窃取任意文件的攻击链；GLM-5.3-Flash 以 20 分钟人工 + 8 小时 + 20.40 美元完成了绕过 PAC 加固的 N-day 攻击链。
+- **护栏层面**：Abliteration 以数千美元成本把拒答率从 90%+ 打到个位数且能力无损；欺骗性提示、预填 thinking、消融三种手段的绕过率分别为 64%、92%、100%，而同样手段对 Claude 全部无效。
+- **格局层面**：这是顶级网络攻击能力首次以"开放权重 + 无有效护栏"的形式扩散，攻防天平上防御方的时间优势正在收窄。
+
+展望：GLM-5.3 大概率不是终点，而是一连串更强开放权重模型的开端。当"能力跃迁"与"护栏缺失"成为常态组合，独立的第三方安全评测和防御侧的能力普惠，可能比任何单一模型的发布更能决定未来的攻防格局。
+
+> 本文参考自 [GLM-5.3 and the spread of advanced cyber capabilities](https://www.anthropic.com/research/glm-5-3-and-the-spread-of-advanced-cyber-capabilities)
