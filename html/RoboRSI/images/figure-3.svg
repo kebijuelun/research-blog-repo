@@ -1,0 +1,155 @@
+<svg width="1760" height="1000" aria-label="RoboRSI self-evolution loop" class="paper-figure-art lang-en" font-family="'Segoe UI','PingFang SC','Microsoft YaHei',system-ui,sans-serif" role="img" viewBox="0 0 1760 1000" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#0f1115"/>
+<rect fill="#fcfcfb" height="1000" width="1760"></rect>
+<defs><pattern height="40" id="gp-inline-en" patternUnits="userSpaceOnUse" width="40"><path d="M40 0H0V40" fill="none" stroke="#e8ecee" stroke-width="1"></path></pattern></defs>
+<rect fill="url(#gp-inline-en)" height="1000" width="1760"></rect>
+
+<defs><marker id="ab-inline-en" markerHeight="7" markerWidth="7" orient="auto-start-reverse" refX="9" refY="5" viewBox="0 0 10 10"><path d="M0 0L10 5L0 10z" fill="#1878be"></path></marker></defs>
+<defs><marker id="ao-inline-en" markerHeight="7" markerWidth="7" orient="auto-start-reverse" refX="9" refY="5" viewBox="0 0 10 10"><path d="M0 0L10 5L0 10z" fill="#f05a28"></path></marker></defs>
+<defs><marker id="ag-inline-en" markerHeight="7" markerWidth="7" orient="auto-start-reverse" refX="9" refY="5" viewBox="0 0 10 10"><path d="M0 0L10 5L0 10z" fill="#93af23"></path></marker></defs>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="15" font-weight="700" letter-spacing="2" x="70" y="44">ROBO RSI SELF-EVOLUTION / OVERALL FRAMEWORK</text>
+<text fill="#1d2b33" font-size="46" font-weight="640" letter-spacing="1" x="70" y="98">SELF-EVOLUTION LOOP</text>
+<text font-size="15" text-anchor="end" x="1690" y="92"><tspan fill="#1878be" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-weight="700">BLUE: </tspan><tspan fill="#1d2b33">online execution</tspan><tspan dx="26" fill="#f05a28" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-weight="700">ORANGE: </tspan><tspan fill="#1d2b33">diagnosis + revision</tspan><tspan dx="26" fill="#6c8317" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-weight="700">GREEN: </tspan><tspan fill="#1d2b33">released capability</tspan></text>
+<line stroke="#1d2b33" stroke-opacity="0.25" stroke-width="1" x1="70" x2="1690" y1="116" y2="116"></line>
+<text fill="#12629c" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="13" font-weight="700" letter-spacing="1" x="70" y="152">ONLINE EXECUTION</text>
+<line opacity="0.45" stroke="#12629c" stroke-width="1" x1="260" x2="1620" y1="148" y2="148"></line>
+<text fill="#12629c" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="13" font-weight="700" letter-spacing="0.8" x="70" y="182">01 / TASK INPUT</text>
+<rect fill="#ffffff" height="300" rx="12" stroke="#d7dde1" stroke-width="1.4" width="320" x="70" y="196"></rect>
+<rect fill="none" height="116" rx="9" stroke="#1878be" stroke-opacity="0.28" stroke-width="1.4" width="280" x="90" y="222"></rect>
+<rect fill="#eaf4fc" height="108" rx="6" stroke="#1878be" stroke-width="1.8" width="272" x="94" y="226"></rect>
+<rect fill="#1878be" height="9" width="9" x="103" y="235"></rect>
+<text fill="#1d2b33" font-size="17" font-weight="650" text-anchor="middle" x="230.0" y="272.0">Task + current observation</text>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="10.5" text-anchor="middle" x="230.0" y="298.0">new · unresolved · repeated</text>
+<rect fill="none" height="116" rx="9" stroke="#93af23" stroke-opacity="0.28" stroke-width="1.4" width="280" x="90" y="358"></rect>
+<rect fill="#f7fae8" height="108" rx="6" stroke="#93af23" stroke-width="1.8" width="272" x="94" y="362"></rect>
+<rect fill="#93af23" height="9" width="9" x="103" y="371"></rect>
+<text fill="#1d2b33" font-size="17" font-weight="650" text-anchor="middle" x="230.0" y="408.0">Reusable context</text>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="10.5" text-anchor="middle" x="230.0" y="434.0">catalog · released skills · history</text>
+<text fill="#12629c" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="13" font-weight="700" letter-spacing="0.8" x="430" y="182">02 / MULTI-AGENT COLLABORATION</text>
+<rect fill="#ffffff" height="300" rx="12" stroke="#d7dde1" stroke-width="1.4" width="420" x="430" y="196"></rect>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="11.5" font-weight="700" letter-spacing="1" text-anchor="middle" x="640" y="224">SHARED WORKSPACE</text>
+<rect fill="#eaf4fc" height="50" rx="8" stroke="#1878be" stroke-width="1.4" width="372" x="454" y="238"></rect>
+<circle cx="480" cy="263" fill="#1878be" r="13"></circle>
+<text fill="#fff" font-size="13" font-weight="700" text-anchor="middle" x="480" y="268">M</text>
+<text fill="#1d2b33" font-size="16.5" font-weight="650" x="504" y="269">Manager</text>
+<text fill="#8a97a0" font-size="11.5" text-anchor="end" x="814" y="268">task scheduling · version management</text>
+<line marker-end="url(#ab-inline-en)" stroke="#1878be" stroke-width="1.8" x1="640" x2="640" y1="288" y2="300"></line>
+<rect fill="#eaf4fc" height="50" rx="8" stroke="#1878be" stroke-width="1.4" width="372" x="454" y="300"></rect>
+<circle cx="480" cy="325" fill="#1878be" r="13"></circle>
+<text fill="#fff" font-size="13" font-weight="700" text-anchor="middle" x="480" y="330">P</text>
+<text fill="#1d2b33" font-size="16.5" font-weight="650" x="504" y="331">Planner</text>
+<text fill="#8a97a0" font-size="11.5" text-anchor="end" x="814" y="330">goal understanding · plan generation</text>
+<line marker-end="url(#ab-inline-en)" stroke="#1878be" stroke-width="1.8" x1="640" x2="640" y1="350" y2="362"></line>
+<rect fill="#eaf4fc" height="50" rx="8" stroke="#1878be" stroke-width="1.4" width="372" x="454" y="362"></rect>
+<circle cx="480" cy="387" fill="#1878be" r="13"></circle>
+<text fill="#fff" font-size="13" font-weight="700" text-anchor="middle" x="480" y="392">E</text>
+<text fill="#1d2b33" font-size="16.5" font-weight="650" x="504" y="393">Engineer</text>
+<text fill="#8a97a0" font-size="11.5" text-anchor="end" x="814" y="392">tool execution · candidate implementation</text>
+<line marker-end="url(#ab-inline-en)" stroke="#1878be" stroke-width="1.8" x1="640" x2="640" y1="412" y2="424"></line>
+<rect fill="#fdeee6" height="50" rx="8" stroke="#f05a28" stroke-width="1.4" width="372" x="454" y="424"></rect>
+<circle cx="480" cy="449" fill="#f05a28" r="13"></circle>
+<text fill="#fff" font-size="13" font-weight="700" text-anchor="middle" x="480" y="454">R</text>
+<text fill="#1d2b33" font-size="16.5" font-weight="650" x="504" y="455">Reviewer</text>
+<text fill="#8a97a0" font-size="11.5" text-anchor="end" x="814" y="454">outcome review · revision proposals</text>
+<text fill="#12629c" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="13" font-weight="700" letter-spacing="0.8" x="890" y="182">03 / HIERARCHICAL SKILL EXECUTION</text>
+<rect fill="#ffffff" height="300" rx="12" stroke="#d7dde1" stroke-width="1.4" width="420" x="890" y="196"></rect>
+<rect fill="none" height="74" rx="9" stroke="#93af23" stroke-opacity="0.28" stroke-width="1.4" width="380" x="910" y="216"></rect>
+<rect fill="#f7fae8" height="66" rx="6" stroke="#93af23" stroke-width="1.8" width="372" x="914" y="220"></rect>
+<rect fill="#93af23" height="9" width="9" x="923" y="229"></rect>
+<text fill="#1d2b33" font-size="16" font-weight="650" text-anchor="middle" x="1100.0" y="245.0">Long-Horizon Task</text>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="10.5" text-anchor="middle" x="1100.0" y="271.0">composes multiple Atomic Tasks</text>
+<line marker-end="url(#ag-inline-en)" stroke="#93af23" stroke-width="1.8" x1="1100" x2="1100" y1="304" y2="288"></line>
+<rect fill="none" height="74" rx="9" stroke="#1878be" stroke-opacity="0.28" stroke-width="1.4" width="380" x="910" y="302"></rect>
+<rect fill="#eaf4fc" height="66" rx="6" stroke="#1878be" stroke-width="1.8" width="372" x="914" y="306"></rect>
+<rect fill="#1878be" height="9" width="9" x="923" y="315"></rect>
+<text fill="#1d2b33" font-size="16" font-weight="650" text-anchor="middle" x="1100.0" y="331.0">Atomic Task</text>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="10.5" text-anchor="middle" x="1100.0" y="357.0">clear scope · verifiable outcome</text>
+<line marker-end="url(#ag-inline-en)" stroke="#93af23" stroke-width="1.8" x1="1100" x2="1100" y1="390" y2="374"></line>
+<rect fill="#f7fae8" height="80" rx="8" stroke="#93af23" stroke-width="1.4" width="372" x="914" y="392"></rect>
+<text fill="#1d2b33" font-size="16" font-weight="650" text-anchor="middle" x="1100" y="418">Base Skills</text>
+<rect fill="#ffffff" height="26" rx="6" stroke="#93af23" stroke-width="1" width="77.0" x="922.0" y="432"></rect>
+<text fill="#6c8317" font-size="11.5" text-anchor="middle" x="960.5" y="449">perception</text>
+<rect fill="#ffffff" height="26" rx="6" stroke="#93af23" stroke-width="1" width="77.0" x="1015.0" y="432"></rect>
+<text fill="#6c8317" font-size="11.5" text-anchor="middle" x="1053.5" y="449">motion</text>
+<rect fill="#ffffff" height="26" rx="6" stroke="#93af23" stroke-width="1" width="77.0" x="1108.0" y="432"></rect>
+<text fill="#6c8317" font-size="11.5" text-anchor="middle" x="1146.5" y="449">grasp</text>
+<rect fill="#ffffff" height="26" rx="6" stroke="#93af23" stroke-width="1" width="77.0" x="1201.0" y="432"></rect>
+<text fill="#6c8317" font-size="11.5" text-anchor="middle" x="1239.5" y="449">place</text>
+<text fill="#c74214" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="13" font-weight="700" letter-spacing="0.8" x="1350" y="182">04 / EVIDENCE + DIAGNOSIS</text>
+<rect fill="#ffffff" height="300" rx="12" stroke="#d7dde1" stroke-width="1.4" width="340" x="1350" y="196"></rect>
+<rect fill="none" height="82" rx="9" stroke="#1878be" stroke-opacity="0.28" stroke-width="1.4" width="304" x="1368" y="214"></rect>
+<rect fill="#eaf4fc" height="74" rx="6" stroke="#1878be" stroke-width="1.8" width="296" x="1372" y="218"></rect>
+<rect fill="#1878be" height="9" width="9" x="1381" y="227"></rect>
+<text fill="#1d2b33" font-size="15" font-weight="650" text-anchor="middle" x="1520.0" y="247.0">Execution record</text>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="10.5" text-anchor="middle" x="1520.0" y="273.0">plan · trace · video · final verdict</text>
+<line marker-end="url(#ao-inline-en)" stroke="#f05a28" stroke-width="1.8" x1="1520" x2="1520" y1="306" y2="294"></line>
+<rect fill="none" height="82" rx="9" stroke="#f05a28" stroke-opacity="0.28" stroke-width="1.4" width="304" x="1368" y="304"></rect>
+<rect fill="#fdeee6" height="74" rx="6" stroke="#f05a28" stroke-width="1.8" width="296" x="1372" y="308"></rect>
+<rect fill="#f05a28" height="9" width="9" x="1381" y="317"></rect>
+<text fill="#1d2b33" font-size="15" font-weight="650" text-anchor="middle" x="1520.0" y="337.0">Diagnose or distill stable paths</text>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="10.5" text-anchor="middle" x="1520.0" y="363.0">attribution · stable-path distillation</text>
+<line marker-end="url(#ao-inline-en)" stroke="#f05a28" stroke-width="1.8" x1="1520" x2="1520" y1="396" y2="384"></line>
+<rect fill="none" height="82" rx="9" stroke="#f05a28" stroke-opacity="0.28" stroke-width="1.4" width="304" x="1368" y="394"></rect>
+<rect fill="#fdeee6" height="74" rx="6" stroke="#f05a28" stroke-width="1.8" width="296" x="1372" y="398"></rect>
+<rect fill="#f05a28" height="9" width="9" x="1381" y="407"></rect>
+<text fill="#1d2b33" font-size="15" font-weight="650" text-anchor="middle" x="1520.0" y="427.0">Candidate capability updates</text>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="10.5" text-anchor="middle" x="1520.0" y="453.0">PATCH · NEW BASE · NEW ATOMIC · COMPOUND</text>
+<line marker-end="url(#ab-inline-en)" stroke="#1878be" stroke-width="2.2" x1="390" x2="428" y1="346" y2="346"></line>
+<line marker-end="url(#ab-inline-en)" stroke="#1878be" stroke-width="2.2" x1="850" x2="888" y1="346" y2="346"></line>
+<line marker-end="url(#ab-inline-en)" stroke="#1878be" stroke-width="2.2" x1="1310" x2="1348" y1="346" y2="346"></line>
+<text fill="#6c8317" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="13" font-weight="700" letter-spacing="1" x="70" y="570">CROSS-EPISODE EVOLUTION</text>
+<line opacity="0.45" stroke="#6c8317" stroke-width="1" x1="337" x2="1620" y1="566" y2="566"></line>
+<text fill="#6c8317" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="13" font-weight="700" letter-spacing="0.8" x="820" y="600">05 / VALIDATION + RELEASE</text>
+<rect fill="#ffffff" height="240" rx="12" stroke="#d7dde1" stroke-width="1.4" width="870" x="820" y="614"></rect>
+<rect fill="none" height="118" rx="9" stroke="#f05a28" stroke-opacity="0.28" stroke-width="1.4" width="204" x="1466" y="676"></rect>
+<rect fill="#fdeee6" height="110" rx="6" stroke="#f05a28" stroke-width="1.8" width="196" x="1470" y="680"></rect>
+<rect fill="#f05a28" height="9" width="9" x="1479" y="689"></rect>
+<text fill="#1d2b33" font-size="15" font-weight="650" text-anchor="middle" x="1568.0" y="727.0">Evaluation Gate</text>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="10.5" text-anchor="middle" x="1568.0" y="753.0">tests · audit · no regression</text>
+<line marker-end="url(#ag-inline-en)" stroke="#93af23" stroke-width="2.2" x1="1468" x2="1420" y1="735" y2="735"></line>
+<rect fill="none" height="118" rx="9" stroke="#93af23" stroke-opacity="0.28" stroke-width="1.4" width="202" x="1220" y="676"></rect>
+<rect fill="#f7fae8" height="110" rx="6" stroke="#93af23" stroke-width="1.8" width="194" x="1224" y="680"></rect>
+<rect fill="#93af23" height="9" width="9" x="1233" y="689"></rect>
+<text fill="#1d2b33" font-size="15" font-weight="650" text-anchor="middle" x="1321.0" y="727.0">Capability release</text>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="10.5" text-anchor="middle" x="1321.0" y="753.0">released only after validation</text>
+<line marker-end="url(#ag-inline-en)" stroke="#93af23" stroke-width="2.2" x1="1222" x2="1174" y1="735" y2="735"></line>
+<rect fill="none" height="100" rx="9" stroke="#93af23" stroke-opacity="0.28" stroke-width="1.4" width="230" x="946" y="634"></rect>
+<rect fill="#f7fae8" height="92" rx="6" stroke="#93af23" stroke-width="1.8" width="222" x="950" y="638"></rect>
+<rect fill="#93af23" height="9" width="9" x="959" y="647"></rect>
+<text fill="#1d2b33" font-size="15" font-weight="650" text-anchor="middle" x="1061.0" y="676.0">Code Skill</text>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="10.5" text-anchor="middle" x="1061.0" y="702.0">stable path → SKILL.md + policy.py</text>
+<rect fill="none" height="100" rx="9" stroke="#1878be" stroke-opacity="0.28" stroke-width="1.4" width="230" x="946" y="738"></rect>
+<rect fill="#eaf4fc" height="92" rx="6" stroke="#1878be" stroke-width="1.8" width="222" x="950" y="742"></rect>
+<rect fill="#1878be" height="9" width="9" x="959" y="751"></rect>
+<text fill="#1d2b33" font-size="15" font-weight="650" text-anchor="middle" x="1061.0" y="780.0">Learning-based Policy</text>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="10.5" text-anchor="middle" x="1061.0" y="806.0">execution data → policy training</text>
+<path d="M948 684 H900 V726 H784" fill="none" marker-end="url(#ag-inline-en)" stroke="#93af23" stroke-width="2.2"></path>
+<path d="M948 788 H900 V744 H784" fill="none" marker-end="url(#ag-inline-en)" stroke="#93af23" stroke-width="2.2"></path>
+<text fill="#6c8317" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="13" font-weight="700" letter-spacing="0.8" x="430" y="600">06 / NEXT-ROUND REUSE</text>
+<rect fill="#ffffff" height="240" rx="12" stroke="#d7dde1" stroke-width="1.4" width="350" x="430" y="614"></rect>
+<rect fill="none" height="118" rx="9" stroke="#93af23" stroke-opacity="0.28" stroke-width="1.4" width="314" x="448" y="676"></rect>
+<rect fill="#f7fae8" height="110" rx="6" stroke="#93af23" stroke-width="1.8" width="306" x="452" y="680"></rect>
+<rect fill="#93af23" height="9" width="9" x="461" y="689"></rect>
+<text fill="#1d2b33" font-size="17" font-weight="650" text-anchor="middle" x="605.0" y="727.0">Back to the runtime</text>
+<text fill="#8a97a0" font-family="'SFMono-Regular','JetBrains Mono',Consolas,monospace" font-size="10.5" text-anchor="middle" x="605.0" y="753.0">new capabilities enter the next round</text>
+<path d="M1520 474 V536 H1724 V735 H1694" fill="none" marker-end="url(#ao-inline-en)" stroke="#f05a28" stroke-width="2.2"></path>
+<path class="dashflow" d="M428 735 H230 V500" fill="none" marker-end="url(#ag-inline-en)" stroke="#93af23" stroke-dasharray="7 6" stroke-width="2.2"></path>
+<rect class="stage-ring d0" fill="#1878be" fill-opacity="0.05" height="312" rx="16" stroke="#1878be" stroke-width="3.4" width="332" x="64" y="190"></rect>
+<rect class="stage-ring d1" fill="#1878be" fill-opacity="0.05" height="312" rx="16" stroke="#1878be" stroke-width="3.4" width="432" x="424" y="190"></rect>
+<rect class="stage-ring d2" fill="#1878be" fill-opacity="0.05" height="312" rx="16" stroke="#1878be" stroke-width="3.4" width="432" x="884" y="190"></rect>
+<rect class="stage-ring d3" fill="#f05a28" fill-opacity="0.05" height="312" rx="16" stroke="#f05a28" stroke-width="3.4" width="352" x="1344" y="190"></rect>
+<rect class="stage-ring d4" fill="#93af23" fill-opacity="0.05" height="252" rx="16" stroke="#93af23" stroke-width="3.4" width="882" x="814" y="608"></rect>
+<rect class="stage-ring d5" fill="#93af23" fill-opacity="0.05" height="252" rx="16" stroke="#93af23" stroke-width="3.4" width="362" x="424" y="608"></rect>
+<path class="arrow-flash f0" d="M390 346 H428" fill="none" marker-end="url(#ab-inline-en)" stroke="#1878be" stroke-width="5"></path>
+<path class="arrow-flash f1" d="M850 346 H888" fill="none" marker-end="url(#ab-inline-en)" stroke="#1878be" stroke-width="5"></path>
+<path class="arrow-flash f2" d="M1310 346 H1348" fill="none" marker-end="url(#ab-inline-en)" stroke="#1878be" stroke-width="5"></path>
+<path class="arrow-flash f3" d="M1520 474 V536 H1724 V735 H1694" fill="none" marker-end="url(#ao-inline-en)" stroke="#f05a28" stroke-width="5"></path>
+<path class="arrow-flash f4" d="M948 684 H900 V726 H784" fill="none" marker-end="url(#ag-inline-en)" stroke="#93af23" stroke-width="5"></path>
+<path class="arrow-flash f5" d="M428 735 H230 V500" fill="none" marker-end="url(#ag-inline-en)" stroke="#93af23" stroke-width="5"></path>
+<rect fill="#1878be" height="14" rx="3" width="14" x="70" y="912"></rect>
+<text fill="#1d2b33" font-size="13" x="92" y="924">online execution</text>
+<rect fill="#f05a28" height="14" rx="3" width="14" x="252.0" y="912"></rect>
+<text fill="#1d2b33" font-size="13" x="274.0" y="924">diagnosis + revision</text>
+<rect fill="#93af23" height="14" rx="3" width="14" x="464.0" y="912"></rect>
+<text fill="#1d2b33" font-size="13" x="486.0" y="924">released capability</text>
+<text fill="#8a97a0" font-size="13" text-anchor="end" x="1690" y="924">solid = within-episode flow · dashed = cross-episode evolution + reuse</text>
+</svg>

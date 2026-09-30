@@ -1,0 +1,42 @@
+<svg width="640" height="570" aria-label="Line chart of cumulative LIBERO and RoboTwin task pass rates from the initial state to after approximately one day of parallel iteration" class="zero-shot-curve-svg" data-label-en="Line chart of cumulative LIBERO and RoboTwin task pass rates from the initial state to after approximately one day of parallel iteration" data-label-zh="LIBERO 和 RoboTwin 从初始能力到约一天并行迭代后的累计任务通过率折线图" role="img" viewBox="0 0 640 570" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#ffffff"/>
+<g aria-hidden="true" class="zero-shot-grid">
+<line x1="92" x2="548" y1="440" y2="440"></line>
+<line x1="92" x2="548" y1="350" y2="350"></line>
+<line x1="92" x2="548" y1="260" y2="260"></line>
+<line x1="92" x2="548" y1="170" y2="170"></line>
+<line x1="92" x2="548" y1="80" y2="80"></line>
+<text text-anchor="end" x="66" y="445">0</text>
+<text text-anchor="end" x="66" y="355">25</text>
+<text text-anchor="end" x="66" y="265">50</text>
+<text text-anchor="end" x="66" y="175">75</text>
+<text text-anchor="end" x="66" y="85">100</text>
+</g>
+<path class="zero-shot-line libero-line" d="M140 344 L500 155"></path>
+<path class="zero-shot-line robotwin-line" d="M140 375 L500 181"></path>
+<g aria-hidden="true" class="zero-shot-points">
+<circle class="libero-point" cx="140" cy="344" r="6"></circle>
+<circle class="libero-point" cx="500" cy="155" r="6"></circle>
+<circle class="robotwin-point" cx="140" cy="375" r="6"></circle>
+<circle class="robotwin-point" cx="500" cy="181" r="6"></circle>
+</g>
+<g class="zero-shot-values">
+<text class="libero-value" text-anchor="middle" x="140" y="322">32 / 120</text>
+<text class="robotwin-value" text-anchor="middle" x="140" y="405">9 / 50</text>
+</g>
+<g class="zero-shot-series-labels">
+<text class="libero-value" x="520" y="140">
+<tspan dy="0" x="520">LIBERO</tspan>
+<tspan dy="19" x="520">95 / 120</tspan>
+</text>
+<text class="robotwin-value" x="520" y="191">
+<tspan dy="0" x="520">RoboTwin</tspan>
+<tspan dy="19" x="520">36 / 50</tspan>
+</text>
+</g>
+<g class="zero-shot-x-labels">
+<text class="lang-zh" text-anchor="middle" x="140" y="505">初始能力</text>
+<text class="lang-en" text-anchor="middle" x="140" y="505">INITIAL</text>
+<text class="lang-zh" text-anchor="middle" x="500" y="505">约一天后</text>
+<text class="lang-en" text-anchor="middle" x="500" y="505">AFTER ~1 DAY</text>
+</g>
+</svg>
