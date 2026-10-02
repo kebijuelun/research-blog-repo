@@ -1,147 +1,121 @@
-# Gemini 4 Argon：谷歌新一代前沿模型，1M 输出 Token 重塑长程任务
+# Gemini 4 Argon 发布：Google 的新一代前沿模型，把"深度思考"拉满到 100 万 Token
 
-大模型的竞争正在从"答得对"转向"做得完"：真实世界的软件工程、法律金融文书、网络安全防御，都是需要持续数小时、横跨数十步的 **长程任务**（long-horizon tasks），而这恰恰是此前模型最容易"中途掉链子"的地方。谷歌于 2026 年 9 月 30 日发布的 Gemini 4 Argon 正是冲着这个痛点来的：它将输出 Token 上限从 64K 一举提升到业界领先的 **100 万**，让模型可以在单次轨迹中生成数十万 Token 的连续推理。硬指标上，Argon 在真实长程软件工程基准 DeepSWE v1.1 上拿下 **77.9%** 的新 SOTA，在 Zapier 的端到端业务执行基准 AutomationBench 上以 **51.3%** 排名第一，还能自主发现并修补关键软件漏洞。目前它正通过 Fairwind Program 向受信任的网络防御者定向开放。
+2026 年 9 月 30 日，Google 正式官宣新一代前沿模型 **Gemini 4 Argon**。这篇文章主要解决的问题是：如何让大模型在真实世界的软件工程、金融、法律、网络安全等 **长程复杂工作流** 中持续保持深度推理能力，而不是聊几轮就"断片"。它的核心思路简单粗暴——把输出 Token 上限从 64K 一口气拉到 **行业领先的 100 万**，让模型单次推理轨迹就能生成数十万 Token 的思考。最硬的成绩单：真实软件工程基准 DeepSWE v1.1 达到 **77.9%** 的新 SOTA，安全漏洞修复基准 CWE-bench v1 以 **68%** 并列第一。
 
-![Gemini 4 Argon 主视觉](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/g4_30-09-26_key-art_blog.width-200.format-webp.webp)
+![Gemini 4 Argon 官方宣传图](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/g4_30-09-26_key-art_blog.width-200.format-webp.webp)
 
-> 图解：Gemini 4 Argon 官方发布主视觉。这一代模型的代号"Argon"（氩，一种惰性气体）延续了 Gemini 系列以化学元素命名的传统。
+> 图解：Gemini 4 Argon 官方发布主视觉。这一代模型的定位不是"更快的聊天助手"，而是面向专业复杂任务的"工作伙伴"。
 
-## 发布即实战：Argon 已在谷歌内部跑了什么
+## 不只是跑分：Argon 已经在 Google 内部"上岗"了
 
-与以往"先发论文、再找场景"的模型不同，Argon 在对外发布前就已经深度接入谷歌内部工作流，数千名谷歌工程师每天都在用它做专业化编码、深度研究和写作。官方给出的三个内部案例，每一个都值得单独拆开看。
+很多模型发布时只有 Benchmark 数字，Argon 不一样——它已经在 Google 内部真实干活了，数千名 Google 员工在日常使用。这里有几个非常能说明问题的案例：
 
-### 量子算法优化：几分钟击败已发表基线
+- **量子算法优化**：Argon 帮助量子计算研究员优化关键子程序的时空资源（qubits × gates），其中一个例子在 **几分钟内就把已发表基线改进了 40%**。
+- **内存效率优化**：一组 Argon Agent 分析全集群的 profiling 遥测数据，自主识别并应用内存优化，落地后释放超过 **300 TiB** 内存，预计总节省 500 TiB 到 1 PiB。
+- **大规模代码迁移**：Argon Agent 正在把 Google 的 C/C++ 代码库迁移到 Rust，从 re2、libgav1 这样几万行的核心库，一路扩展到 **80 万+ 行的 Fuchsia Zircon 内核**。
 
-谷歌量子计算团队用 Argon 优化量子子程序的时空资源开销（量子比特数 × 门数量），这些子程序往往是重要应用的性能瓶颈。在一个具体案例中，Argon 在 **几分钟内** 就把已发表论文的基线优化了 **40%**。
+最值得展开讲的是 libgav1 的案例。libgav1 是 Google 开源的视频解码器，Argon Agent 接手一个已有的 Rust 移植版本，通过多轮 profile 引导的实验、研究编译器输出，把 **3.2 万行手写 SIMD 代码** 替换成安全 Rust，让编译器自动向量化。
 
-### 数据中心内存优化：释放超过 300 TiB
+最终结果：一个内存安全的视频解码器，跑得比 Rust 移植版 **快 2.7 倍**，视频输出完全一致，性能逼近优化过的 C++ 原版。
 
-一组 Argon Agent 分析了谷歌全机队的性能分析遥测数据（profiling telemetry），自主识别并应用了横跨谷歌数据中心的内存优化。全面铺开后可释放超过 **300 TiB** 内存，预计总节省量在 **500 TiB 到 1 PiB** 之间。这是一个典型的"人类做不了"的任务：遥测数据规模太大、优化点太分散，靠人工排查根本不经济。
+这个设计的聪明之处在于：它没有让模型"硬写" SIMD，而是让模型理解编译器的行为模式，用编译器友好的高级代码换取自动向量化——既保住了 Rust 的内存安全，又追回了性能。当然，鉴于这些系统的关键性，这类大规模重写都要经过严格的自动化审计、仿真测试和人工 review 才会上线。
 
-### 大规模代码迁移：从 re2 到 80 万行的 Fuchsia 内核
+## 核心武器：100 万 Token 输出上限
 
-Argon Agent 正在谷歌内部执行 C/C++ 到 Rust 的迁移，规模从 re2、libgav1 等核心库的数万行，一路扩展到 **80 万行以上** 的 Fuchsia Zircon 内核。考虑到这些系统的关键性，所有大规模重写都要经过严格的自动化与人工审计、仿真测试和评审后才能上生产。
+聊完实战案例，我们来看看支撑这一切的关键改动。
 
-其中 libgav1（谷歌开源的视频解码器）的案例最能体现 Agent 的工作方式：
+Argon 把输出 Token 上限从上一代的 64K 直接拉到 **100 万**，这是目前的行业最高水平。为什么这个数字重要？因为长程任务的本质瓶颈往往不是上下文"读"得不够多，而是"想"得不够久——当模型有余量在单条轨迹中生成数十万 Token 的深度思考时，它就能一口气把难题想透，而不是被迫在中间截断、丢失推理状态。
 
-- Argon Agent 基于已有的 Rust 移植版本，通过多轮 profile 驱动的实验、研究编译器输出，用安全 Rust 替换了 **3.2 万行 SIMD 代码**，让编译器自动完成向量化；
-- 最终得到一个 **内存安全** 的视频解码器，视频输出完全一致，但速度是原 Rust 移植版的 **2.7 倍**，逼近了手工优化的 C++ 版本。
+![Gemini 4 Argon 能力基准表](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini-4-argon_table_blog.gif)
 
-笔者认为这个案例的含金量在于：它展示的不是"生成一段能跑的代码"，而是"围绕编译器行为做实验驱动的性能工程"——这是此前只有资深系统工程师才能胜任的工作模式。
+> 图解：Gemini 4 Argon 在各基准上的能力总览。可以看到它在编码、推理、多模态等维度上全面压过前代，1M 输出 Token 是这一代最醒目的规格升级。
 
-## 1M 输出 Token：长程推理的"弹药库"
+定价方面也已经公布：输入每百万 Token **2 美元**，输出每百万 Token **10 美元**，缓存输入 Token 享受输入价 **95% 的折扣**。对长程 Agent 场景来说，缓存折扣是个实打实的成本杀器。
 
-说完了 Argon 在谷歌内部干了什么，下一个问题是：它凭什么能做到？官方给出的答案是一个看似简单、实则关键的扩容—— **输出 Token 上限从 64K 提升到 1M**，为当前业界最高。
+## 编码与企业知识工作：全线领先
 
-可以把输出 Token 理解为模型一次任务中的"工作记忆和弹药"：64K 的上限意味着模型在处理复杂任务时，往往刚铺开推理、写完一半方案就触顶，被迫截断或分段，上下文的连贯性随之断裂。而 100 万 Token 的余量，让模型可以在单次轨迹中"深想"并生成数十万 Token 的内容，一次性把难题推理到底，而不必中途"换气"。
+有了超长思考预算，Argon 在编码和跨领域企业工作流上的表现如何？我们逐个基准来看。
 
-![Gemini 4 Argon 能力评测总表](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini-4-argon_table_blog.gif)
+在衡量真实长程软件工程任务的 **DeepSWE v1.1** 上，Argon 以 **77.9%** 刷新 SOTA。
 
-> 图解：Gemini 4 Argon 的官方评测总表，汇总了其在编码、推理、多模态、长视频理解、网络安全等维度与竞争对手的基准对比。可以看到 Argon 在长程软件工程（DeepSWE）、企业知识工作（Vals 系列）和防御性网络安全（CWE-bench）等强调"持续执行"的榜单上全面领先。
+![DeepSWE 评测对比](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_deepswe.gif)
 
-## 编程与企业知识工作：多条榜单同时登顶
+> 图解：DeepSWE v1.1 评测结果，横轴为各模型，纵轴为解决率。这个基准测的是真实世界的长程软件工程任务（不是刷 LeetCode），Argon 的 77.9% 意味着它已经能在多步骤、跨文件的真实工程中独立交付。
 
-有了长程推理的"弹药"，Argon 在各条企业级赛道上的表现就有了落点。官方披露的成绩可以按领域分成三组。
+编码之外，Argon 还是 **Vals Index** 的头名。这个指数按各行业对美国 GDP 的贡献加权，衡量模型在金融、编码、法律、税务工作中的经济影响力——换句话说，它比纯学术基准更接近"这模型能帮企业赚/省多少钱"。
 
-### 软件工程
+![Vals Index 对比](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_vals_index.gif)
 
-谷歌工程师已经把 Argon 用于日常调试、大规模代码库迁移和算法设计。在衡量真实长程软件工程任务表现的 **DeepSWE v1.1** 上，Argon 以 **77.9%** 刷新 SOTA。
+> 图解：Vals Index 综合排名，覆盖金融、编码、法律、税务四大领域并按 GDP 权重合成。Argon 总分领先，说明它的能力分布不偏科。
 
-![DeepSWE 评测结果](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_deepswe.gif)
+细分领域的成绩单同样漂亮：
 
-> 图解：DeepSWE v1.1 基准对比。该基准衡量模型在真实世界长程软件工程任务上的表现，Argon 以 77.9% 的成绩领先其他前沿模型。
+- **Vals Finance Agent v2**（多步骤金融研究）领先：
 
-### 经济与知识工作
+![Vals Finance 基准](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_vals_finance.gif)
 
-在 **Vals Index** 上，Argon 是排名第一的模型。这个指数按各行业对美国 GDP 的贡献加权，综合衡量模型在金融、编码、法律和税务工作中的经济影响力，因此比一般学术榜单更贴近"模型到底能不能干活赚钱"。细分榜单上，Argon 在 Vals Finance Agent v2（多步骤金融研究）和 Harvey 的 Legal Agent Benchmark（法律研究与文书起草）上同样领先。
+> 图解：Vals Finance Agent v2 评测，衡量模型完成多步骤金融研究任务的能力，例如连环的财报分析与数据核查。
 
-在 Zapier 的 **AutomationBench**（衡量跨核心业务职能的端到端执行能力）上，Argon 以 **51.3%** 排名第一。
+- **Harvey Legal Agent Benchmark**（法律研究与文书起草）领先：
 
-![Vals Index 评测结果](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_vals_index.gif)
+![Harvey 法律基准](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_harveys.gif)
 
-> 图解：Vals Index 对比。该指数按行业 GDP 权重加权，衡量模型在金融、编码、法律、税务四大领域的综合经济价值，Argon 位居榜首。
+> 图解：Harvey 法律 Agent 基准结果，覆盖法律检索与文书起草。法律场景对长文档理解和严谨推理要求极高，恰好对上 1M 输出的强项。
 
-![Vals Finance 评测结果](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_vals_finance.gif)
+- **AutomationBench**（Zapier 出品的端到端业务流程执行基准）：Argon 以 **51.3%** 排名第一。
 
-> 图解：Vals Finance Agent v2 对比，考察多步骤金融研究任务的完成能力。
+![AutomationBench 基准](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_automationbench.gif)
 
-![Harvey 法律基准评测结果](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_harveys.gif)
+> 图解：AutomationBench 衡量模型跨核心业务职能的端到端执行能力——不只是给建议，而是真正把流程跑完。51.3% 看着不高，但已是全场第一，说明这类"真干活"的基准对全行业都还很硬。
 
-> 图解：Harvey Legal Agent Benchmark 对比，考察法律研究与文书起草能力。
+值得一提的是多模态：当知识工作需要视觉理解时，Argon 同样能打——专业图表分析、长视频细节识别、基于一连串文档采取行动都不在话下。在长视频理解基准 **LVBench** 上，它以 **91.7%** 拿下 SOTA。
 
-![AutomationBench 评测结果](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_automationbench.gif)
+## 网络安全防御：本次发布的重头戏
 
-> 图解：Zapier AutomationBench 对比，考察跨业务职能的端到端自动化执行能力，Argon 以 51.3% 排名第一。注意该榜单整体分数都不高，说明端到端业务自动化对当前所有模型仍是硬骨头——这也让 51.3% 的第一名更有分量。
+如果说前面的能力是"全面升级"，那网络安全就是 Argon 的战略主攻方向。Google 专门训练了它的防御能力：Argon 可以 **自主发现、验证并修补** 关键软件漏洞。并且对于可信防御者和 Google 内部团队，Argon 会 **不带网络护栏** 发布，让防御方用上完整的前沿能力——这是个相当大胆的决策，后面安全章节我们再回头看它是怎么做风控的。
 
-### 视觉理解加持的知识工作
+实战案例已经有一个很有说服力的：云安全公司 Wiz 通过其 "Scan for Good" 计划（免费保护关键公共基础设施）使用 Argon，模型在一家全球医院都在用的医疗软件中 **挖出了一个暴露敏感个人信息的严重漏洞**——而这个漏洞此前其他前沿模型都没发现。
 
-当知识工作涉及视觉理解时，Argon 的优势更加明显：它可以做专业级图表分析、从长视频中识别细节、并基于一系列文档采取行动。在衡量长视频理解的 **LVBench** 上，Argon 以 **91.7%** 取得 SOTA。
+基准方面，在衡量漏洞修复能力的 **CWE-bench v1** 上，Argon 以 **68%** 并列第一，延续了 3.8 Flash Cyber 在 CWE-bench v0 上的前沿表现。
 
-## 防御性网络安全：自主发现、验证并修补漏洞
+![CWE-bench 评测](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_cwe_bench.width-1200.format-webp.webp)
 
-解决了通用企业工作流之后，谷歌把 Argon 的另一张牌打在了网络安全上——而且是明确站在防御一侧。Argon 被训练为具备高水平的网络安全防御能力，可以 **自主发现、验证并修补关键软件漏洞**。对于受信任的防御者和谷歌内部团队，谷歌将提供 **不加载网络护栏** 的版本，以便他们使用完整的前沿防御能力。
+> 图解：CWE-bench v1 评测结果，纵轴为漏洞修复得分。68% 的成绩意味着在常见漏洞类型的自动修复任务上，Argon 已站上第一梯队。
 
-这一能力已经有真实战果：安全公司 Wiz 正通过其 "Scan for Good" 计划（免费保护关键公共基础设施）使用 Argon。在一次早期演示中，Argon 在全球医院使用的医疗软件中发现了一个会暴露敏感个人信息的 **关键漏洞**——这是此前其他前沿模型都漏掉的严重风险。
+漏洞发现能力相比 3.8 Flash Cyber 的跃升也很明显：
 
-在衡量漏洞修复能力的 **CWE-bench v1** 上，Argon 以 **68%** 的最高分并列第一，延续了 3.8 Flash Cyber 在 CWE-bench v0 上的前沿表现。
+- 在 Google 内部综合漏洞基准上，Argon 在横跨 **20 种编程语言** 的复杂代码库中挖出了大量暴露面。
+- 在 Wiz 的内部黑盒渗透测试基准（不看源码、直接分析线上 Web 系统）上，Argon 在攻击面发现、漏洞识别、产出 PoC 验证证据三个环节全面超过 3.8 Flash Cyber。
 
-![CWE-bench 评测结果](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_cwe_bench.width-1200.format-webp.webp)
+![安全漏洞发现对比](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_security_vu.width-1200.format-webp.webp)
 
-> 图解：CWE-bench v1 对比，考察模型修复安全漏洞的能力。CWE（Common Weakness Enumeration，通用缺陷枚举）是业界标准的软件缺陷分类体系，Argon 以 68% 并列第一。
+> 图解：Argon 与 3.8 Flash Cyber 在漏洞发现各环节的能力对比。黑盒渗透是最接近真实攻击者视角的场景，Argon 在这里的提升意味着防御方终于能在"攻击者之前"用上更强的自动化工具。
 
-相比 3.8 Flash Cyber，Argon 在漏洞发现上还有更直观的跃升：
+## 安全护栏：能力越大，闸门越多
 
-- 在谷歌内部综合漏洞基准上，Argon 在横跨 **20 种编程语言** 的复杂代码库中发现了大量暴露面；
-- 在 Wiz 的内部黑盒渗透测试基准（不提供源码、直接分析线上 Web 系统）上，Argon 在攻击面发现、漏洞识别、以及产出概念验证（Proof-of-Concept）证据三个环节上全面超越 3.8 Flash Cyber。
+能力拉到这个级别，Google 在发布节奏上明显谨慎：Argon 目前正通过 **Fairwind Program** 向可信网络防御者小范围开放，同时参与美国政府的自愿预发布模型评估流程，之后才逐步推向开发者、企业和消费者。上线前，Google 在四个方向加固前沿护栏：
 
-![漏洞发现能力对比](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_security_vu.width-1200.format-webp.webp)
+- **防滥用**：针对网络和 CBRN（化学、生物、放射性、核）攻击风险，模型按 Frontier Safety Framework 拒绝有害请求，同时保留合法的军民两用科研空间。值得一提的是，Google 在加强 **监测模型内部激活** 来识别滥用的技术，且这些护栏经过内外部红队的手工+自动化混合攻击测试。
+- **防 Prompt Injection**：间接提示注入（用恶意指令或上下文劫持模型行为）是 Agent 时代最现实的威胁。通过自动化红队和对抗训练，Argon 在 Gray Swan 的间接提示注入（IPI）基准上鲁棒性领先。
 
-> 图解：Gemini 4 Argon 与 3.8 Flash Cyber 在漏洞发现上的对比，覆盖谷歌内部多语言代码库基准与 Wiz 黑盒渗透测试基准，Argon 在各个环节均有明显提升。
+![Gray Swan IPI 评测](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_gray_swan_i.width-1200.format-webp.webp)
 
-笔者认为"无护栏版本定向开放给防御者"是一个值得注意的信号：网络攻防能力本质上是双刃剑，谷歌选择用 Fairwind Program 这样的定向渠道做分级开放，而不是一刀切地限制能力，这可能成为前沿模型处理"双重用途"能力的范本。
+> 图解：Gray Swan 间接 Prompt Injection 基准结果，越高代表模型越难被恶意上下文劫持。对要在企业里跑长流程的 Agent 来说，这项指标几乎和能力本身一样重要。
 
-## 安全护栏：大规模开放前的四道防线
+- **对齐监控**：部署 misalignment 缓解措施，监控 Argon 的 Chain-of-Thought 和行为，越界时中止执行。这套系统同样用于监控训练过程并向专门的事件响应团队报警。有个细节很有意思：Google 特意 **不把监控发现回灌进训练**，以免把模型的推理"塑造"成会规避监控的样子——并公开呼吁行业在这个能力跃升期保留推理透明度。
+- **加固系统环境**：按照其 Agent 控制路线图，在高风险训练或评估开始前，对沙箱环境进行隔离和密封，并承诺与合作伙伴分享 Agent 安全最佳实践。
 
-能力越强，释放越要谨慎。在广泛开放之前，谷歌正在为 Argon 强化四个方面的前沿安全措施。
+## 总结与展望
 
-### 抵御滥用
+最后回顾一下这篇文章的要点：
 
-为防止恶意行为者将 Argon 用于网络攻击或 CBRN（化学、生物、放射性与核武器）攻击，模型被设计为拒绝有害请求，同时依据谷歌的前沿安全框架（Frontier Safety Framework）保留合法的、双重用途的科学研究。本次发布还加强了护栏的鲁棒性，包括改进监控模型 **内部激活** 以发现滥用行为的技术。这些护栏经过了内部与外部红队结合手工和自动化攻击方法的鲁棒性测试。
+- Gemini 4 Argon 是 Google 新一代前沿模型，主打 **长程复杂工作流** 上的持续深度推理。
+- 输出 Token 上限从 64K 暴涨至 **100 万**，是这一代最核心的规格升级。
+- 实战成绩：DeepSWE v1.1 **77.9%** SOTA、CWE-bench v1 **68%** 并列第一、AutomationBench **51.3%** 第一、LVBench **91.7%** SOTA。
+- 已在 Google 内部创造真实价值：量子算法优化提速 40%、释放 300+ TiB 内存、80 万行内核级 C/C++ 到 Rust 迁移。
+- 网络安全防御是主攻方向：不带护栏版本面向可信防御者开放，已挖出全球性医疗软件严重漏洞。
+- 定价：输入 $2 / 输出 $10 每百万 Token，缓存输入 95% 折扣；发布走分阶段路线，先 Fairwind 可信测试者，再推向开发者、企业（付费 API 客户和 Google AI Ultra 订阅者优先）与消费者。
 
-### 抵御提示注入攻击
-
-Argon 是谷歌迄今对 **间接提示注入**（Indirect Prompt Injection，指把恶意指令藏进模型会读到的内容里、劫持模型行为的攻击方式）最具韧性的模型。这类攻击复杂且需要多层防御，通过自动化红队测试与对抗训练，Argon 在 Gray Swan 的间接提示注入（IPI）基准上处于领先地位。
-
-![Gray Swan IPI 评测结果](https://raw.githubusercontent.com/kebijuelun/research-blog-repo/main/html/Gemini-4-Argon-our-next-era-of-frontier-intelligence/images/gemini_4_cyber_evals_gray_swan_i.width-1200.format-webp.webp)
-
-> 图解：Gray Swan 间接提示注入（IPI）基准对比，衡量模型抵御"藏在上下文中的恶意指令"的能力，Argon 在参评模型中领先。
-
-### 监控错位行为
-
-为防止 Argon 以超出用户意图的方式"越界"完成任务，谷歌部署了 **错位缓解措施**（misalignment mitigations）：监控 Argon 的思维链（chain-of-thought）与行为，必要时停止执行。
-
-这里有一个细节值得展开：谷歌用类似的系统监控训练过程并向专门的事件响应团队发送告警，同时 **刻意不把监控发现回灌到训练中**——因为那样做可能反而"教会"模型绕开监控。谷歌还呼吁业界在能力激增的关键时刻保留推理透明性，让模型的"想法"继续可用于识别和诊断错位行为。
-
-### 加固系统环境
-
-随着前沿模型能力增强，安全测试本身也需要能"hold 住"被测系统的环境。按照谷歌的 Agent 控制路线图，他们正在加固沙箱环境，在高风险训练或评估开始前进行隔离与密封，并承诺与合作伙伴共享这些 Agent 安全最佳实践。
-
-## 发布节奏与定价
-
-Argon 采取分阶段发布策略：当前通过 Fairwind Program 向受信任的网络防御者开放，谷歌同时参与了美国政府自愿性的模型发布前访问流程，在收集早期测试者反馈、迭代护栏后，将尽快向开发者、企业和消费者开放——首批是付费 API 客户和 Google AI Ultra 订阅用户。
-
-定价方面，Argon 以 **每百万输入 Token 2 美元、每百万输出 Token 10 美元** 的首发价（introductory price）推出，缓存输入 Token 享受输入价 **95% off**（即 0.1 美元/百万）。考虑到 1M 输出 Token 的定位，缓存折扣显然是鼓励长上下文场景反复利用的关键设计。
-
-## 总结
-
-回顾全文，Gemini 4 Argon 的核心信息可以浓缩为五条：
-
-- **定位**：为复杂长程任务而生的前沿模型，主攻软件工程、企业知识工作与网络防御；
-- **核心升级**：输出 Token 上限从 64K 扩至 1M，单次轨迹可持续生成数十万 Token 的深度推理；
-- **内部实战**：量子算法优化击败基线 40%、数据中心释放 300+ TiB 内存、libgav1 安全 Rust 重写提速 2.7 倍；
-- **榜单成绩**：DeepSWE v1.1 77.9% 新 SOTA、Vals Index 第一、AutomationBench 51.3% 第一、LVBench 91.7% SOTA、CWE-bench v1 68% 并列第一；
-- **安全策略**：滥用防护、提示注入防御、错位监控、沙箱加固四道防线，先定向开放给受信任防御者再逐步扩大。
-
-展望来看，Argon 真正的看点不在于某个单点分数，而在于它把"模型能力竞赛"正式拉进了"Agent 完成真实工作"的赛道；当 1M 输出 Token 成为标配，瓶颈将转向如何监督、审计和对齐这些长时间自主运行的 Agent——这也是谷歌在安全章节花了大量篇幅的原因。
+展望来看，Argon 最大的启示在于：前沿模型的竞争焦点正从"单次回答质量"转向"长时自主工作能力"，而 1M 输出 Token 加无护栏防御版本这两个动作，分别给 Agent 能力和攻防不对称格局开了新口子——接下来值得观察的是，Google 这套"分阶段发布 + 推理透明监控"的安全范式，能否成为行业级 frontier 模型发布的标准模板。
 
 > 本文参考自 [Gemini 4 Argon: our next era of frontier intelligence](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/)
