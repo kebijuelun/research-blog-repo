@@ -1,0 +1,225 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="diagram-title diagram-desc">
+  <title id="diagram-title">Psi-R2.5: hierarchical planning and closed-loop control</title>
+  <desc id="diagram-desc">Image, State, and Text feed the High-Level Planner, a Vision Language Model, and the Low-Level Controller, a World Action Model. The planner sends Subtext and Value down to the controller. The controller sends Action up to the Environment, which returns Feedback for policy improvement.</desc>
+
+  <!-- Layout: whiteboard_exported_image (1).png.
+       Visual parameters: website/diagram-studio/src/diagramSpec.ts and
+       scenes/psiFlywheel.tsx, the source of the previous blog's animation.
+       Every moving dot references the same path as its visible connector. -->
+  <style>
+    text { font-family: "Times New Roman", Georgia, serif; fill: #eef5ff; }
+    .title { font-size: 56px; font-weight: 700; }
+    .subtitle { font-size: 24px; font-weight: 500; fill-opacity: .66; }
+    .legend-title { font-size: 18px; font-weight: 700; letter-spacing: 2.8px; fill-opacity: .66; }
+    .legend-label { font-size: 17px; font-weight: 500; }
+    .block-title { font-size: 40px; font-weight: 700; }
+    .block-subtitle { font-size: 25px; font-weight: 700; }
+    .block-note { font-size: 19px; font-weight: 500; fill-opacity: .66; }
+    .badge { font-size: 13px; font-weight: 700; letter-spacing: 2px; }
+    .chip-label { font-size: 21px; font-weight: 600; text-anchor: middle; dominant-baseline: central; }
+    .route { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .route-base { stroke-width: 4.2; stroke-opacity: .34; }
+    .route-active { stroke-width: 7.2; opacity: 0; }
+    .input-route { stroke-width: 2.2; stroke-opacity: .86; }
+    .node { fill: #eef5ff; fill-opacity: .18; stroke: #eef5ff; stroke-opacity: .48; stroke-width: 1.4; }
+    .block { transform-box: fill-box; transform-origin: center; animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+    .planner { animation: planner-pulse 9s cubic-bezier(.65, 0, .35, 1) infinite; }
+    .controller { animation: controller-pulse 9s cubic-bezier(.65, 0, .35, 1) infinite; }
+    .environment { animation: environment-pulse 9s cubic-bezier(.65, 0, .35, 1) infinite; }
+    @keyframes planner-pulse {
+      0%, 15.556%, 24.667%, 100% { transform: scale(1); }
+      18.222%, 20.889% { transform: scale(1.024); }
+    }
+    @keyframes controller-pulse {
+      0%, 15.556%, 24.667%, 35%, 44.111%, 82.778%, 91.889%, 100% { transform: scale(1); }
+      18.222%, 20.889%, 37.667%, 40.333%, 85.444%, 88.111% { transform: scale(1.024); }
+    }
+    @keyframes environment-pulse {
+      0%, 57.778%, 66.889%, 100% { transform: scale(1); }
+      60.444%, 63.111% { transform: scale(1.024); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .block { animation: none; }
+      .particle, .route-active { display: none; }
+    }
+  </style>
+
+  <defs>
+    <clipPath id="frame-clip"><rect x="20" y="20" width="1880" height="1040" rx="34"/></clipPath>
+    <filter id="panel-shadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="0" stdDeviation="14" flood-color="#000" flood-opacity=".38"/>
+    </filter>
+    <filter id="block-shadow" x="-10%" y="-20%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#000" flood-opacity=".38"/>
+    </filter>
+    <filter id="chip-shadow" x="-20%" y="-30%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="4.5" flood-color="#000" flood-opacity=".38"/>
+    </filter>
+    <filter id="particle-glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#6eb6ff" flood-opacity=".38"/>
+    </filter>
+    <marker id="arrow-blue" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto"><path d="M 0 0 L 11 5.5 L 0 11 Z" fill="#6eb6ff"/></marker>
+    <marker id="arrow-cyan" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto"><path d="M 0 0 L 11 5.5 L 0 11 Z" fill="#81deff"/></marker>
+    <marker id="arrow-violet" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto"><path d="M 0 0 L 11 5.5 L 0 11 Z" fill="#b59dff"/></marker>
+    <marker id="arrow-green" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto"><path d="M 0 0 L 11 5.5 L 0 11 Z" fill="#99da9e"/></marker>
+    <marker id="arrow-orange" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto"><path d="M 0 0 L 11 5.5 L 0 11 Z" fill="#ffbe73"/></marker>
+    <marker id="arrow-teal" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto"><path d="M 0 0 L 11 5.5 L 0 11 Z" fill="#77e8d4"/></marker>
+    <path id="subtext-route" d="M 576 546 V 758"/>
+    <path id="value-route" d="M 806 546 V 758"/>
+    <path id="action-route" d="M 1388 766 V 554"/>
+    <path id="feedback-route" d="M 1624 546 V 758"/>
+    <path id="planner-image-route" d="M 216 342 H 342"/>
+    <path id="planner-state-route" d="M 216 422 H 342"/>
+    <path id="planner-text-route" d="M 216 502 H 342"/>
+    <path id="controller-image-route" d="M 216 802 H 342"/>
+    <path id="controller-state-route" d="M 216 882 H 342"/>
+    <path id="controller-text-route" d="M 216 962 H 342"/>
+    <g id="flow-dot">
+      <circle r="17" fill="#6eb6ff" fill-opacity=".18" filter="url(#particle-glow)"/>
+      <circle r="8" fill="#dbeeff" stroke="#14314c" stroke-width="3"/>
+    </g>
+    <g id="input-stack">
+      <g filter="url(#chip-shadow)">
+        <rect x="80" y="314" width="136" height="56" rx="10" fill="#17324a" stroke="#6eb6ff" stroke-width="1.3"/>
+        <text x="148" y="342" class="chip-label">Image</text>
+        <rect x="80" y="394" width="136" height="56" rx="10" fill="#15353a" stroke="#81deff" stroke-width="1.3"/>
+        <text x="148" y="422" class="chip-label">State</text>
+        <rect x="80" y="474" width="136" height="56" rx="10" fill="#221c36" stroke="#b59dff" stroke-width="1.3"/>
+        <text x="148" y="502" class="chip-label">Text</text>
+      </g>
+    </g>
+  </defs>
+
+  <rect width="1920" height="1080" fill="#071019"/>
+  <rect x="20" y="20" width="1880" height="1040" rx="34" fill="#0b1521" stroke="#eef5ff" stroke-opacity=".1" stroke-width="1.2" filter="url(#panel-shadow)"/>
+  <g clip-path="url(#frame-clip)">
+    <circle cx="190" cy="115" r="145" fill="#6eb6ff" opacity=".05"/>
+    <circle cx="1685" cy="120" r="125" fill="#77e8d4" opacity=".045"/>
+    <circle cx="1720" cy="870" r="165" fill="#99da9e" opacity=".03"/>
+    <path d="M 340 41 V 1039 M 700 41 V 1039 M 1060 41 V 1039 M 1420 41 V 1039 M 1780 41 V 1039 M 41 290 H 1879 M 41 560 H 1879 M 41 830 H 1879" fill="none" stroke="#7ab5ff" stroke-opacity=".04"/>
+  </g>
+  <rect x="41" y="41" width="1838" height="998" rx="28" fill="none" stroke="#eef5ff" stroke-opacity=".04"/>
+
+  <text x="120" y="152" class="title">Psi-R2.5</text>
+  <text x="120" y="190" class="subtitle">Hierarchical planning, action generation, and closed-loop improvement</text>
+  <g>
+    <rect x="1232" y="80" width="640" height="108" rx="18" fill="#0d1825" fill-opacity=".72" stroke="#eef5ff" stroke-opacity=".1"/>
+    <text x="1268" y="115" class="legend-title">LOOP LEGEND</text>
+    <circle cx="1284" cy="154" r="5.5" fill="#6eb6ff"/>
+    <text x="1304" y="159" class="legend-label">Observed Context</text>
+    <circle cx="1480" cy="154" r="5.5" fill="#ffbe73"/>
+    <text x="1500" y="159" class="legend-label">Robot Action</text>
+    <circle cx="1686" cy="154" r="5.5" fill="#77e8d4"/>
+    <text x="1706" y="159" class="legend-label">Feedback</text>
+  </g>
+
+  <!-- Three blocks follow the whiteboard: planner and environment above one controller. -->
+  <use href="#input-stack"/>
+  <use href="#input-stack" transform="translate(0 460)"/>
+  <g class="route input-route">
+    <use href="#planner-image-route" stroke="#6eb6ff" marker-end="url(#arrow-blue)"/>
+    <use href="#planner-state-route" stroke="#81deff" marker-end="url(#arrow-cyan)"/>
+    <use href="#planner-text-route" stroke="#b59dff" marker-end="url(#arrow-violet)"/>
+    <use href="#controller-image-route" stroke="#6eb6ff" marker-end="url(#arrow-blue)"/>
+    <use href="#controller-state-route" stroke="#81deff" marker-end="url(#arrow-cyan)"/>
+    <use href="#controller-text-route" stroke="#b59dff" marker-end="url(#arrow-violet)"/>
+  </g>
+  <g class="route route-base">
+    <use href="#subtext-route" stroke="#b59dff" marker-end="url(#arrow-violet)"/>
+    <use href="#value-route" stroke="#99da9e" marker-end="url(#arrow-green)"/>
+    <use href="#action-route" stroke="#ffbe73" marker-end="url(#arrow-orange)"/>
+    <use href="#feedback-route" stroke="#77e8d4" marker-end="url(#arrow-teal)"/>
+  </g>
+  <!-- A 9 s cycle starts at the six input chips. Travel intervals:
+       inputs .28–1.40 s; planning 1.60–3.15 s; action 3.45–5.20 s;
+       feedback 5.50–7.45 s. Keep the reference scene's travel and fade durations. -->
+  <g class="route">
+    <g class="route-active">
+      <animate attributeName="opacity" values="0;0;.96;.96;0;0" keyTimes="0;.013333;.031111;.155556;.177778;1" dur="9s" repeatCount="indefinite"/>
+      <use href="#planner-image-route" stroke="#6eb6ff" marker-end="url(#arrow-blue)"/>
+      <use href="#planner-state-route" stroke="#81deff" marker-end="url(#arrow-cyan)"/>
+      <use href="#planner-text-route" stroke="#b59dff" marker-end="url(#arrow-violet)"/>
+      <use href="#controller-image-route" stroke="#6eb6ff" marker-end="url(#arrow-blue)"/>
+      <use href="#controller-state-route" stroke="#81deff" marker-end="url(#arrow-cyan)"/>
+      <use href="#controller-text-route" stroke="#b59dff" marker-end="url(#arrow-violet)"/>
+    </g>
+    <use href="#subtext-route" class="route-active" stroke="#b59dff"><animate attributeName="opacity" values="0;0;.96;.96;0;0" keyTimes="0;.16;.177778;.35;.372222;1" dur="9s" repeatCount="indefinite"/></use>
+    <use href="#value-route" class="route-active" stroke="#99da9e"><animate attributeName="opacity" values="0;0;.96;.96;0;0" keyTimes="0;.16;.177778;.35;.372222;1" dur="9s" repeatCount="indefinite"/></use>
+    <use href="#action-route" class="route-active" stroke="#ffbe73"><animate attributeName="opacity" values="0;0;.96;.96;0;0" keyTimes="0;.365556;.383333;.577778;.6;1" dur="9s" repeatCount="indefinite"/></use>
+    <use href="#feedback-route" class="route-active" stroke="#77e8d4"><animate attributeName="opacity" values="0;0;.96;.96;0;0" keyTimes="0;.593333;.611111;.827778;.85;1" dur="9s" repeatCount="indefinite"/></use>
+  </g>
+
+  <g class="block planner" filter="url(#block-shadow)">
+    <rect x="350" y="304" width="640" height="242" rx="22" fill="#14314c" stroke="#6eb6ff" stroke-width="1.2"/>
+    <rect x="362" y="318" width="8" height="214" rx="5" fill="#6eb6ff" opacity=".95"/>
+    <rect x="386" y="319" width="192" height="26" rx="8" fill="#6eb6ff" fill-opacity=".12"/>
+    <text x="388" y="337" class="badge" style="fill:#6eb6ff">HIGH-LEVEL POLICY</text>
+    <text x="386" y="397" class="block-title">High-Level Planner</text>
+    <text x="386" y="441" class="block-subtitle" style="fill:#6eb6ff">Vision Language Model</text>
+    <text x="386" y="482" class="block-note">Decompose the goal and guide each subtask</text>
+  </g>
+  <g class="block environment" filter="url(#block-shadow)">
+    <rect x="1170" y="304" width="640" height="242" rx="22" fill="#123834" stroke="#77e8d4" stroke-width="1.2"/>
+    <rect x="1182" y="318" width="8" height="214" rx="5" fill="#77e8d4" opacity=".95"/>
+    <rect x="1206" y="319" width="192" height="26" rx="8" fill="#77e8d4" fill-opacity=".12"/>
+    <text x="1208" y="337" class="badge" style="fill:#77e8d4">INTERACTION LOOP</text>
+    <text x="1206" y="397" class="block-title">Environment</text>
+    <text x="1206" y="441" class="block-subtitle" style="fill:#77e8d4">Real-World Interaction</text>
+    <text x="1206" y="482" class="block-note">Robot rollouts · HIL correction · RL refinement</text>
+  </g>
+  <g class="block controller" filter="url(#block-shadow)">
+    <rect x="350" y="766" width="1460" height="236" rx="22" fill="#101925" stroke="#6eb6ff" stroke-width="1.2"/>
+    <rect x="362" y="780" width="8" height="208" rx="5" fill="#6eb6ff" opacity=".95"/>
+    <rect x="386" y="781" width="192" height="26" rx="8" fill="#6eb6ff" fill-opacity=".12"/>
+    <text x="388" y="799" class="badge" style="fill:#6eb6ff">LOW-LEVEL POLICY</text>
+    <text x="1080" y="859" class="block-title" text-anchor="middle">Low-Level Controller</text>
+    <text x="1080" y="903" class="block-subtitle" text-anchor="middle" style="fill:#6eb6ff">World Action Model</text>
+    <text x="1080" y="944" class="block-note" text-anchor="middle">Ground each subtask in observations and improve through feedback</text>
+  </g>
+
+  <g class="node">
+    <circle cx="350" cy="342" r="5"/><circle cx="350" cy="422" r="5"/><circle cx="350" cy="502" r="5"/>
+    <circle cx="350" cy="802" r="5"/><circle cx="350" cy="882" r="5"/><circle cx="350" cy="962" r="5"/>
+    <circle cx="576" cy="546" r="5"/><circle cx="806" cy="546" r="5"/>
+    <circle cx="1388" cy="766" r="5"/><circle cx="1624" cy="546" r="5"/>
+  </g>
+
+  <!-- mpath reuses the visible path; dots move on the arrows, with no orbit. -->
+  <g class="particle" opacity="0">
+    <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;.013333;.031111;.155556;.177778;1" dur="9s" repeatCount="indefinite"/>
+    <g><animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.031111;.155556;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#planner-image-route"/></animateMotion><use href="#flow-dot"/></g>
+    <g><animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.031111;.155556;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#planner-state-route"/></animateMotion><use href="#flow-dot"/></g>
+    <g><animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.031111;.155556;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#planner-text-route"/></animateMotion><use href="#flow-dot"/></g>
+    <g><animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.031111;.155556;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#controller-image-route"/></animateMotion><use href="#flow-dot"/></g>
+    <g><animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.031111;.155556;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#controller-state-route"/></animateMotion><use href="#flow-dot"/></g>
+    <g><animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.031111;.155556;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#controller-text-route"/></animateMotion><use href="#flow-dot"/></g>
+  </g>
+  <g class="particle" opacity="0">
+    <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;.16;.177778;.35;.372222;1" dur="9s" repeatCount="indefinite"/>
+    <g><animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.177778;.35;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#subtext-route"/></animateMotion><use href="#flow-dot"/></g>
+  </g>
+  <g class="particle" opacity="0">
+    <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;.16;.177778;.35;.372222;1" dur="9s" repeatCount="indefinite"/>
+    <g><animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.177778;.35;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#value-route"/></animateMotion><use href="#flow-dot"/></g>
+  </g>
+  <g class="particle" opacity="0">
+    <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;.365556;.383333;.577778;.6;1" dur="9s" repeatCount="indefinite"/>
+    <g><animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.383333;.577778;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#action-route"/></animateMotion><use href="#flow-dot"/></g>
+  </g>
+  <g class="particle" opacity="0">
+    <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;.593333;.611111;.827778;.85;1" dur="9s" repeatCount="indefinite"/>
+    <g><animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.611111;.827778;1" calcMode="spline" keySplines="0 0 1 1;.65 0 .35 1;0 0 1 1"><mpath href="#feedback-route"/></animateMotion><use href="#flow-dot"/></g>
+  </g>
+
+  <!-- Chips sit over the routes, as in the reference animation. -->
+  <g filter="url(#chip-shadow)">
+    <rect x="508" y="628" width="136" height="56" rx="10" fill="#221c36" stroke="#b59dff" stroke-width="1.3"/>
+    <text x="576" y="656" class="chip-label">Subtext</text>
+    <rect x="738" y="628" width="136" height="56" rx="10" fill="#173533" stroke="#99da9e" stroke-width="1.3"/>
+    <text x="806" y="656" class="chip-label">Value</text>
+    <rect x="1320" y="628" width="136" height="56" rx="10" fill="#352817" stroke="#ffbe73" stroke-width="1.3"/>
+    <text x="1388" y="656" class="chip-label">Action</text>
+    <rect x="1556" y="628" width="136" height="56" rx="10" fill="#173533" stroke="#77e8d4" stroke-width="1.3"/>
+    <text x="1624" y="656" class="chip-label">Feedback</text>
+  </g>
+</svg>
