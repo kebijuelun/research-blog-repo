@@ -1,0 +1,251 @@
+\begin{figure}[t]
+\centering
+% \resizebox{\textwidth}{!}{
+%   \input{figures/stochastic_coverage_plot}
+% }
+\begingroup
+
+\definecolor{specorange}{HTML}{FE8010}
+\definecolor{taublue}{HTML}{468FD8}
+\definecolor{trapgreen}{HTML}{70AD47}
+\definecolor{directgray}{HTML}{404040}
+
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={
+    group size=1 by 2,
+    vertical sep=58pt
+  },
+  scale only axis,
+  width=0.82\columnwidth,
+  height=0.40\columnwidth,
+  xmode=log,
+  log basis x=2,
+  ymin=28,
+  ymax=100,
+  ytick={30,40,50,60,70,80,90,100},
+  axis line style={black},
+  tick style={black},
+  tick align=inside,
+  major tick length=3pt,
+  tick label style={font=\scriptsize},
+  label style={font=\footnotesize},
+  xlabel style={align=center},
+  xmajorgrids=true,
+  ymajorgrids=true,
+  grid style={densely dashed,black!18},
+  minor x tick num=0,
+  clip=false,
+  legend cell align=left,
+  legend style={
+    draw=none,
+    fill=white,
+    fill opacity=0.85,
+    text opacity=1,
+    font=\scriptsize,
+    inner sep=0pt,
+    column sep=3pt
+  },
+]
+
+% Panel (a): coverage versus answer count.
+\nextgroupplot[
+  xlabel={Independent answers per question, \(K\)\\[5pt]
+    {\small\bfseries (a) Stochastic sampling expands coverage}},
+  ylabel={Pass@\(K\) (\%)},
+  xmin=0.9,
+  xmax=128,
+  xtick={1,2,4,8,16,32,64},
+  xticklabels={1,2,4,8,16,32,64},
+  legend columns=2,
+  legend style={at={(0.98,0.03)},anchor=south east},
+]
+
+\addplot[
+  black!75,
+  dashed,
+  line width=0.8pt,
+  forget plot
+] coordinates {
+  (0.9,81.25)
+  (128,81.25)
+};
+
+\node[
+  anchor=south west,
+  font=\scriptsize,
+  fill=white,
+  inner sep=1pt,
+  text=black!75
+] at (axis cs:1.02,83.0) {
+  \shortstack[l]{Best matched deterministic\\81.25\%}
+};
+
+\addplot[
+  color=taublue!30!white,
+  line width=0.8pt,
+  mark=*,
+  mark size=1.5pt
+] coordinates {
+  (1,48.44)
+  (2,57.81)
+  (4,75.00)
+  (8,82.81)
+  (16,85.94)
+  (32,93.75)
+  (64,96.88)
+};
+\addlegendentry{\(T=0.1\)}
+
+\addplot[
+  color=taublue!55!white,
+  line width=0.8pt,
+  mark=*,
+  mark size=1.5pt
+] coordinates {
+  (1,46.88)
+  (2,56.25)
+  (4,65.63)
+  (8,79.69)
+  (16,85.94)
+  (32,95.31)
+  (64,96.88)
+};
+\addlegendentry{\(T=0.3\)}
+
+\addplot[
+  color=taublue!78!white,
+  line width=1.5pt,
+  mark=*,
+  mark size=2.1pt
+] coordinates {
+  (1,45.31)
+  (2,54.69)
+  (4,73.44)
+  (8,79.69)
+  (16,89.06)
+  (32,93.75)
+  (64,96.88)
+};
+\addlegendentry{\(T=0.5\)}
+
+\addplot[
+  color=taublue!100!white,
+  line width=0.8pt,
+  mark=*,
+  mark size=1.5pt
+] coordinates {
+  (1,31.25)
+  (2,43.75)
+  (4,57.81)
+  (8,71.88)
+  (16,81.25)
+  (32,85.94)
+  (64,95.31)
+};
+\addlegendentry{\(T=1.0\)}
+
+\draw[
+  Latex-Latex,
+  color=taublue,
+  line width=0.8pt
+]
+  (axis cs:96,81.25) --
+  (axis cs:96,96.88);
+
+\node[
+  anchor=north east,
+  font=\scriptsize\bfseries,
+  text=taublue,
+  fill=white,
+  inner sep=1pt
+] at (axis cs:104,80.5) {\(+15.63\) pp};
+
+% Panel (b): coverage versus cumulative sequential evaluations.
+\nextgroupplot[
+  xlabel={Cumulative sequential target-model evaluations\\[5pt]
+    {\small\bfseries (b) Exact speculation reduces sampling cost}},
+  xmin=64,
+  xmax=21000,
+  xtick={128,512,2048,8192},
+  xticklabels={128,512,{2,048},{8,192}},
+  ylabel={Pass@\(K\) (\%)},
+  legend columns=1,
+  legend style={at={(0.02,0.97)},anchor=north west},
+]
+
+\addplot[
+  black!75,
+  dashed,
+  line width=0.8pt,
+  forget plot
+] coordinates {
+  (64,81.25)
+  (21000,81.25)
+};
+
+\addplot[
+  color=directgray,
+  line width=1pt,
+  mark=square*,
+  mark size=2pt
+] coordinates {
+  (255,28.12)
+  (508,40.63)
+  (1017,64.06)
+  (2035,76.56)
+  (4071,79.69)
+  (8140,85.94)
+  (16281.5,93.75)
+};
+\addlegendentry{DirectCTMC}
+
+\addplot[
+  color=specorange,
+  line width=1.35pt,
+  mark=star,
+  mark size=3.7pt,
+  mark options={solid,line width=0.8pt}
+] coordinates {
+  (91,31.25)
+  (182,43.75)
+  (362.5,57.81)
+  (724,71.88)
+  (1450,81.25)
+  (2901,85.94)
+  (5800,95.31)
+};
+\addlegendentry{SpecCTMC}
+
+\draw[
+  Latex-Latex,
+  color=specorange,
+  line width=0.8pt,
+  shorten <=4pt,
+  shorten >=4pt
+]
+  (axis cs:2901,85.94) --
+  (axis cs:8140,85.94);
+
+\node[
+  anchor=south east,
+  align=center,
+  font=\scriptsize,
+  text=specorange,
+  fill=white,
+  inner sep=1pt
+] at (rel axis cs:0.98,0.5) {
+  \textbf{\(2.81\times\) fewer eval}\\
+  at \(K=32\)
+};
+
+\end{groupplot}
+\end{tikzpicture}
+\endgroup
+
+\caption{
+{\bf Stochastic sampling expands solution coverage, and exact speculation reduces its sequential cost.}
+All results use LLaDA-8B-Instruct on five-shot GSM8K with 256 generated tokens. The dashed line is the strongest matched deterministic configuration, Fast-dLLM factor \(f=1.0\) (81.25\%; \cref{tab:deterministic-matched}). (a): empirical Pass@\(K\) for four selected fixed token temperatures; \(T=0.5\) is highlighted. (b): measured DirectCTMC and SpecCTMC results at \(T=1.0\), with points corresponding to \(K\in\{1,2,4,8,16,32,64\}\). At \(K=32\), both attain 85.94\% observed coverage, while median cumulative sequential evaluations decrease from 8,140 to 2,901 (\(2.81\times\)).
+}
+\label{fig:stochastic-coverage}
+\end{figure}

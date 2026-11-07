@@ -1,0 +1,118 @@
+% \usepgfplotslibrary{groupplots} 
+% Plot coordinates are derived from figures/solver_retention_data.csv.
+\definecolor{specorange}{HTML}{FE8010}
+\definecolor{taublue}{HTML}{468FD8}
+\definecolor{trapgreen}{HTML}{70AD47}
+\definecolor{directgray}{HTML}{404040}
+
+\begin{figure}[t]
+\centering
+\begingroup
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=4 by 2,
+    horizontal sep=5pt,
+    vertical sep=6pt,
+    xticklabels at=edge bottom,
+    yticklabels at=edge left},
+  scale only axis,
+  width=0.205\columnwidth,
+  height=0.20\columnwidth,
+  xmode=log,log basis x=2,
+  xmin=0.75,xmax=22,
+  xtick={1,4,16},xticklabels={1,4,16},
+  ymin=30,ymax=128,
+  ytick={50,75,100,125},
+  axis line style={black!45},
+  tick style={black!45},tick align=inside,
+  major tick length=2pt,
+  tick label style={font=\fontsize{6}{7}\selectfont},
+  every axis x label/.style={at={(0.5,-0.04)},anchor=north},
+  label style={font=\scriptsize},
+  title style={font=\scriptsize,yshift=-4pt},
+  ymajorgrids=true,grid style={black!8},
+  clip=false,
+  legend columns=4,
+  legend style={draw=none,fill=none,font=\fontsize{6}{7}\selectfont,
+    /tikz/every even column/.append style={column sep=2pt}},
+  legend cell align=left,
+]
+\nextgroupplot[title={\(K=1\)},ylabel={Mean acc.\ (\%)},legend to name=solverretentionlegend]
+\addplot[black!40,densely dotted,forget plot] coordinates {(0.75,100) (22,100)};
+\addplot[only marks,color=directgray,mark=square*,mark size=1.5pt] coordinates {(1,100)};
+\addlegendentry{DirectCTMC}
+\addplot[color=taublue,line width=0.8pt,mark=triangle*,mark size=1.8pt] coordinates {(0.99221790,94.44444444) (1.32124352,61.11111111) (3.92307692,55.55555556) (15.00000000,50.00000000)};
+\addlegendentry{\(\tau\)-leaping}
+\addplot[color=trapgreen,line width=0.8pt,mark=diamond*,mark size=1.8pt] coordinates {(1.97674419,66.66666667) (15.00000000,38.88888889)};
+\addlegendentry{Trapezoidal}
+\addplot[only marks,color=specorange,mark=star,mark size=3pt,mark options={line width=0.9pt}] coordinates {(2.80219780,111.11111111)};
+\addlegendentry{SpecCTMC (ours)}
+\node[anchor=south west,font=\fontsize{5.5}{6}\selectfont,text=black!55,inner sep=1.5pt] at (rel axis cs:0,0) {28.1\%};
+\nextgroupplot[title={\(K=2\)}]
+\addplot[black!40,densely dotted,forget plot] coordinates {(0.75,100) (22,100)};
+\addplot[only marks,color=directgray,mark=square*,mark size=1.5pt] coordinates {(1,100)};
+\addplot[color=taublue,line width=0.8pt,mark=triangle*,mark size=1.8pt] coordinates {(0.98832685,115.62500000) (1.31606218,90.62500000) (3.90769231,78.12500000) (14.94117647,75.00000000)};
+\addplot[color=trapgreen,line width=0.8pt,mark=diamond*,mark size=1.8pt] coordinates {(1.96899225,96.87500000) (14.94117647,62.50000000)};
+\addplot[only marks,color=specorange,mark=star,mark size=3pt,mark options={line width=0.9pt}] coordinates {(2.79120879,109.37500000)};
+\node[anchor=south west,font=\fontsize{5.5}{6}\selectfont,text=black!55,inner sep=1.5pt] at (rel axis cs:0,0) {25.0\%};
+\nextgroupplot[title={\(K=4\)}]
+\addplot[black!40,densely dotted,forget plot] coordinates {(0.75,100) (22,100)};
+\addplot[only marks,color=directgray,mark=square*,mark size=1.5pt] coordinates {(1,100)};
+\addplot[color=taublue,line width=0.8pt,mark=triangle*,mark size=1.8pt] coordinates {(0.98929961,97.14285714) (1.31735751,82.85714286) (3.91153846,75.71428571) (14.95588235,55.71428571)};
+\addplot[color=trapgreen,line width=0.8pt,mark=diamond*,mark size=1.8pt] coordinates {(1.97093023,85.71428571) (14.95588235,54.28571429)};
+\addplot[only marks,color=specorange,mark=star,mark size=3pt,mark options={line width=0.9pt}] coordinates {(2.80551724,100.00000000)};
+\node[anchor=south west,font=\fontsize{5.5}{6}\selectfont,text=black!55,inner sep=1.5pt] at (rel axis cs:0,0) {27.3\%};
+\nextgroupplot[title={\(K=8\)}]
+\addplot[black!40,densely dotted,forget plot] coordinates {(0.75,100) (22,100)};
+\addplot[only marks,color=directgray,mark=square*,mark size=1.5pt] coordinates {(1,100)};
+\addplot[color=taublue,line width=0.8pt,mark=triangle*,mark size=1.8pt] coordinates {(0.98978599,91.78082192) (1.31800518,76.71232877) (3.91346154,76.02739726) (14.96323529,46.57534247)};
+\addplot[color=trapgreen,line width=0.8pt,mark=diamond*,mark size=1.8pt] coordinates {(1.97189922,83.56164384) (14.96323529,49.31506849)};
+\addplot[only marks,color=specorange,mark=star,mark size=3pt,mark options={line width=0.9pt}] coordinates {(2.81077348,95.89041096)};
+\node[anchor=south west,font=\fontsize{5.5}{6}\selectfont,text=black!55,inner sep=1.5pt] at (rel axis cs:0,0) {28.5\%};
+\nextgroupplot[ylabel={Pass@\(K\) (\%)}]
+\addplot[black!40,densely dotted,forget plot] coordinates {(0.75,100) (22,100)};
+\addplot[only marks,color=directgray,mark=square*,mark size=1.5pt] coordinates {(1,100)};
+\addplot[color=taublue,line width=0.8pt,mark=triangle*,mark size=1.8pt] coordinates {(0.99221790,94.44444444) (1.32124352,61.11111111) (3.92307692,55.55555556) (15.00000000,50.00000000)};
+\addplot[color=trapgreen,line width=0.8pt,mark=diamond*,mark size=1.8pt] coordinates {(1.97674419,66.66666667) (15.00000000,38.88888889)};
+\addplot[only marks,color=specorange,mark=star,mark size=3pt,mark options={line width=0.9pt}] coordinates {(2.80219780,111.11111111)};
+\node[anchor=south west,font=\fontsize{5.5}{6}\selectfont,text=black!55,inner sep=1.5pt] at (rel axis cs:0,0) {28.1\%};
+\nextgroupplot[]
+\addplot[black!40,densely dotted,forget plot] coordinates {(0.75,100) (22,100)};
+\addplot[only marks,color=directgray,mark=square*,mark size=1.5pt] coordinates {(1,100)};
+\addplot[color=taublue,line width=0.8pt,mark=triangle*,mark size=1.8pt] coordinates {(0.98832685,123.07692308) (1.31606218,92.30769231) (3.90769231,76.92307692) (14.94117647,76.92307692)};
+\addplot[color=trapgreen,line width=0.8pt,mark=diamond*,mark size=1.8pt] coordinates {(1.96899225,92.30769231) (14.94117647,65.38461538)};
+\addplot[only marks,color=specorange,mark=star,mark size=3pt,mark options={line width=0.9pt}] coordinates {(2.79120879,107.69230769)};
+\node[anchor=south west,font=\fontsize{5.5}{6}\selectfont,text=black!55,inner sep=1.5pt] at (rel axis cs:0,0) {40.6\%};
+\nextgroupplot[]
+\addplot[black!40,densely dotted,forget plot] coordinates {(0.75,100) (22,100)};
+\addplot[only marks,color=directgray,mark=square*,mark size=1.5pt] coordinates {(1,100)};
+\addplot[color=taublue,line width=0.8pt,mark=triangle*,mark size=1.8pt] coordinates {(0.98929961,92.68292683) (1.31735751,75.60975610) (3.91153846,78.04878049) (14.95588235,63.41463415)};
+\addplot[color=trapgreen,line width=0.8pt,mark=diamond*,mark size=1.8pt] coordinates {(1.97093023,75.60975610) (14.95588235,56.09756098)};
+\addplot[only marks,color=specorange,mark=star,mark size=3pt,mark options={line width=0.9pt}] coordinates {(2.80551724,90.24390244)};
+\node[anchor=south west,font=\fontsize{5.5}{6}\selectfont,text=black!55,inner sep=1.5pt] at (rel axis cs:0,0) {64.1\%};
+\nextgroupplot[]
+\addplot[black!40,densely dotted,forget plot] coordinates {(0.75,100) (22,100)};
+\addplot[only marks,color=directgray,mark=square*,mark size=1.5pt] coordinates {(1,100)};
+\addplot[color=taublue,line width=0.8pt,mark=triangle*,mark size=1.8pt] coordinates {(0.98978599,93.87755102) (1.31800518,79.59183673) (3.91346154,89.79591837) (14.96323529,71.42857143)};
+\addplot[color=trapgreen,line width=0.8pt,mark=diamond*,mark size=1.8pt] coordinates {(1.97189922,75.51020408) (14.96323529,73.46938776)};
+\addplot[only marks,color=specorange,mark=star,mark size=3pt,mark options={line width=0.9pt}] coordinates {(2.81077348,93.87755102)};
+\node[anchor=south west,font=\fontsize{5.5}{6}\selectfont,text=black!55,inner sep=1.5pt] at (rel axis cs:0,0) {76.6\%};
+\end{groupplot}
+\node[anchor=south,yshift=2pt] at ($(group c1r1.north west)!0.5!(group c4r1.north east)+(0,8pt)$)
+  {\pgfplotslegendfromname{solverretentionlegend}};
+\node[anchor=north,font=\scriptsize,yshift=-9pt] at ($(group c1r2.south west)!0.5!(group c4r2.south east)$)
+  {Sequential evaluation reduction vs.\ DirectCTMC (\(\times\))};
+\end{tikzpicture}
+\endgroup
+\caption{\textbf{Output quality versus sequential evaluation reduction.}
+LLaDA-8B-Instruct, GSM8K, 256 tokens, \(T=1.0\).
+Columns: \(K\) answers per question. Rows: mean accuracy and Pass@\(K\),
+normalized to DirectCTMC at the same \(K\) (absolute DirectCTMC score in the lower-left corner).
+The horizontal axis is the ratio of median cumulative sequential target-model
+evaluations (DirectCTMC / method).
+From left to right, \(\tau\)-leaping uses 256, 192, 64 and 16 steps and
+trapezoidal uses 64 and 8 steps;
+at \(S+1\) and \(2S+1\) evaluations per answer, 16-step \(\tau\)-leaping and
+8-step trapezoidal are cost matched.}
+\label{fig:solver-retention-by-k}
+\end{figure}
