@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="description" content="Deploy an autonomous AI call center with quick call center setup in 3 minutes. Inbound and outbound AI phone agents, 85 languages, sub-500ms voice latency from $0.05/min.">
+  <meta name="keywords" content="AI call center, Autonomous Call Center, Quick call center setup, call center setup in 3 minutes, Voice AI call center, AI phone agents, conversational AI call center, inbound and outbound AI call center, automated call center platform, AI customer service, voice bot software">
+  <meta name="author" content="NeuraCryption Private Limited">
+  <title>AI Call Center: Autonomous Call Center Setup in 3 Minutes | NeuraCryption</title>
+    <link rel="alternate" hreflang="en" href="https://neuracryption.com/">
+  <link rel="alternate" hreflang="x-default" href="https://neuracryption.com/">
+  <link rel="canonical" href="https://neuracryption.com/">
+  <!-- Favicon and Brand Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#0F172A">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="AI Call Center: Autonomous Call Center Setup in 3 Minutes | NeuraCryption">
+  <meta property="og:description" content="Deploy an autonomous AI call center with quick call center setup in 3 minutes. Inbound and outbound AI phone agents across 85 languages with sub-500ms latency from $0.05/min.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://neuracryption.com/">
+  <meta property="og:image" content="https://neuracryption.com/images/og-image.jpg">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI Call Center: Autonomous Call Center Setup in 3 Minutes | NeuraCryption">
+  <meta name="twitter:description" content="Deploy an autonomous AI call center with quick call center setup in 3 minutes. Inbound and outbound AI phone agents across 85 languages with sub-500ms latency from $0.05/min.">
+  <meta name="twitter:image" content="https://neuracryption.com/images/twitter-image.jpg">
+
+  <!-- JSON-LD Organization & Product Graph -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://neuracryption.com#organization",
+      "name": "NeuraCryption Pvt Ltd",
+      "url": "https://neuracryption.com",
+      "logo": "https://neuracryption.com/assets/neuracryption_app_icon.png",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Pune",
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      },
+      "sameAs": ["https://www.linkedin.com/company/neuracryption.com", "https://www.youtube.com/@neuracryption", "https://github.com/NeuraCryption", "https://huggingface.co/NeuraCryptionIndia", "https://www.zaubacorp.com/company/NEURACRYPTION-PRIVATE-LIMITED/U62099PN2026PTC256069", "https://www.thecompanycheck.com/company/neuracryption-private-limited/U62099PN2026PTC256069", "https://doi.org/10.5281/zenodo.24058202", "https://explore.openaire.eu/search/publication?pid=10.5281%2Fzenodo.24058202"],
+      "legalName": "NeuraCryption Private Limited",
+      "foundingDate": "2026-05-23",
+      "foundingLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Pune",
+          "addressRegion": "Maharashtra",
+          "addressCountry": "IN"
+        }
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "support@neuracryption.com",
+        "availableLanguage": [
+          "English",
+          "Hindi"
+        ]
+      }
+    },
+    {
+      "@type": "Product",
+      "@id": "https://neuracryption.com#product",
+      "name": "NeuraCryption Autonomous AI Call Center",
+      "image": [
+        "https://neuracryption.com/images/og-image.jpg"
+      ],
+      "description": "Setup an autonomous AI call center within just 3 minutes. Cloud telephony and AI combined starting at $0.05/min (Pure AI Compute), 85 languages, sub-500ms latency.",
+      "sku": "NC-AI-CC-001",
+      "mpn": "NC-AI-CC-001",
+      "brand": {
+        "@type": "Brand",
+        "name": "NeuraCryption"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "128",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "author": {
+            "@type": "Organization",
+            "name": "Enterprise AI Review"
+          },
+          "reviewBody": "NeuraCryption provides hyper-realistic voice AI agents that scale instantly across 85 languages at $0.05/min."
+        }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "url": "https://neuracryption.com/pricing",
+        "priceCurrency": "USD",
+        "price": "0.05",
+        "priceValidUntil": "2027-12-31",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "description": "Autonomous AI call center raw compute starting at $0.05 per minute.",
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+        },
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": "0",
+            "currency": "USD"
+          },
+          "shippingDestination": {
+            "@type": "DefinedRegion",
+            "addressCountry": "US"
+          },
+          "deliveryTime": {
+            "@type": "ShippingDeliveryTime",
+            "handlingTime": {
+              "@type": "QuantitativeValue",
+              "minValue": 0,
+              "maxValue": 0,
+              "unitCode": "DAY"
+            },
+            "transitTime": {
+              "@type": "QuantitativeValue",
+              "minValue": 0,
+              "maxValue": 0,
+              "unitCode": "DAY"
+            }
+          }
+        }
+      }
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://neuracryption.com#howto-setup",
+      "name": "How to Setup an Autonomous AI Call Center in 3 Minutes (Quick Call Center Setup)",
+      "description": "Step-by-step guide for quick call center setup in under 3 minutes. Provision US or Canada local and toll-free numbers, configure autonomous AI phone agents in context.md, and launch live inbound or outbound calling.",
+      "totalTime": "PT3M",
+      "video": {
+        "@id": "https://neuracryption.com#video-setup"
+      },
+      "supply": [
+        {
+          "@type": "HowToSupply",
+          "name": "Contact List (CSV with Name and Phone columns for outbound campaigns)"
+        }
+      ],
+      "tool": [
+        {
+          "@type": "HowToTool",
+          "name": "NeuraCryption Dashboard"
+        }
+      ],
+      "step": [
+        {
+          "@type": "HowToStep",
+          "url": "https://neuracryption.com/#how-it-works",
+          "name": "Provision Telephony Number",
+          "itemListElement": [{
+            "@type": "HowToDirection",
+            "text": "Navigate to Call Center in your dashboard, select US or Canada, choose between a Local or Toll-Free (800/888/877) number, and claim it instantly for a flat $2.00 one-time setup fee."
+          }]
+        },
+        {
+          "@type": "HowToStep",
+          "url": "https://neuracryption.com/#how-it-works",
+          "name": "Configure AI Persona in context.md",
+          "itemListElement": [{
+            "@type": "HowToDirection",
+            "text": "Open line configuration to define your AI persona and instructions in context.md or choose a 1-click template for Customer Support, Appointment Booking, or Inbound Sales Qualification."
+          }]
+        },
+        {
+          "@type": "HowToStep",
+          "url": "https://neuracryption.com/#how-it-works",
+          "name": "Go Live and Launch Inbound or Batch Outbound Calling",
+          "itemListElement": [{
+            "@type": "HowToDirection",
+            "text": "Your automated webhook is immediately active. Receive incoming customer inquiries or upload a CSV file to launch batch outbound autodialer campaigns with native calendar and email tools."
+          }]
+        }
+      ]
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://neuracryption.com#video-setup",
+      "name": "How to Setup an Autonomous AI Call Center in 3 Minutes",
+      "description": "Step-by-step walkthrough showing how to setup and launch a full-scale autonomous AI call center in under 3 minutes with NeuraCryption. Provision local or toll-free numbers, configure personas in context.md, and start handling live calls.",
+      "thumbnailUrl": [
+        "https://i.ytimg.com/vi/yIb_ZGTuA28/maxresdefault.jpg",
+        "https://i.ytimg.com/vi/yIb_ZGTuA28/hqdefault.jpg"
+      ],
+      "uploadDate": "2026-10-10T12:20:00+05:30",
+      "duration": "PT3M23S",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/yIb_ZGTuA28",
+      "contentUrl": "https://neuracryption.com/assets/walkthrough.mp4",
+      "publisher": {
+        "@id": "https://neuracryption.com#organization"
+      },
+      "hasPart": [
+        {
+          "@type": "Clip",
+          "name": "Minute 1: Provisioning Phone Numbers",
+          "startOffset": 0,
+          "endOffset": 65,
+          "url": "https://neuracryption.com/#how-it-works"
+        },
+        {
+          "@type": "Clip",
+          "name": "Minute 2: Knowledge Ingestion and 2GB Vector RAG",
+          "startOffset": 65,
+          "endOffset": 130,
+          "url": "https://neuracryption.com/#how-it-works"
+        },
+        {
+          "@type": "Clip",
+          "name": "Minute 3: context.md Persona and Live Calling",
+          "startOffset": 130,
+          "endOffset": 203,
+          "url": "https://neuracryption.com/#how-it-works"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://neuracryption.com#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does quick call center setup in 3 minutes work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Quick call center setup takes under 180 seconds on NeuraCryption with our 3-step dashboard workflow. First, navigate to Call Center in the dashboard and click Provision Call Center Number. Second, select your country (US or Canada), choose a Local Number or Toll-Free Number (800/888/877), and claim an available line for a flat $2.00 one-time fee. Third, configure your AI persona in context.md or pick a 1-click starter template (Customer Support, Appointment Scheduler, Sales Lead Qualifier). Your line is immediately active with an automated webhook to handle incoming calls or dial outbound calls."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can NeuraCryption handle both inbound customer support and outbound sales calling?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. NeuraCryption is natively calibrated to recognize call direction dynamically. When an inbound call arrives, the AI acts as an empathetic support agent or receptionist. When dialing outbound, the AI dynamically adopts an outbound posture, utilizing structured, permission-based openers to engage prospects, qualify leads, and convert conversations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the Outbound Autodialer and Batch CSV Campaign feature work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Every provisioned line includes an integrated Outbound Autodialer for immediate 1-click dialing. For mass outreach, click Batch Campaign (CSV Autodialer), enter your campaign name, and upload a standard CSV file with Name and Phone columns. The AI automatically dials through your contact list, navigates conversations, and logs call outcomes in real time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What native tools are included, and do they cost extra?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You do not pay a single penny extra for tools. NeuraCryption includes four native suites integrated directly into our backend: AI Calendar & Booking for scheduling, NeuraDocs Suite for rich text notes, NeuraSheets Suite for automated data logging, and NeuraEmail Suite for caller identity verification and follow-up emails. You orchestrate any of these tools simply by referencing them in your context.md prompt."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I customize my AI agent persona using context.md?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Inside your line configuration, you have a dedicated context.md prompt editor (up to 500 lines) with starter templates for Customer Support Agent, Appointment Scheduler, and Inbound Sales Lead Qualifier. Define your agent's identity, conversational warmth, identity verification checkpoints, and function triggers in plain text."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What phone numbers can I provision, and what is the pricing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can provision direct Local Numbers or Toll-Free Numbers (800, 888, 877 prefixes) across the United States and Canada with instant 1-click purchasing at a flat $2.00 one-time setup fee per number. There are zero monthly seat licenses or hidden line rental markups; you only pay for active compute talk-time starting at $0.05 per minute."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the AI handle customer interruptions and conversational pauses?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "NeuraCryption features ultra-low sub-500ms voice inference paired with real-time Voice Activity Detection (VAD). When a caller interrupts or speaks mid-sentence, the AI cuts off audio generation in milliseconds, preserves conversational context, and listens attentively, eliminating robotic talkover."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I test the AI voice model before signing up or depositing funds?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We offer an open, no-login interactive demo at neuracryption.com/demo where you can speak live with our voice agent in your browser. Additionally, for qualified businesses ready to deploy, we are offering 10 fully funded pilot accounts with $200 in free compute credit. Contact enterprise@neuracryption.com to apply."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does NeuraCryption compare to building directly with the raw Gemini Live API?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "As documented in our published research whitepaper, stateful multimodal WebSockets in Gemini Live re-process accumulated raw audio tokens on every conversational turn, compounding costs quadratically. A 30-minute call under Gemini Live can reach $29.42, whereas NeuraCryption charges a flat rate of just $2.40 ($0.08/min) with telecom routing included."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why choose NeuraCryption over building a fragmented multi-vendor voice stack?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Assembling a conventional voice pipeline requires configuring, maintaining, and paying for separate third-party services: carrier telephony, speech recognition, LLM reasoning, and audio synthesis. That fragmented multi-hop architecture introduces network latency delays and compounding fees of $0.13 to $0.28 per minute. NeuraCryption replaces this complex engineering with a unified, full-stack autonomous telecom utility: 3-minute setup, 85 languages with native auto-detection, sub-500ms voice latency, and a transparent flat compute rate starting from $0.05 per minute."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://neuracryption.com#website",
+      "url": "https://neuracryption.com",
+      "name": "NeuraCryption Autonomous AI Call Center",
+      "alternateName": [
+        "NeuraCryption",
+        "NeuraCryption Voice AI",
+        "NeuraCryption AI Call Center Platform",
+        "NeuraCryption Telephony Utility"
+      ],
+      "description": "Enterprise autonomous AI call center platform with sub-500ms voice latency, 85 global languages, and 3-minute setup from $0.05/min.",
+      "publisher": {
+        "@id": "https://neuracryption.com#organization"
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://neuracryption.com#software",
+      "name": "NeuraCryption Autonomous AI Call Center Platform",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Cloud, SIP Trunking, WebRTC, PSTN",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.05",
+        "priceCurrency": "USD",
+        "priceValidUntil": "2027-12-31"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "128",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "featureList": [
+        "Sub-500ms conversational voice latency",
+        "85 global languages with real-time accent neutralization and auto-detection",
+        "Instant 3-minute call center onboarding and phone provisioning",
+        "2GB vector RAG engine for knowledge base ingestion",
+        "Custom Voice Activity Detection (VAD) interruption handling",
+        "Synchronous and asynchronous live function calling",
+        "Bring Your Own Carrier (BYOC via SIP Trunking) from $0.05/min",
+        "All-Inclusive Autonomous Telephony from $0.08/min",
+        "Unlimited concurrent calls with zero seat licenses"
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://neuracryption.com#service",
+      "name": "Autonomous AI Call Center Service",
+      "serviceType": "AI Call Center Solutions",
+      "provider": {
+        "@id": "https://neuracryption.com#organization"
+      },
+      "description": "Full-stack autonomous AI call center service featuring quick call center setup in 3 minutes, sub-500ms voice latency, 85 languages, and inbound and outbound automated phone agents.",
+      "areaServed": "Worldwide",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "AI Call Center Plans",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "name": "Pure AI Compute",
+            "price": "0.05",
+            "priceCurrency": "USD",
+            "description": "Raw conversational AI compute for BYOC setups."
+          },
+          {
+            "@type": "Offer",
+            "name": "Autonomous Call Center Telephony",
+            "price": "0.08",
+            "priceCurrency": "USD",
+            "description": "Managed carrier telephony with sub-500ms conversational AI voice agents."
+          }
+        ]
+      }
+    }
+  ]
+}
+</script>
+
+  <!-- Google Fonts -->
+  
+  
+    <!-- Preconnect & Non-Blocking Font Loading -->
+  
+  
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap">
+  <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="0565298a12523067a4e83476-|49"></script><style type="text/css">@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Outfit';font-style:normal;font-weight:400;src:url(/cf-fonts/v/outfit/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Outfit';font-style:normal;font-weight:400;src:url(/cf-fonts/v/outfit/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Outfit';font-style:normal;font-weight:500;src:url(/cf-fonts/v/outfit/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Outfit';font-style:normal;font-weight:500;src:url(/cf-fonts/v/outfit/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Outfit';font-style:normal;font-weight:600;src:url(/cf-fonts/v/outfit/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Outfit';font-style:normal;font-weight:600;src:url(/cf-fonts/v/outfit/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Outfit';font-style:normal;font-weight:700;src:url(/cf-fonts/v/outfit/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Outfit';font-style:normal;font-weight:700;src:url(/cf-fonts/v/outfit/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}</style>
+  
+  <!-- Preconnect for YouTube Embed Performance -->
+  <link rel="preconnect" href="https://www.youtube-nocookie.com">
+  <link rel="preconnect" href="https://i.ytimg.com">
+  
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <style>
+    /* Page Specific Styles */
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      margin-top: 0;
+    }
+
+    /* ===== Hero Section ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px 40px 100px;
+      overflow: hidden;
+      background: linear-gradient(170deg, #F7F6F2 0%, #EDE8DF 40%, #F0EDE6 100%);
+    }
+
+    /* Floating decorative orbs */
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,168,130,0.12), transparent 70%);
+      top: -120px;
+      left: -120px;
+      animation: heroOrb 18s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,149,106,0.08), transparent 70%);
+      bottom: -150px;
+      right: -150px;
+      animation: heroOrb 22s ease-in-out infinite alternate-reverse;
+      z-index: 0;
+    }
+    @keyframes heroOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(20px, -20px) scale(1.06); }
+    }
+
+    #hero-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      opacity: 0.5;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5.5vw, 4.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.12;
+      margin-bottom: 28px;
+      color: var(--text-primary);
+    }
+
+    .hero p {
+      font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 44px;
+      max-width: 660px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ===== Buttons ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 32px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #F7F6F2;
+      box-shadow: 0 4px 20px rgba(45, 41, 38, 0.25);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(45, 41, 38, 0.35);
+    }
+
+    /* ===== Marquee ===== */
+    .marquee {
+      background: var(--accent);
+      color: #fff;
+      padding: 16px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      display: flex;
+      font-weight: 500;
+      letter-spacing: 1px;
+      font-size: 0.92rem;
+    }
+    .marquee-content {
+      animation: marquee 30s linear infinite;
+      display: inline-flex;
+      gap: 48px;
+    }
+    .marquee-content span {
+      display: inline-flex;
+      align-items: center;
+    }
+    .marquee-content span::after {
+      content: "◆";
+      margin-left: 48px;
+      color: var(--accent-warm);
+      font-size: 0.5rem;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ===== General Sections ===== */
+    section {
+      padding: 100px 24px;
+      position: relative;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .section-header h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+    .section-header p {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* Elegant section divider */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 0 24px;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      max-width: 200px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-warm), transparent);
+    }
+    .section-divider span {
+      color: var(--accent-highlight);
+      font-size: 0.8rem;
+    }
+
+    /* ===== Cards ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 36px 32px;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+      position: relative;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.06);
+      border-color: rgba(196,168,130,0.25);
+    }
+    .card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+    }
+    .card p {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-size: 0.98rem;
+      margin-bottom: 8px;
+    }
+
+    /* Card icon */
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      margin-bottom: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent-highlight);
+      background: linear-gradient(135deg, rgba(196,168,130,0.1), rgba(184,149,106,0.06));
+      border: 1px solid rgba(196,168,130,0.18);
+    }
+
+    /* ===== Stats Section ===== */
+    .stats-section {
+      background: var(--accent);
+      padding: 72px 24px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: center;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      color: #F7F6F2;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: rgba(247,246,242,0.6);
+    }
+
+    /* ===== How It Works ===== */
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--glass-border);
+    }
+    .step-number {
+      position: absolute;
+      top: -12px;
+      right: -8px;
+      font-size: 6rem;
+      font-weight: 700;
+      color: rgba(196, 168, 130, 0.08);
+      z-index: 0;
+      font-family: var(--font-display);
+      line-height: 1;
+    }
+    .step-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== CTA Banner ===== */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--accent) 0%, #1a1816 100%);
+      color: #fff;
+      padding: 80px 40px;
+      text-align: center;
+      border-radius: 20px;
+      margin: 80px auto;
+      max-width: 1140px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,168,130,0.1), transparent 70%);
+    }
+    .cta-banner h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      margin-bottom: 20px;
+      color: #fff;
+      position: relative;
+    }
+    .cta-banner p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.75);
+      max-width: 560px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+      position: relative;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      background: var(--surface);
+      border-top: 1px solid var(--glass-border);
+      padding: 60px 24px 40px;
+    }
+
+    /* ===== Scroll Animations ===== */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered delays for grid children */
+    .grid .fade-in-up:nth-child(2) { transition-delay: 0.1s; }
+    .grid .fade-in-up:nth-child(3) { transition-delay: 0.2s; }
+    .grid .fade-in-up:nth-child(4) { transition-delay: 0.3s; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      section { padding: 64px 20px; }
+      .hero { padding: 120px 20px 60px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .grid { grid-template-columns: 1fr; }
+      .cta-banner { margin: 40px 16px; padding: 48px 24px; }
+    }
+
+    /* ===== 3-Minute Video Walkthrough Card ===== */
+    .video-walkthrough {
+      max-width: 960px;
+      margin: 48px auto 0;
+    }
+    .video-card {
+      background: var(--surface);
+      border: 1px solid rgba(196, 168, 130, 0.35);
+      border-radius: 20px;
+      padding: 12px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .video-card:hover {
+      box-shadow: 0 20px 56px rgba(184, 149, 106, 0.12);
+      border-color: rgba(196, 168, 130, 0.55);
+    }
+    .video-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #0F172A;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .video-caption-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      padding: 0 4px;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .video-caption-link {
+      color: var(--accent-highlight);
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s ease;
+    }
+    .video-caption-link:hover {
+      color: var(--color-accent-deep, #8B7355);
+      text-decoration: underline;
+    }
+  </style>
+  <meta name="twitter:site" content="@NeuraCryption">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" aria-label="Main Navigation">
+    <div class="nav-container">
+      <a href="/" class="nav-logo" aria-label="NeuraCryption Home">
+        <img src="assets/neuracryption_app_icon.png" alt="NeuraCryption" class="logo-icon" width="36" height="36" fetchpriority="high">
+        <span class="logo-text">NeuraCryption</span>
+      </a>
+      <div class="nav-links">
+        <a href="/features">Features</a>
+        <a href="/languages">Languages</a>
+        <a href="/pricing">Pricing</a>
+        
+        <div class="nav-dropdown">
+          <a href="#" class="dropdown-trigger" role="button" aria-haspopup="true" aria-expanded="false">
+            Research &amp; Case Studies <span class="dropdown-arrow">▾</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="/research" style="color: var(--accent-highlight, #B8956A); font-weight: 700;">SPECTRA Architecture Research</a>
+            <a href="/research-gemini-live-billing">Gemini Live Billing Whitepaper</a>
+            <a href="/case-study">Lead's Generation Case Study</a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <a href="#" class="dropdown-trigger" role="button" aria-haspopup="true" aria-expanded="false">
+            Versus <span class="dropdown-arrow">▾</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="/versus-human">vs. Human SDRs</a>
+          </div>
+        </div>
+
+        <a href="https://github.com/NeuraCryption/Website" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="/demo" class="nav-cta">Try Demo</a>
+        <a href="https://dashboard.neuracryption.com" class="nav-dashboard" target="_blank" rel="noopener noreferrer">Dashboard ↗</a>
+      </div>
+      <button class="nav-mobile-toggle" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main>
+  <section class="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-content fade-in-up">
+      <div style="margin-bottom: 1.25rem;">
+        <span style="display:inline-flex; align-items:center; gap:0.5rem; background:rgba(184,149,106,0.15); border:1px solid rgba(184,149,106,0.35); color:var(--color-accent-deep, #8B7355); padding:0.4rem 1.25rem; border-radius:2rem; font-size:0.875rem; font-weight:700;">⚡ Autonomous AI Call Center • Setup in 3 Minutes • Zero Overhead</span>
+      </div>
+      <h1>Autonomous AI Call Center Platform</h1>
+      <p>Deploy enterprise-grade voice AI agents that speak 85 languages with sub-500ms latency. Complete autonomous call center setup in 3 minutes to automate inbound customer support and outbound calling at $0.05/min with zero agent overhead.</p>
+      <div class="hero-ctas">
+        <a href="https://dashboard.neuracryption.com" class="btn btn-primary" target="_blank">Launch Dashboard ↗</a>
+        <a href="/demo" class="btn btn-secondary">Try Free Demo</a>
+        <a href="/pricing" class="btn btn-secondary">View Pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem Solution Section -->
+  <section id="problem-solution" class="container">
+    <div class="section-header fade-in-up">
+      <h2>Why Traditional Call Centers Fail</h2>
+      <p>Legacy solutions are slow, expensive, and limited by human constraints. NeuraCryption redefines the economics and performance of voice interactions.</p>
+    </div>
+    <div class="grid">
+      <div class="card fade-in-up">
+        <div class="card-icon">$</div>
+        <h3>Exorbitant Costs</h3>
+        <p><strong>The Problem:</strong> Traditional centers carry massive overhead in salaries, infrastructure, training, and turnover costs.</p>
+        <p><strong>Our Solution:</strong> Transparent compute starting from $0.05/min for pure AI (or $0.08/min all-inclusive). You only pay for active talk time. No salaries, no hardware, no hidden fees.</p>
+      </div>
+      <div class="card fade-in-up" style="transition-delay: 0.1s;">
+        <div class="card-icon">◎</div>
+        <h3>Language Barriers</h3>
+        <p><strong>The Problem:</strong> Hiring native speakers for multiple global markets is complex and prohibitively expensive.</p>
+        <p><strong>Our Solution:</strong> Fluent, accent neutral AI voice agents supporting 85 languages globally. Communicate flawlessly with your entire customer base instantly.</p>
+      </div>
+      <div class="card fade-in-up" style="transition-delay: 0.2s;">
+        <div class="card-icon">▲</div>
+        <h3>Scaling Bottlenecks</h3>
+        <p><strong>The Problem:</strong> Handling sudden spikes in call volume leads to endless hold queues and frustrated customers.</p>
+        <p><strong>Our Solution:</strong> Infinite scalability. Whether you receive 10 calls or 10,000 simultaneously, our AI handles them all with zero wait time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="container" id="how-it-works">
+    <div class="section-header fade-in-up">
+      <h2>Quick Call Center Setup: Deploy an Autonomous AI Call Center in 3 Minutes</h2>
+      <p>We've eliminated the friction of enterprise telephony. Experience lightning-fast, quick call center setup: go from signup to live, call-handling AI phone agents in three simple steps in under 180 seconds total setup time.</p>
+    </div>
+    <div class="grid">
+      <div class="card step-card fade-in-up">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>1. Sign Up & Provision (Minute 1)</h3>
+          <p>Create your account and select your preferred phone numbers from our global inventory. One-click instant cloud provisioning gets your telephony active in 60 seconds without hardware or vendor negotiations.</p>
+        </div>
+      </div>
+      <div class="card step-card fade-in-up" style="transition-delay: 0.1s;">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>2. Upload Knowledge Base (Minute 2)</h3>
+          <p>Drag and drop your company documents, FAQs, and product manuals into our advanced 2GB RAG (Retrieval Augmented Generation) engine. The AI instantly internalizes your domain knowledge in seconds.</p>
+        </div>
+      </div>
+      <div class="card step-card fade-in-up" style="transition-delay: 0.2s;">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>3. Go Live Instantly (Minute 3)</h3>
+          <p>Activate your AI phone agents. Within just 3 minutes of opening your dashboard, your autonomous AI call center is answering inbound calls, conducting outbound sales campaigns, and routing complex queries in 85 languages.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3-Minute Live Setup Video Walkthrough -->
+    <div class="video-walkthrough">
+      <div class="video-card">
+        <div class="video-container" id="videoContainer">
+          <iframe 
+            id="neuraWalkthroughVideo"
+            src="https://www.youtube-nocookie.com/embed/yIb_ZGTuA28?rel=0&amp;modestbranding=1" 
+            title="Create an Autonomous AI Call Center in 3 Minutes | NeuraCryption Walkthrough"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+        <div class="video-caption-bar">
+          <span>Watch founder walkthrough: Number provisioning, prompt engineering in context.md, and instant live calling in 3 minutes.</span>
+          <a href="https://youtu.be/yIb_ZGTuA28" target="_blank" rel="noopener noreferrer" class="video-caption-link">Watch on YouTube ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Stats Section -->
+  <section class="stats-section">
+    <div class="container fade-in-up">
+      <div class="stats-grid">
+        <div>
+          <div class="stat-number">Sub 500ms</div>
+          <div class="stat-label">Response Latency</div>
+        </div>
+        <div>
+          <div class="stat-number">85</div>
+          <div class="stat-label">Languages Supported</div>
+        </div>
+        <div>
+          <div class="stat-number">99.99%</div>
+          <div class="stat-label">Uptime Guaranteed</div>
+        </div>
+        <div>
+          <div class="stat-number">From $0.05/min</div>
+          <div class="stat-label">AI Call Center Compute</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology Showcase -->
+  <section class="container">
+    <div class="section-header fade-in-up">
+      <h2>Powered by Cutting Edge AI</h2>
+      <p>NeuraCryption leverages a proprietary stack designed specifically for real time voice interactions, ensuring human like fluidity.</p>
+    </div>
+    <div class="grid">
+      <div class="card fade-in-up">
+        <h3>Lightning Fast VAD</h3>
+        <p>Our custom Voice Activity Detection accurately identifies when the user stops speaking, eliminating awkward pauses and interruptions.</p>
+        <a href="/features" style="color: var(--accent-highlight); text-decoration: none; font-weight: 500; margin-top: 16px; display: inline-block;">Learn More →</a>
+      </div>
+      <div class="card fade-in-up" style="transition-delay: 0.1s;">
+        <h3>Massive RAG Engine</h3>
+        <p>With support for up to 2GB of context data, your AI agent acts as a hyper knowledgeable expert on your specific business.</p>
+        <a href="/features" style="color: var(--accent-highlight); text-decoration: none; font-weight: 500; margin-top: 16px; display: inline-block;">Learn More →</a>
+      </div>
+      <div class="card fade-in-up" style="transition-delay: 0.2s;">
+        <h3>Function Calling</h3>
+        <p>Empower your AI to take action. It can seamlessly book appointments, process refunds, and update your CRM during the call.</p>
+        <a href="/features" style="color: var(--accent-highlight); text-decoration: none; font-weight: 500; margin-top: 16px; display: inline-block;">Learn More →</a>
+      </div>
+      <div class="card fade-in-up" style="transition-delay: 0.3s;">
+        <h3>Sub 500ms Latency</h3>
+        <p>Experience ultra low latency inference that makes conversations feel perfectly natural, rivaling human response times.</p>
+        <a href="/features" style="color: var(--accent-highlight); text-decoration: none; font-weight: 500; margin-top: 16px; display: inline-block;">Learn More →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who Is This For -->
+  <section class="container" style="background: var(--surface-alt); border-radius: 24px; padding: 60px;">
+    <div class="section-header fade-in-up">
+      <h2>Built for Every Business Size</h2>
+      <p>From local storefronts to multinational corporations, NeuraCryption scales effortlessly.</p>
+    </div>
+    <div class="grid">
+      <div class="card fade-in-up">
+        <h3>Small Businesses</h3>
+        <p>Missed calls mean missed revenue. Ensure your cafe, salon, or clinic answers every inquiry, takes reservations, and provides hours of operation automatically.</p>
+      </div>
+      <div class="card fade-in-up" style="transition-delay: 0.1s;">
+        <h3>Startups</h3>
+        <p>Project an enterprise image without the enterprise headcount. Handle tier 1 support, qualify leads, and onboard users smoothly while your lean team focuses on growth.</p>
+      </div>
+      <div class="card fade-in-up" style="transition-delay: 0.2s;">
+        <h3>Mid Size Companies</h3>
+        <p>Easily expand into new geographic markets. Offer immediate support in local languages across regions without establishing physical call centers.</p>
+      </div>
+      <div class="card fade-in-up" style="transition-delay: 0.3s;">
+        <h3>Large Enterprises</h3>
+        <p>Drastically reduce operational expenditure. Automate high volume, repetitive queries, seamlessly escalate complex issues, and integrate deeply with internal systems.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Infrastructure Research & Benchmarks Section -->
+  <section class="container fade-in-up" style="margin-top: 80px; margin-bottom: 40px;">
+    <div class="section-header">
+      <h2>Infrastructure Research & Benchmarks</h2>
+      <p>In-depth technical and financial evaluations from NeuraCryption's AI Infrastructure Research Lab.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 32px;">
+      <!-- Flagship Research Card: SPECTRA -->
+      <div style="background: linear-gradient(135deg, #121212 0%, #1A1816 100%); border: 1px solid rgba(196,168,130,0.45); border-radius: 24px; padding: 40px; color: #FFFFFF; position: relative; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.35);">
+        <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap;">
+          <span style="background: rgba(196,168,130,0.25); color: var(--accent-highlight); border: 1px solid rgba(196,168,130,0.5); padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">
+            Flagship Research &bull; Published Nov 2026
+          </span>
+          <a href="https://doi.org/10.5281/zenodo.24058202" target="_blank" rel="noopener noreferrer" style="background: rgba(0, 85, 170, 0.2); color: #66AAFF; border: 1px solid rgba(0, 85, 170, 0.4); padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-decoration: none;">
+            Zenodo DOI: 10.5281/zenodo.24058202 &#8599;
+          </a>
+          <a href="https://github.com/NeuraCryption/SPECTRA" target="_blank" rel="noopener noreferrer" style="background: rgba(255, 255, 255, 0.1); color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.2); padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-decoration: none;">
+            Open Codebase &#8599;
+          </a>
+        </div>
+        <h3 style="font-size: 1.85rem; font-weight: 800; color: #FFFFFF; margin-bottom: 14px; line-height: 1.3;">
+          SPECTRA: Sparse-Precision Tensor Reconstruction Architecture for Hardware-Saturated Edge Inference
+        </h3>
+        <p style="color: #CCCCCC; font-size: 1.02rem; line-height: 1.75; max-width: 860px; margin-bottom: 24px;">
+          Grounded in Shannon continuous Rate-Distortion bounds. Calibration-free Group-32 microscaling and custom register-fused Triton GPU kernels compress multi-billion parameter foundation models (DeepSeek-R1-Distill-1.5B, LiquidAI LFM, Mamba-2) by 2.80x to 3.31x, executing 100% resident on 4GB consumer silicon at 82.53 tokens per second without empirical calibration data.
+        </p>
+
+        <!-- Metrics Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 28px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 18px 24px; text-align: center;">
+          <div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: #C4A882;">3.31x</div>
+            <div style="font-size: 0.78rem; color: #999; text-transform: uppercase; font-weight: 600;">Peak Compression</div>
+          </div>
+          <div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: #66AAFF;">82.53</div>
+            <div style="font-size: 0.78rem; color: #999; text-transform: uppercase; font-weight: 600;">Tok/s Decoding</div>
+          </div>
+          <div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: #33FF77;">100%</div>
+            <div style="font-size: 0.78rem; color: #999; text-transform: uppercase; font-weight: 600;">GPU Resident</div>
+          </div>
+          <div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: #FFFFFF;">0.00%</div>
+            <div style="font-size: 0.78rem; color: #999; text-transform: uppercase; font-weight: 600;">Calibration Wait</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
+          <a href="/research" class="btn btn-primary" style="background: var(--accent-highlight); color: #FFFFFF; font-weight: 700;">Explore Interactive Paper</a>
+          <a href="https://github.com/NeuraCryption/SPECTRA" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="color: #FFFFFF; border-color: rgba(255,255,255,0.25);">GitHub Codebase &#8599;</a>
+          <a href="assets/SPECTRAResearchPaper.pdf" download="SPECTRAResearchPaper.pdf" class="btn btn-secondary" style="color: #C4A882; border-color: rgba(196,168,130,0.4);">Download PDF (4.8 MB)</a>
+        </div>
+      </div>
+
+      <!-- Secondary Whitepaper Card: Gemini Live Billing -->
+      <div style="background: linear-gradient(135deg, #161514 0%, #1A1816 100%); border: 1px solid rgba(196,168,130,0.25); border-radius: 20px; padding: 32px; color: #FFFFFF; position: relative; overflow: hidden;">
+        <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 14px;">
+          <span style="background: rgba(196,168,130,0.15); color: var(--accent-highlight); border: 1px solid rgba(196,168,130,0.3); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Economic Whitepaper &bull; Sep 2026</span>
+        </div>
+        <h3 style="font-size: 1.45rem; font-weight: 700; color: #FFFFFF; margin-bottom: 12px; line-height: 1.35;">
+          The Hidden Architecture of Compounded Billing in Stateful Multimodal AI: An Exhaustive Analysis of the Gemini Live API
+        </h3>
+        <p style="color: #AAAAAA; font-size: 0.98rem; line-height: 1.65; max-width: 820px; margin-bottom: 20px;">
+          Stateful WebSockets retain uncompressed raw PCM audio tokens within memory to preserve tone, forcing continuous re-processing (and re-billing) of the entire session context on every turn. A 30-minute call costs $29.42 under Gemini Live vs $2.40 under NeuraCryption.
+        </p>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
+          <a href="/research-gemini-live-billing" class="btn btn-secondary" style="color: #FFFFFF; border-color: rgba(255,255,255,0.25); font-weight: 600;">Read Billing Whitepaper</a>
+          <a href="metadata.md" target="_blank" class="btn btn-secondary" style="color: #AAAAAA; border-color: rgba(255,255,255,0.15); font-size: 0.88rem;">Inspect Telemetry (metadata.md)</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ & Objection Crushing Section -->
+  <section class="container fade-in-up" id="faq-section" style="margin-top: 60px; margin-bottom: 60px;">
+    <div class="section-header">
+      <span style="display:inline-flex; align-items:center; gap:0.5rem; background:rgba(184,149,106,0.15); border:1px solid rgba(184,149,106,0.35); color:var(--color-accent-deep, #8B7355); padding:0.35rem 1.1rem; border-radius:2rem; font-size:0.85rem; font-weight:700; margin-bottom: 12px;">Frequently Asked Questions</span>
+      <h2>Autonomous AI Call Center FAQ &amp; Onboarding</h2>
+      <p>Direct answers regarding our architecture, economics, and rapid onboarding timeline.</p>
+    </div>
+    <div style="max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;">
+      <details class="faq-accordion" style="background: var(--surface); border: 1px solid var(--glass-border); border-radius: 14px; padding: 20px 24px; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+        <summary style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          <span>How does quick call center setup in 3 minutes work?</span>
+          <span style="color: var(--accent-highlight); font-size: 1.3rem;">+</span>
+        </summary>
+        <div style="margin-top: 14px; color: var(--text-secondary); line-height: 1.7; font-size: 1rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 14px;">
+          Quick call center setup takes under 180 seconds on NeuraCryption with our 3-step dashboard workflow:
+          <ol style="margin-top: 8px; margin-bottom: 8px; padding-left: 20px;">
+            <li><strong>Minute 1:</strong> Navigate to <strong>Call Center</strong> in your dashboard and click <strong>+ Provision Call Center Number</strong>. Select US or Canada, choose between a Local Number or Toll-Free Number (800/888/877), pick from 10 live lines, and purchase for a flat $2.00 one-time fee.</li>
+            <li><strong>Minute 2:</strong> Your line webhook is automatically integrated into the voice model. Open configuration to set your AI persona and instructions in <strong>context.md</strong> (or choose a 1-click template for Customer Support, Appointment Booking, or Inbound Sales Qualification).</li>
+            <li><strong>Minute 3:</strong> Click <strong>Save &amp; Apply Configuration</strong>. Your call center is immediately live to receive inbound customer calls or launch outbound calling.</li>
+          </ol>
+        </div>
+      </details>
+
+      <details class="faq-accordion" style="background: var(--surface); border: 1px solid var(--glass-border); border-radius: 14px; padding: 20px 24px; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+        <summary style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          <span>Can NeuraCryption handle both inbound customer support and outbound sales calling?</span>
+          <span style="color: var(--accent-highlight); font-size: 1.3rem;">+</span>
+        </summary>
+        <div style="margin-top: 14px; color: var(--text-secondary); line-height: 1.7; font-size: 1rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 14px;">
+          Yes. NeuraCryption's backend and voice model are calibrated to dynamically detect call direction. When an inbound customer calls your provisioned line, the AI acts as an empathetic support agent or receptionist. When dialing outbound, the AI dynamically adopts an outbound posture, utilizing structured, permission-based openers that state the agent's name, company, and purpose without awkward silences.
+        </div>
+      </details>
+
+      <details class="faq-accordion" style="background: var(--surface); border: 1px solid var(--glass-border); border-radius: 14px; padding: 20px 24px; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+        <summary style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          <span>How does the Outbound Autodialer and Batch CSV Campaign feature work?</span>
+          <span style="color: var(--accent-highlight); font-size: 1.3rem;">+</span>
+        </summary>
+        <div style="margin-top: 14px; color: var(--text-secondary); line-height: 1.7; font-size: 1rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 14px;">
+          Every provisioned line includes an integrated <strong>Outbound Autodialer</strong> for immediate 1-click single-number dialing. For high-volume mass campaigns, click <strong>Batch Campaign (CSV Autodialer)</strong>, enter a campaign name (such as "Lead Gen Q3"), and upload a standard CSV file with "Name" and "Phone" columns. Click <strong>Start AI Dialing</strong>, and the AI will automatically dial through your list, conduct dynamic sales conversations, and record call outcomes.
+        </div>
+      </details>
+
+      <details class="faq-accordion" style="background: var(--surface); border: 1px solid var(--glass-border); border-radius: 14px; padding: 20px 24px; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+        <summary style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          <span>What native tools are included, and do they cost extra?</span>
+          <span style="color: var(--accent-highlight); font-size: 1.3rem;">+</span>
+        </summary>
+        <div style="margin-top: 14px; color: var(--text-secondary); line-height: 1.7; font-size: 1rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 14px;">
+          You do not pay a single penny extra for our tool ecosystem. NeuraCryption includes four native suites integrated directly into our backend and accessible in your <strong>AI Tools Hub</strong>:
+          <ul style="margin-top: 8px; margin-bottom: 8px; padding-left: 20px;">
+            <li><strong>AI Calendar &amp; Booking:</strong> Manage schedules, booking slots, working hours, and automated reminders during calls.</li>
+            <li><strong>NeuraDocs Suite:</strong> Create and synchronize rich text notes and call documentation in real time.</li>
+            <li><strong>NeuraSheets Suite:</strong> Automatically record caller data, evaluate formulas, and log call outcomes to spreadsheets.</li>
+            <li><strong>NeuraEmail Suite:</strong> Connect your custom SMTP/IMAP account for live caller identity verification, automated email recaps, and follow-ups.</li>
+          </ul>
+          You orchestrate any of these tools simply by defining them in your <strong>context.md</strong> prompt.
+        </div>
+      </details>
+
+      <details class="faq-accordion" style="background: var(--surface); border: 1px solid var(--glass-border); border-radius: 14px; padding: 20px 24px; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+        <summary style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          <span>How do I customize my AI agent persona using context.md?</span>
+          <span style="color: var(--accent-highlight); font-size: 1.3rem;">+</span>
+        </summary>
+        <div style="margin-top: 14px; color: var(--text-secondary); line-height: 1.7; font-size: 1rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 14px;">
+          Inside line configuration, you have a dedicated <strong>AI Persona &amp; Prompt (context.md)</strong> editor supporting up to 500 lines of custom markdown. You can write custom rules or pick one of our quick starter templates: <strong>Customer Support Agent</strong>, <strong>Appointment Scheduler</strong>, or <strong>Inbound Sales Lead Qualifier</strong>. Define your agent's identity, conversational warmth, identity verification checkpoints, and function triggers in plain text.
+        </div>
+      </details>
+
+      <details class="faq-accordion" style="background: var(--surface); border: 1px solid var(--glass-border); border-radius: 14px; padding: 20px 24px; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+        <summary style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          <span>What phone numbers can I provision, and what is the pricing?</span>
+          <span style="color: var(--accent-highlight); font-size: 1.3rem;">+</span>
+        </summary>
+        <div style="margin-top: 14px; color: var(--text-secondary); line-height: 1.7; font-size: 1rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 14px;">
+          You can provision direct <strong>Local Numbers</strong> or <strong>Toll-Free Numbers</strong> (800, 888, 877 prefixes) across the <strong>United States</strong> and <strong>Canada</strong>. Search results show 10 available numbers with instant 1-click purchasing at a flat <strong>$2.00 one-time setup fee per number</strong>. There are zero monthly seat licenses or hidden line rental markups; you only pay for active compute talk-time starting at <strong>$0.05/min</strong> for Pure AI Compute (BYOC / SIP) and <strong>$0.08/min</strong> for All-Inclusive Telephony + AI.
+        </div>
+      </details>
+
+      <details class="faq-accordion" style="background: var(--surface); border: 1px solid var(--glass-border); border-radius: 14px; padding: 20px 24px; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+        <summary style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          <span>How does the AI handle customer interruptions and conversational pauses?</span>
+          <span style="color: var(--accent-highlight); font-size: 1.3rem;">+</span>
+        </summary>
+        <div style="margin-top: 14px; color: var(--text-secondary); line-height: 1.7; font-size: 1rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 14px;">
+          NeuraCryption features ultra-low sub-500ms voice inference paired with real-time <strong>Voice Activity Detection (VAD)</strong>. When a caller interrupts or speaks mid-sentence, the AI cuts off audio generation in milliseconds, preserves conversational context, and listens attentively. This eliminates awkward pauses and robotic talkover, delivering fluid, human-like voice interaction.
+        </div>
+      </details>
+
+      <details class="faq-accordion" style="background: var(--surface); border: 1px solid var(--glass-border); border-radius: 14px; padding: 20px 24px; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+        <summary style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          <span>Can I test the AI voice model before signing up or depositing funds?</span>
+          <span style="color: var(--accent-highlight); font-size: 1.3rem;">+</span>
+        </summary>
+        <div style="margin-top: 14px; color: var(--text-secondary); line-height: 1.7; font-size: 1rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 14px;">
+          Yes. We offer an open, <strong>no-login interactive demo</strong> at <a href="/demo" style="color: var(--accent-highlight); font-weight: 600; text-decoration: underline;">neuracryption.com/demo</a> where you can speak live with our voice agent right in your browser. Additionally, for qualified businesses ready to deploy, we are offering <strong>10 fully funded pilot accounts with $200 in free compute credit</strong>. Contact <a href="/cdn-cgi/l/email-protection#62070c16071012100b1107220c0717100301101b12160b0d0c4c010d0f" style="color: var(--accent-highlight); font-weight: 600; text-decoration: underline;"><span class="__cf_email__" data-cfemail="56333822332426243f253316383323243735242f26223f39387835393b">[email&#160;protected]</span></a> to apply for your funded pilot.
+        </div>
+      </details>
+
+      <details class="faq-accordion" style="background: var(--surface); border: 1px solid var(--glass-border); border-radius: 14px; padding: 20px 24px; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+        <summary style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          <span>How does NeuraCryption compare to building with the raw Gemini Live API?</span>
+          <span style="color: var(--accent-highlight); font-size: 1.3rem;">+</span>
+        </summary>
+        <div style="margin-top: 14px; color: var(--text-secondary); line-height: 1.7; font-size: 1rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 14px;">
+          As documented in our published research whitepaper, stateful multimodal WebSockets in Gemini Live re-process accumulated raw audio tokens on every conversational turn, compounding costs quadratically. A 30-minute call under Gemini Live can reach <strong>$29.42</strong>, whereas NeuraCryption charges a flat rate of just <strong>$2.40</strong> ($0.08/min) with telecom routing included.
+        </div>
+      </details>
+
+      <details class="faq-accordion" style="background: var(--surface); border: 1px solid var(--glass-border); border-radius: 14px; padding: 20px 24px; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+        <summary style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+          <span>Why choose NeuraCryption over building a fragmented multi-vendor voice stack?</span>
+          <span style="color: var(--accent-highlight); font-size: 1.3rem;">+</span>
+        </summary>
+        <div style="margin-top: 14px; color: var(--text-secondary); line-height: 1.7; font-size: 1rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 14px;">
+          Assembling a conventional voice pipeline requires configuring, maintaining, and paying for separate third-party services: carrier telephony, speech recognition, LLM reasoning, and audio synthesis. That fragmented multi-hop architecture introduces network latency delays and compounding fees of $0.13 to $0.28 per minute. NeuraCryption replaces this complex engineering with a unified, full-stack autonomous telecom utility: 3-minute setup, 85 languages with native auto-detection, sub-500ms voice latency, and a transparent flat compute rate starting from $0.05 per minute.
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="container fade-in-up" style="padding: 0 20px;">
+    <div class="cta-banner">
+      <h2>Deploy Your Autonomous AI Call Center in 3 Minutes</h2>
+      <p>Join the AI telecommunications revolution. Zero contracts, zero hardware setup, and pure voice intelligence starting at $0.05/min (Pure AI Compute / BYOC).</p>
+      <div class="hero-ctas">
+        <a href="https://dashboard.neuracryption.com" class="btn btn-primary" target="_blank">Launch Dashboard ↗</a>
+        <a href="/demo" class="btn btn-secondary" style="color: #fff; border-color: rgba(255,255,255,0.3);">Try Free Demo</a>
+        <a href="/pricing" class="btn btn-secondary" style="color: #fff; border-color: rgba(255,255,255,0.3);">View Pricing</a>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" style="padding: 4rem 2rem; border-top: 1px solid var(--glass-border); background: var(--surface); text-align: center;">
+    <a href="/" class="footer-logo-wrap" aria-label="NeuraCryption Home">
+      <img src="assets/neuracryption_app_icon.png" alt="NeuraCryption" class="footer-logo-icon" width="32" height="32" loading="lazy">
+      <span class="footer-logo-text">NeuraCryption</span>
+    </a>
+    <div style="color: var(--text-secondary); margin-bottom: 2rem;">Pune, Maharashtra, India</div>
+    <div style="display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
+      <a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500;">Home</a>
+      <a href="/features" style="color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500;">Features</a>
+      <a href="/languages" style="color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500;">85 Languages</a>
+      <a href="/pricing" style="color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500;">Pricing</a>
+      <a href="/versus-human" style="color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500;">AI vs Human Call Center</a>
+      <a href="/demo" style="color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500;">Live Demo</a>
+      <a href="/research" style="color: var(--accent-highlight); text-decoration: none; font-size: 0.95rem; font-weight: 700;">SPECTRA Research</a>
+      <a href="/research-gemini-live-billing" style="color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500;">Gemini Live Whitepaper</a>
+      <a href="/case-study" style="color: var(--accent-highlight); text-decoration: none; font-size: 0.95rem; font-weight: 700;">Lead's Generation Case Study</a>
+      <a href="https://github.com/NeuraCryption/SPECTRA" target="_blank" rel="noopener noreferrer" style="color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500;">GitHub SPECTRA &#8599;</a>
+      <a href="/about" style="color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500;">About Us</a>
+      <a href="/terms" style="color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500;">Terms of Service</a>
+      <a href="/privacy" style="color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500;">Privacy Policy</a>
+    </div>
+    
+    
+
+    <!-- Official Showcase Social Channels (LinkedIn, YouTube, GitHub) -->
+    
+    <!-- Official Showcase Social Channels (GitHub, LinkedIn, YouTube) -->
+    <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin: 1.75rem 0 1.25rem; flex-wrap: wrap;" class="footer-socials">
+      <a href="https://github.com/NeuraCryption" target="_blank" rel="noopener noreferrer" aria-label="GitHub Organization" title="NeuraCryption GitHub" style="color: #FFFFFF !important; background: #24292E !important; border: 1px solid #1B1F23 !important; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-size: 0.88rem; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+        <svg width="18" height="18" fill="#FFFFFF" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://www.linkedin.com/company/neuracryption.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Company Profile" title="NeuraCryption LinkedIn" style="color: #FFFFFF !important; background: #0A66C2 !important; border: 1px solid #084E96 !important; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-size: 0.88rem; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 2px 8px rgba(10,102,194,0.2);">
+        <svg width="18" height="18" fill="#FFFFFF" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://www.youtube.com/@neuracryption" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel" title="NeuraCryption YouTube" style="color: #FFFFFF !important; background: #FF0000 !important; border: 1px solid #CC0000 !important; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-size: 0.88rem; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 2px 8px rgba(255,0,0,0.2);">
+        <svg width="18" height="18" fill="#FFFFFF" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        YouTube
+      </a>
+      <a href="https://huggingface.co/NeuraCryptionIndia" target="_blank" rel="noopener noreferrer" aria-label="Hugging Face Organization" title="NeuraCryption Hugging Face" style="color: #FFFFFF !important; background: #FF9D00 !important; border: 1px solid #E68A00 !important; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-size: 0.88rem; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 2px 8px rgba(255,157,0,0.25);">
+        <span style="font-size: 1.1rem; line-height: 1;">🤗</span>
+        Hugging Face
+      </a>
+    </div>
+
+    
+<div style="color: var(--text-muted); font-size: 0.875rem;">&copy; 2026 NeuraCryption. All rights reserved.</div>
+  </footer>
+
+  <!-- Research Announcement Popup Modal -->
+  <div id="researchPopupModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #121212; border: 1px solid rgba(196,168,130,0.4); border-radius: 24px; max-width: 600px; width: 100%; padding: 36px; color: #FFFFFF; position: relative; box-shadow: 0 25px 60px rgba(0,0,0,0.7);">
+      <button onclick="if (!window.__cfRLUnblockHandlers) return false; dismissResearchModal()" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: #A0A0A0; font-size: 1.6rem; cursor: pointer;" data-cf-modified-0565298a12523067a4e83476-="">&times;</button>
+      <div style="display: inline-block; background: rgba(196,168,130,0.2); color: var(--accent-highlight); border: 1px solid rgba(196,168,130,0.3); padding: 4px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; margin-bottom: 16px;">
+        🔬 New Research Publication &bull; Zenodo Archive
+      </div>
+      <h3 style="font-size: 1.45rem; color: #FFFFFF; font-weight: 700; margin-bottom: 14px; line-height: 1.3;">
+        SPECTRA: Sparse-Precision Tensor Reconstruction Architecture
+      </h3>
+      <p style="color: #CCCCCC; font-size: 0.95rem; line-height: 1.65; margin-bottom: 24px;">
+        Our infrastructure lab published SPECTRA: calibration-free Group-32 microscaling and in-register fused Triton GPU kernels delivering 3.31x model compression and 82.53 tok/s decoding on commodity 4GB laptop GPUs.
+      </p>
+      <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 16px; margin-bottom: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center;">
+        <div>
+          <div style="color: #C4A882; font-size: 1.3rem; font-weight: 700;">3.31x</div>
+          <div style="color: #888; font-size: 0.75rem; text-transform: uppercase;">Compression</div>
+        </div>
+        <div>
+          <div style="color: #33FF77; font-size: 1.3rem; font-weight: 700;">82.53</div>
+          <div style="color: #888; font-size: 0.75rem; text-transform: uppercase;">Tok/s Decode</div>
+        </div>
+        <div>
+          <div style="color: #66AAFF; font-size: 1.3rem; font-weight: 700;">4.0 GB</div>
+          <div style="color: #888; font-size: 0.75rem; text-transform: uppercase;">100% Resident</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap;">
+        <button onclick="if (!window.__cfRLUnblockHandlers) return false; dismissResearchModal()" style="background: transparent; color: #AAAAAA; border: 1px solid rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 20px; font-weight: 600; cursor: pointer;" data-cf-modified-0565298a12523067a4e83476-="">Dismiss</button>
+        <a href="/research-gemini-live-billing" style="background: transparent; color: #C4A882; border: 1px solid rgba(196,168,130,0.4); padding: 10px 18px; border-radius: 20px; font-weight: 600; text-decoration: none; font-size: 0.88rem;">Billing Paper</a>
+        <a href="/research" style="background: var(--accent-highlight); color: #FFFFFF; border: none; padding: 10px 24px; border-radius: 20px; font-weight: 700; text-decoration: none;">Read SPECTRA Paper &#8599;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Research Button -->
+  <div id="floatingResearchPill" onclick="if (!window.__cfRLUnblockHandlers) return false; openResearchModal()" style="position: fixed; bottom: 24px; right: 24px; background: #121212; color: #FFFFFF; border: 1px solid rgba(196,168,130,0.4); border-radius: 30px; padding: 10px 20px; font-size: 0.88rem; font-weight: 600; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 999; display: flex; align-items: center; gap: 8px; transition: transform 0.2s ease;" data-cf-modified-0565298a12523067a4e83476-="">
+    <span style="width: 8px; height: 8px; border-radius: 50%; background: #33FF77; display: inline-block;"></span>
+    🔬 New Research: SPECTRA Neural Compression &amp; 82.5 tok/s Edge Inference
+  </div>
+
+  <!-- Shared JS -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/shared.js" type="0565298a12523067a4e83476-text/javascript"></script>
+  <script type="0565298a12523067a4e83476-text/javascript">
+    function openResearchModal() {
+      document.getElementById('researchPopupModal').style.display = 'flex';
+    }
+
+    function dismissResearchModal() {
+      document.getElementById('researchPopupModal').style.display = 'none';
+      localStorage.setItem('nc_research_popup_closed', 'true');
+    }
+
+    // Intersection Observer for scroll animations & Popup trigger
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.location.protocol === 'file:') {
+        const container = document.getElementById('videoContainer');
+        if (container) {
+          container.innerHTML = '<video controls preload="metadata" poster="https://i.ytimg.com/vi/yIb_ZGTuA28/maxresdefault.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 14px;"><source src="assets/walkthrough.mp4" type="video/mp4">Your browser does not support HTML5 video.</video>';
+        }
+      }
+
+      if (!localStorage.getItem('nc_research_popup_closed')) {
+        setTimeout(() => {
+          openResearchModal();
+        }, 8000);
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            if (entry.target.classList.contains('stats-grid') && !entry.target.dataset.counted) {
+              entry.target.dataset.counted = true;
+              document.querySelectorAll('.stat-number').forEach(stat => {
+                const target = stat.innerText;
+                if (!target.includes('%') && !target.includes('ms') && !target.includes('$')) {
+                  const targetNum = parseInt(target, 10);
+                  if (!isNaN(targetNum)) {
+                    let count = 0;
+                    const duration = 2000;
+                    const increment = targetNum / (duration / 16);
+                    const updateCount = () => {
+                      count += increment;
+                      if (count < targetNum) {
+                        stat.innerText = Math.ceil(count);
+                        requestAnimationFrame(updateCount);
+                      } else {
+                        stat.innerText = targetNum;
+                      }
+                    };
+                    updateCount();
+                  }
+                }
+              });
+            }
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+
+      document.querySelectorAll('.fade-in-up, .stats-grid').forEach((el) => {
+        observer.observe(el);
+      });
+
+      if (window.NeuraCryption && window.NeuraCryption.initParticles) {
+        window.NeuraCryption.initParticles('hero-canvas');
+      }
+    });
+  </script>
+<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="0565298a12523067a4e83476-|49" defer></script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"f0dbb923e692419e8a49db49059f0278","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
