@@ -60,6 +60,10 @@ Dynamo 看 Prefill 队列深度和 Decode 节点的 KV 利用率；长上下文�
 
 ## 数据面：让节点可切换，让 KV 不随角色失效
 
+![Evolving Infra 总体架构](figs/fig-arch.png)
+
+> 图解：Router 将请求分配给可动态切换的 Prefill 与 Decode 资源，节点主机内存组成共享 KV 池。实线表示 KV 与内存适配，虚线表示计算角色调整；每份 KV 记录仍引用它的活跃分支数，引用归零后才能优先淘汰。
+
 ### 对称引擎：同一节点原生支持两种阶段
 
 Evolving Infra 在 SGLang 上实现对称引擎，用统一的调度循环支持 Prefill 和 Decode，并提供任意两个节点之间、任意方向的 KV 传输协议。节点在启动时不再被永久指定为某一种角色。
@@ -93,6 +97,26 @@ Decode 节点只向共享池写入，不主动从主机内存加载旧 KV，避�
 - 分支结束时释放它的全部计数；
 - 同阶段传输 P2P/D2D 把计数从源副本移到目标副本；
 - 跨阶段传输 P2D/D2P 保留两端计数，因为后续步骤仍可能分别使用两份 KV。
+
+![KV Directory 图例](figs/fig-directory-key.png)
+
+> 图解：深灰表示系统提示词，两种浅灰区分不同分支的上下文，红色表示新增 KV；$R_{P1}$ 表示 Prefill 节点 P1 上引用该 Block 的活跃分支数。
+
+![连续请求的分支计数](figs/fig-directory-consecutive.png)
+
+> 图解：连续请求只给新增 Block 增加计数，已经复用的系统提示词和历史上下文保持原计数，避免重复占用引用。
+
+![Compaction 后的分支计数](figs/fig-directory-compaction.png)
+
+> 图解：Compaction 将分支版本从 v1 改为 v2 后，被替换历史的引用计数减一并归零，新摘要对应的新 Block 则增加计数。
+
+![同阶段 KV 传输的计数变化](figs/fig-directory-p2p.png)
+
+> 图解：P2P 或 D2D 传输把引用计数从源副本移到目标副本，源位置释放后便可安全淘汰重复 KV。
+
+![跨阶段 KV 传输的计数变化](figs/fig-directory-p2d.png)
+
+> 图解：P2D 或 D2P 传输保留源端与目标端计数，因为后续请求仍可能分别使用两个阶段的副本。
 
 这样，每个活跃分支在每个阶段最多对一份副本计数。这个设计的聪明之处在于，它没有让 Agent Harness 预测未来复用时间，只要求 Harness 报告分支 ID、分支结束和上下文改写；缓存系统由此获得比 LRU 更可靠的语义信号。
 
