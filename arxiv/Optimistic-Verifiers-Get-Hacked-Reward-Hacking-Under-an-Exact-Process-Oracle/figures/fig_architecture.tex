@@ -1,0 +1,100 @@
+% Figure 1: the verifier-gap instrument.
+% Blue = exact truth, vermillion = degraded proxy, green = what the instrument outputs.
+% Grouped-panel layout. Every connector is routed orthogonally; no diagonals.
+% Coordinates are explicit (cm) so the routing stays stable when content is edited.
+% Kept narrow on purpose: the picture is \resizebox'd, so extra natural width
+% shrinks every label. Measure before widening.
+\begin{tikzpicture}[
+  font=\small,
+  x=1cm, y=1cm,
+  ttl/.style={font=\scriptsize\itshape, inner sep=0pt, anchor=north west},
+  bx/.style={draw, rounded corners=2pt, fill=white, align=center,
+             inner sep=3pt, line width=0.45pt, font=\scriptsize},
+  btruth/.style={bx, draw=blue!45!black},
+  bout/.style={bx, draw=green!40!black},
+  bneut/.style={bx, draw=black!50},
+  chip/.style={draw, rounded corners=2pt, fill=white, draw=red!50!black,
+               align=center, inner sep=2.4pt, line width=0.45pt, font=\scriptsize},
+  arr/.style={-{Stealth[length=1.9mm]}, line width=0.6pt, black!65},
+  tarr/.style={arr, draw=blue!50!black},
+  parr/.style={arr, draw=red!55!black},
+  oarr/.style={arr, draw=green!40!black},
+  garr/.style={arr, draw=green!40!black, dashed, dash pattern=on 2pt off 1.6pt},
+  lab/.style={font=\scriptsize\itshape, fill=white, inner sep=1.2pt},
+  labA/.style={lab, fill=blue!5},   % sits inside panel A, must match its fill
+  hop/.style={preaction={draw=white, line width=2.4pt, -}},
+]
+
+% =====================  PANEL A : the exact oracle  =====================
+\fill[blue!5, rounded corners=3pt] (0,5.62) rectangle (14,7.52);
+\draw[blue!45!black, rounded corners=3pt, line width=0.6pt] (0,5.62) rectangle (14,7.52);
+\node[ttl, blue!45!black] at (0.16,7.44) {Exact oracle};
+
+\node[btruth] (policy) at (2.15,6.45)
+  {Executable policy\\[-1.5pt]$R_1{\dots}R_k$, Cedar or Rego};
+\node[btruth] (oracle) at (7.00,6.45)
+  {Decision tensor $T$\\[-1.5pt]$\NContexts$ contexts\\[-1.5pt]every reason $\mathrm{MSR}(c)$};
+\node[btruth] (exact)  at (11.75,6.45)
+  {Exact reward $r^\star$\\[-1.5pt]causal precision,\\[-1.5pt]recall, $F_1$};
+
+\draw[tarr] (policy) -- node[labA,above] {compile} (oracle);
+\draw[tarr] (oracle) -- node[labA,above] {slice}   (exact);
+
+% =====================  PANEL B : the gap dial  =========================
+\fill[red!5, rounded corners=3pt] (0,2.66) rectangle (7.30,4.90);
+\draw[red!50!black, rounded corners=3pt, line width=0.6pt] (0,2.66) rectangle (7.30,4.90);
+\node[ttl, red!55!black] at (0.16,4.82) {Gap dial, seven degraded $\tilde V$};
+
+\node[chip] (c1) at (1.15,3.98) {outcome-only};
+\node[chip] (c2) at (2.95,3.98) {sufficiency};
+\node[chip] (c3) at (4.62,3.98) {recall-only};
+\node[chip] (c4) at (6.28,3.98) {stale policy};
+\node[chip] (c5) at (1.45,3.18) {extraction noise};
+\node[chip] (c6) at (3.70,3.18) {coarse taxonomy};
+\node[chip] (c7) at (5.95,3.18) {LLM judge};
+
+% =====================  PANEL C : the model-free audit  =================
+\fill[green!6, rounded corners=3pt] (8.10,2.66) rectangle (14,4.90);
+\draw[green!40!black, rounded corners=3pt, line width=0.6pt] (8.10,2.66) rectangle (14,4.90);
+\node[ttl, green!35!black] at (8.26,4.82) {Model-free audit, before any training};
+
+\node[bout] (probe)  at (9.85,3.50) {Probe grid,\\[-1.5pt]no policy model};
+\node[bout] (sigerr) at (12.50,3.50) {Selection error $s$,\\[-1.5pt]signed gap};
+\draw[oarr] (probe) -- (sigerr);
+
+% =====================  PANEL D : training and the dual log  ============
+\fill[black!3, rounded corners=3pt] (0,0.10) rectangle (14,2.10);
+\draw[black!50, rounded corners=3pt, line width=0.6pt] (0,0.10) rectangle (14,2.10);
+\node[ttl, black!60] at (0.16,2.02) {Training and the dual log};
+
+\node[bneut] (train) at (3.05,0.95)
+  {Policy gradient from the SFT init\\[-1.5pt]group-relative advantage, 150 steps\\[-1.5pt]reward from $\tilde V$ alone};
+\node[btruth] (log) at (7.70,0.95)
+  {Per-step dual log\\[-1.5pt]$(\tilde V, r^\star)$ per rollout\\[-1.5pt]terminal eval, $n{=}\NTermEval$};
+\node[bout] (pheno) at (11.95,0.95)
+  {Phenotype, damage\\[-1.5pt]hacked, starved,\\[-1.5pt]diluted, harmless};
+
+\draw[arr] (train) -- (log);
+\draw[arr] (log)   -- (pheno);
+
+% =====================  cross-panel routing (orthogonal only)  ==========
+% oracle down into the dial
+\draw[parr] (oracle.south) -- (7.00,5.36)
+      -- node[lab, below, pos=0.60, inner sep=1.4pt] {corrupt one stage} (5.20,5.36)
+      -- (5.20,4.90);
+% exact reward down into the audit
+\draw[tarr] (12.15,5.62) -- (12.15,4.90);
+% exact reward down the panel gap into the dual log
+\draw[tarr] (11.35,5.62) -- (11.35,5.24)
+      -- node[lab, below, pos=0.52, inner sep=1.4pt] {scores every rollout} (7.70,5.24)
+      -- (7.70,2.10) -- (7.70,0 |- log.north);
+% dial across into the audit, hopping the vertical above
+\draw[parr,hop] (7.30,3.74) -- (8.10,3.74);
+% dial down into training
+\draw[parr] (4.30,2.66) -- node[lab,left,pos=0.45] {training signal} (4.30,2.10)
+      -- (4.30,0 |- train.north);
+% audit down into the phenotype
+\draw[garr] (11.95,2.66) -- node[lab,left,pos=0.45] {predicted before training} (11.95,2.10)
+      -- (11.95,0 |- pheno.north);
+
+\end{tikzpicture}
