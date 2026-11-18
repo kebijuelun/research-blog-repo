@@ -1,0 +1,64 @@
+\definecolor{olifantblue}{HTML}{2A78D6}
+\definecolor{olifantgreen}{HTML}{008300}
+\definecolor{olifantviolet}{HTML}{4A3AA7}
+\definecolor{olifantred}{HTML}{E34948}
+\definecolor{olifantgray}{HTML}{666666}
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[
+    group style={group size=2 by 1, horizontal sep=1.1cm},
+    width=0.52\textwidth, height=4.5cm,
+    ymin=0.15, ymax=2.6,
+    ytick={0.5,1.0,1.5,2.0,2.5},
+    xtick=data,
+    ylabel style={yshift=-2pt},
+    tick label style={font=\small},
+    label style={font=\small},
+    title style={font=\small\bfseries},
+    grid=major, grid style={gray!20, very thin},
+    axis line style={gray!60},
+    every axis plot/.append style={line width=1pt},
+]
+\nextgroupplot[title={No KV cache}, xlabel={draft length $k$},
+    ylabel={speedup over plain}, xmode=log, log ticks with fixed point,
+    xtick={3,5,8,12,16,24}]
+\addplot[dashed, gray!80, domain=2.5:27, samples=2] {1.0};
+\addplot+[thick, color=olifantblue, mark=*, mark size=1.8pt, mark options={fill=olifantblue}] coordinates { (3,2.065) (5,2.281) (8,2.426) (12,2.220) (16,2.240) (24,2.190) };
+\label{plt:l:olifant-eurlex}
+\addplot+[thick, color=olifantgreen, mark=square*, mark size=1.8pt, mark options={fill=olifantgreen}] coordinates { (3,1.517) (5,1.545) (8,1.546) };
+\label{plt:l:olifant-fineweb}
+\addplot+[thick, color=olifantviolet, mark=triangle*, mark size=1.8pt, mark options={fill=olifantviolet}] coordinates { (3,1.025) (5,1.202) (8,1.204) };
+\label{plt:l:ngram}
+\addplot+[thick, color=olifantred, mark=diamond*, mark size=1.8pt, mark options={fill=olifantred}] coordinates { (3,1.148) (5,1.117) (8,1.020) };
+\label{plt:l:neural}
+\nextgroupplot[title={KV cache}, xlabel={draft length $k$},
+    xtick={3,5,8}, xmin=2.5, xmax=8.5]
+\addplot[dashed, gray!80, domain=2.5:8.5, samples=2] {1.0};
+\addplot+[thick, color=olifantblue, mark=*, mark size=1.8pt, mark options={fill=olifantblue}] coordinates { (3,1.252) (5,1.263) (8,1.161) };
+\label{plt:r:olifant-eurlex}
+\addplot+[thick, color=olifantgreen, mark=square*, mark size=1.8pt, mark options={fill=olifantgreen}] coordinates { (3,1.091) (5,1.051) (8,0.956) };
+\label{plt:r:olifant-fineweb}
+\addplot+[thick, color=olifantviolet, mark=triangle*, mark size=1.8pt, mark options={fill=olifantviolet}] coordinates { (3,1.041) (5,1.036) (8,0.992) };
+\label{plt:r:ngram}
+\addplot+[thick, color=olifantred, mark=diamond*, mark size=1.8pt, mark options={fill=olifantred}] coordinates { (3,0.413) (5,0.359) (8,0.289) };
+\label{plt:r:neural}
+\end{groupplot}
+\node[below=0.72cm of current bounding box.south, font=\small] {
+  \tikz\fill[olifantblue] (0,0) circle (2pt);~olifant-eurlex \quad
+  \tikz\fill[olifantgreen] (-2pt,-2pt) rectangle (2pt,2pt);~olifant-fineweb \quad
+  \tikz\fill[olifantviolet] (0,2.4pt) -- (-2.4pt,-1.6pt) -- (2.4pt,-1.6pt) -- cycle;~4-gram \quad
+  \tikz\fill[olifantred] (0,2.6pt) -- (2.6pt,0) -- (0,-2.6pt) -- (-2.6pt,0) -- cycle;~neural
+};
+\end{tikzpicture}
+\caption{Speedup over plain decoding vs.\ draft length $k$ on legal text, under
+the two verifier regimes (shared $y$-axis). Without a KV cache (left), draft
+tokens are nearly free and speedup grows with $k$; with a KV cache (right),
+each draft position has real verification cost and every curve slopes downward:
+profit requires high acceptance (domain-matched olifant-eurlex), and the
+expensive neural draft falls far below break-even (dashed line).
+$k \geq 12$ uncached points are from a preliminary \texttt{+D} sweep, speedups
+computed against the same plain baseline.}
+\label{fig:speedupk}
+\end{figure*}
