@@ -1,0 +1,35 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  font=\small,
+  op/.style={draw, rounded corners=2pt, align=center, inner sep=4pt, minimum height=8mm},
+  keep/.style={op, fill=armhalf!14, draw=armhalf, thick},
+  drop/.style={op, fill=white, draw=armqtr, dashed, text=armqtr},
+  tgt/.style={op, fill=accentgrey!18, draw=accentgrey!90!black},
+  ar/.style={-{Latex[length=2mm]}, thick},
+  lbl/.style={font=\scriptsize\itshape, text=black!65},
+]
+\node[lbl, anchor=west] (l1) at (0,0.95) {naive: reintroduces the full-width head};
+\node[keep] (h1) at (0.6,0) {$\hd\,[\blk,\dd]$};
+\node[drop, right=5mm of h1] (a1) {$\Wout$\\$\dd\!\to\!\dt$};
+\node[tgt,  right=5mm of a1]  (e1) {$\Wlm$\\$\dt\!\to\!\vocab$};
+\node[op, right=5mm of e1, fill=none, draw=none] (o1) {logits};
+\draw[ar] (h1) -- (a1); \draw[ar] (a1) -- (e1); \draw[ar] (e1) -- (o1);
+
+\node[lbl, anchor=west] (l2) at (0,-1.75) {folded: one GEMM, formed once at load, exact};
+\node[keep] (h2) at (0.6,-2.5) {$\hd\,[\blk,\dd]$};
+\node[keep, right=5mm of h2] (e2) {$\Wfold = \Wlm\Wout$\\$\dd\!\to\!\vocab$};
+\node[op, right=5mm of e2, fill=none, draw=none] (o2) {logits};
+\draw[ar] (h2) -- (e2); \draw[ar] (e2) -- (o2);
+
+\draw[-{Latex[length=2mm]}, armqtr, thick]
+  ($(a1.south)!0.5!(e1.south)+(0,-3mm)$) -- ++(0,-0.62cm)
+  node[midway, right, font=\scriptsize, text=armqtr] {\ compose at load: $\Wlm\Wout$};
+\end{tikzpicture}
+\caption{\textbf{LM-head folding.} The output adapter $\Wout$ and the target head
+$\Wlm$ are both linear, so $\Wfold = \Wlm\Wout$ is computed once at load and
+serving runs one GEMM from draft width to the vocabulary. The composition is
+algebraically exact, and in finite precision the logits differ only by rounding
+(App.~\ref{app:artifact}).}
+\label{fig:folding}
+\end{figure}

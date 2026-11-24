@@ -1,0 +1,101 @@
+\providecommand{\trapz}[4]{%
+  \begin{scope}[on background layer]
+    \path[#4] ($(#1.west)+(0,#2/2)$) -- ($(#1.east)+(0,#3/2)$)
+      -- ($(#1.east)-(0,#3/2)$) -- ($(#1.west)-(0,#2/2)$) -- cycle;
+  \end{scope}}
+\begin{widefigure}
+\centering
+\begin{tikzpicture}[
+  font=\small,
+  box/.style={draw, rounded corners=2pt, align=center, inner sep=2.5pt, minimum height=10mm},
+  tgt/.style={box, fill=armexact!12, draw=armexact, minimum height=14mm},
+  nar/.style={box, fill=armhalf!14, draw=armhalf, thick},
+  flat/.style={box, fill=accentgrey!18, draw=accentgrey!90!black},
+  proj/.style={align=center, inner sep=1pt, minimum height=14mm, minimum width=19mm},
+  narrow/.style={proj},
+  widen/.style={proj},
+  narp/.style={fill=armhalf!14, draw=armhalf, thick},
+  gonep/.style={dashed, fill=white, draw=armqtr, text=armqtr, thick},
+  tgtd/.style={box, dashed, fill=armexact!6, draw=armexact, thick},
+  ar/.style={-{Latex[length=2mm]}, thick},
+  dar/.style={-{Latex[length=2mm]}, dashed, thick, armqtr},
+  lbl/.style={font=\footnotesize\itshape, text=black!65, align=left},
+]
+
+\node[tgt, minimum width=33mm] (verify) at (0,0)
+  {\textbf{(1) Target verify}\\[1pt] one fwd over last accepted token\\$+$ $\blk$ proposals};
+\node[tgt, right=21mm of verify] (taps)
+  {3-layer hidden tap\\[1pt] $3\dt$ per token};
+\node[narrow, right=8mm of taps] (fc)
+  {\texttt{fc}\\$3\dt\!\to\!\dd$};
+
+\begin{scope}[on background layer]
+  \node[draw=black!35, dashed, rounded corners=3pt, inner sep=4pt,
+        fit=(taps)(fc)] (featproj) {};
+\end{scope}
+\node[lbl, above=0.5mm of featproj.north west, anchor=south west]
+  {\textbf{(2) Feature projection}, once per iteration};
+
+\node[flat, minimum width=12mm, below=25mm of verify.south west, anchor=north west] (tok)
+  {input\\token ids};
+\node[nar, right=12mm of tok] (embed)
+  {embedding\\[1pt] $[\vocab,\dd]$};
+\node[nar, right=14mm of embed] (cat)
+  {concat\\[1pt] $2\dd$};
+\node[nar, right=12mm of cat] (layer)
+  {decoder layer\\[1pt] at $\dd$};
+\node[widen, right=12mm of layer, minimum width=25mm] (head)
+  {own head\\$\dd\!\to\!32\text{k}/64\text{k}$};
+\node[flat, minimum height=6mm, below=3mm of layer, xshift=8mm] (kv)
+  {draft KV cache};
+
+\coordinate (loopy) at ([yshift=-2mm]kv.south);
+\node[circle, draw=armhalf, fill=armhalf!14, thick, inner sep=1.6pt]
+  (mux) at ([xshift=3mm, yshift=7mm]cat.north) {};
+\coordinate (split) at ($(layer.east)!0.5!(head.west)$);
+\begin{scope}[on background layer]
+  \node[draw=black!35, dashed, rounded corners=3pt, inner sep=4pt,
+        fit=(tok)(embed)(cat)(layer)(head)(kv)(loopy)(mux)] (chain) {};
+\end{scope}
+\node[lbl, below=0.5mm of chain.south west, anchor=north west]
+  {\textbf{(3) Draft forward}, one layer run $\blk$ times in sequence};
+
+\node[box, gonep, anchor=south west, font=\footnotesize, minimum height=14mm] (temb)
+  at ([yshift=5mm]tok.north west) {target embedding\\$[\vocab,\dt]$};
+\node[narrow, text=armqtr, right=3mm of temb, font=\footnotesize, minimum width=15mm] (embadapt)
+  {adapter\\$\dt\!\to\!\dd$};
+\node[lbl, text=armqtr, anchor=south west] at ([yshift=0.5mm]temb.west |- embadapt.north)
+  {target embedding, then adapter down to $\dd$};
+
+\trapz{fc}{14mm}{7mm}{narp}
+\trapz{head}{7mm}{14mm}{narp}
+\trapz{embadapt}{14mm}{7mm}{gonep}
+
+\draw[ar] (verify) -- node[lbl, above] {hidden states} (taps);
+\draw[ar] (taps) -- (fc);
+\draw[ar] (fc.south) -- ([yshift=6mm]fc.south |- mux.north) -| node[lbl, below, pos=0.3] {tapped features (step 1)} (mux.north);
+\draw[ar] (mux) -- ([xshift=3mm]cat.north);
+\draw[ar] (verify.west) -- ++(-4mm,0) |- node[lbl, left, pos=0.25] {accepted\\tokens\\(step 1)} (tok.west);
+\draw[ar] (tok) -- (embed);
+\draw[ar] (embed) -- (cat);
+\draw[ar] (cat) -- (layer);
+\draw[ar] (layer) -- (head);
+\fill (split) circle (1.2pt);
+\draw[ar] (split) |- node[lbl, below, pos=0.75] {own hidden state (steps 2--$\blk$)} (mux.east);
+\draw[ar, <->] ([xshift=8mm]layer.south) -- (kv.north);
+\draw[ar] (head.south) |- (loopy) -| (tok.south);
+\node[lbl, anchor=south] at (embed |- loopy) {own next token (steps 2--$\blk$)};
+\draw[dar] (tok.north) -- (tok.north |- temb.south);
+\draw[dar] (temb) -- (embadapt);
+\draw[dar] (embadapt.east) -| ([xshift=-3mm]cat.north);
+\draw[ar] (head.east) -- ++(5mm,0) |- node[lbl, above, pos=0.75] {$\blk$ proposals, verified next iteration} ([yshift=7.5mm]verify.north) -- (verify.north);
+
+\end{tikzpicture}
+\caption{\textbf{One EAGLE-3 decode iteration and where draft width acts.} Colours
+and shapes as in Figure~\ref{fig:path}. One decoder layer runs $\blk$ times. Step
+1 reads the tokens just accepted, with their three tapped target layers through
+\texttt{fc}. Later steps read the draft's own previous token and hidden state.
+Training (dashed orange) embeds tokens with the target's table and a $\dt\!\to\!\dd$ adapter,
+and export folds the two into the draft's own narrow table.}
+\label{fig:path-e3}
+\end{widefigure}

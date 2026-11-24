@@ -1,0 +1,86 @@
+\begin{widefigure}
+\centering
+\begin{subfigure}{0.49\linewidth}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  title={DFlash, Qwen3-8B}, title style={font=\scriptsize, at={(0,1)}, anchor=south west, yshift=-4pt},
+  ybar, area legend, width=1.04\linewidth, height=3.4cm, bar width=2.9pt, ymin=0, ymax=8.6, ytick={0,2,4,6,8},
+  ylabel={acceptance length},
+  symbolic x coords={gsm8k,math500,aime25,humaneval,mbpp,livecodebench,mtbench,alpaca},
+  xtick=data, xticklabels={}, x tick label style={rotate=35, anchor=east, font=\scriptsize},
+  tick label style={font=\scriptsize}, label style={font=\scriptsize},
+  ymajorgrids, grid style={black!12}, axis lines*=left, enlarge x limits=0.07,
+  legend style={font=\scriptsize, at={(1,1)}, anchor=south east, inner sep=0pt, legend columns=3, draw=none, fill=none},
+]
+\addplot+[fill=armexact,draw=armexact!60!black] coordinates {(gsm8k,5.751) (math500,6.761) (aime25,5.744) (humaneval,6.846) (mbpp,5.809) (livecodebench,4.866) (mtbench,3.278) (alpaca,2.931)};
+\addplot+[fill=armhalf,draw=armhalf!60!black] coordinates {(gsm8k,5.801) (math500,6.778) (aime25,5.763) (humaneval,6.746) (mbpp,5.833) (livecodebench,4.868) (mtbench,3.270) (alpaca,2.914)};
+\addplot+[fill=armqtr,draw=armqtr!60!black] coordinates {(gsm8k,5.657) (math500,6.708) (aime25,5.705) (humaneval,6.477) (mbpp,5.715) (livecodebench,4.802) (mtbench,3.207) (alpaca,2.825)};
+\legend{full, half, quarter}
+\end{axis}
+\end{tikzpicture}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.49\linewidth}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  title={DFlash, GPT-OSS-20B}, title style={font=\scriptsize, at={(0,1)}, anchor=south west, yshift=-4pt},
+  ybar, area legend, width=1.04\linewidth, height=3.4cm, bar width=2.9pt, ymin=0, ymax=5.0, ytick={0,1,2,3,4,5},
+  ylabel={acceptance length},
+  symbolic x coords={gsm8k,math500,aime25,humaneval,mbpp,livecodebench,mtbench,alpaca},
+  xtick=data, xticklabels={}, x tick label style={rotate=35, anchor=east, font=\scriptsize},
+  tick label style={font=\scriptsize}, label style={font=\scriptsize},
+  ymajorgrids, grid style={black!12}, axis lines*=left, enlarge x limits=0.07,
+]
+\addplot+[fill=armexact,draw=armexact!60!black] coordinates {(gsm8k,4.470) (math500,4.524) (aime25,3.851) (humaneval,4.328) (mbpp,4.299) (livecodebench,3.471) (mtbench,3.732) (alpaca,3.854)};
+\addplot+[fill=armhalf,draw=armhalf!60!black] coordinates {(gsm8k,4.413) (math500,4.466) (aime25,3.783) (humaneval,4.262) (mbpp,4.267) (livecodebench,3.404) (mtbench,3.668) (alpaca,3.777)};
+\addplot+[fill=armqtr,draw=armqtr!60!black] coordinates {(gsm8k,4.300) (math500,4.371) (aime25,3.669) (humaneval,4.135) (mbpp,4.154) (livecodebench,3.362) (mtbench,3.573) (alpaca,3.692)};
+\end{axis}
+\end{tikzpicture}
+\end{subfigure}
+\\[-0.2em]
+\begin{subfigure}{0.49\linewidth}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  title={EAGLE-3, Qwen3-8B}, title style={font=\scriptsize, at={(0,1)}, anchor=south west, yshift=-4pt},
+  ybar, area legend, width=1.04\linewidth, height=3.4cm, bar width=2.9pt, ymin=0, ymax=8.6, ytick={0,2,4,6,8},
+  ylabel={acceptance length},
+  symbolic x coords={gsm8k,math500,aime25,humaneval,mbpp,livecodebench,mtbench,alpaca},
+  xtick=data, x tick label style={rotate=35, anchor=east, font=\scriptsize},
+  tick label style={font=\scriptsize}, label style={font=\scriptsize},
+  ymajorgrids, grid style={black!12}, axis lines*=left, enlarge x limits=0.07,
+]
+\addplot+[fill=armexact,draw=armexact!60!black] coordinates {(gsm8k,4.797) (math500,5.576) (aime25,5.003) (humaneval,5.471) (mbpp,4.989) (livecodebench,4.635) (mtbench,3.221) (alpaca,2.995)};
+\addplot+[fill=armhalf,draw=armhalf!60!black] coordinates {(gsm8k,4.511) (math500,5.232) (aime25,4.708) (humaneval,5.174) (mbpp,4.720) (livecodebench,4.434) (mtbench,3.048) (alpaca,2.815)};
+\addplot+[fill=armqtr,draw=armqtr!60!black] coordinates {(gsm8k,4.543) (math500,5.264) (aime25,4.717) (humaneval,5.200) (mbpp,4.783) (livecodebench,4.448) (mtbench,3.001) (alpaca,2.772)};
+\end{axis}
+\end{tikzpicture}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.49\linewidth}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  title={EAGLE-3, GPT-OSS-20B}, title style={font=\scriptsize, at={(0,1)}, anchor=south west, yshift=-4pt},
+  ybar, area legend, width=1.04\linewidth, height=3.4cm, bar width=2.9pt, ymin=0, ymax=5.0, ytick={0,1,2,3,4,5},
+  ylabel={acceptance length},
+  symbolic x coords={gsm8k,math500,aime25,humaneval,mbpp,livecodebench,mtbench,alpaca},
+  xtick=data, x tick label style={rotate=35, anchor=east, font=\scriptsize},
+  tick label style={font=\scriptsize}, label style={font=\scriptsize},
+  ymajorgrids, grid style={black!12}, axis lines*=left, enlarge x limits=0.07,
+]
+\addplot+[fill=armexact,draw=armexact!60!black] coordinates {(gsm8k,3.810) (math500,4.052) (aime25,3.382) (humaneval,3.862) (mbpp,3.888) (livecodebench,3.164) (mtbench,3.359) (alpaca,3.498)};
+\addplot+[fill=armhalf,draw=armhalf!60!black] coordinates {(gsm8k,3.760) (math500,4.002) (aime25,3.361) (humaneval,3.783) (mbpp,3.821) (livecodebench,3.095) (mtbench,3.300) (alpaca,3.446)};
+\addplot+[fill=armqtr,draw=armqtr!60!black] coordinates {(gsm8k,3.739) (math500,3.920) (aime25,3.320) (humaneval,3.725) (mbpp,3.764) (livecodebench,3.034) (mtbench,3.231) (alpaca,3.376)};
+\end{axis}
+\end{tikzpicture}
+\end{subfigure}
+\caption{\textbf{Narrowing keeps acceptance close to full width on eight standard
+benchmarks in three of four cells.}
+Acceptance length at temperature 0\arxivgpu{ on B200} (setup in \S\ref{sec:setup}). Temperature 1
+is in
+Table~\ref{tab:bench8t1}.}
+\label{fig:bench8}
+\end{widefigure}

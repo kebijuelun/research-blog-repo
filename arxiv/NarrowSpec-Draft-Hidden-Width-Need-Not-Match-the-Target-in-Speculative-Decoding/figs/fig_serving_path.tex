@@ -1,0 +1,98 @@
+\providecommand{\trapz}[4]{%
+  \begin{scope}[on background layer]
+    \path[#4] ($(#1.west)+(0,#2/2)$) -- ($(#1.east)+(0,#3/2)$)
+      -- ($(#1.east)-(0,#3/2)$) -- ($(#1.west)-(0,#2/2)$) -- cycle;
+  \end{scope}}
+\begin{widefigure}
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small,
+  box/.style={draw, rounded corners=2pt, align=center, inner sep=2.5pt, minimum height=10mm},
+  tgt/.style={box, fill=armexact!12, draw=armexact, minimum height=14mm},
+  nar/.style={box, fill=armhalf!14, draw=armhalf, thick},
+  flat/.style={box, fill=accentgrey!18, draw=accentgrey!90!black},
+  proj/.style={align=center, inner sep=1pt, minimum height=14mm, minimum width=19mm},
+  narrow/.style={proj},
+  widen/.style={proj},
+  narp/.style={fill=armhalf!14, draw=armhalf, thick},
+  gonep/.style={dashed, fill=white, draw=armqtr, text=armqtr, thick},
+  tgtp/.style={dashed, fill=armexact!6, draw=armexact, thick},
+  ar/.style={-{Latex[length=2mm]}, thick},
+  dar/.style={-{Latex[length=2mm]}, dashed, thick, armqtr},
+  lbl/.style={font=\footnotesize\itshape, text=black!65, align=left},
+]
+
+\node[tgt, minimum width=33mm] (verify) at (0,0)
+  {\textbf{(1) Target verify}\\[1pt] one fwd over last accepted token\\$+$ $\blk\!-\!1$ proposals};
+\node[tgt, right=14mm of verify] (taps)
+  {5-layer hidden tap\\[1pt] $[\blk,\,5\dt]$};
+\node[narrow, right=5mm of taps] (fc)
+  {\texttt{fc}\\$5\dt\!\to\!\dd$};
+\node[nar, right=5mm of fc] (kvproj)
+  {context $K/V$ proj.\\[1pt] per draft layer};
+\node[flat, right=5mm of kvproj] (kvcache)
+  {draft KV cache\\[1pt] \emph{accepted prefix}};
+
+\begin{scope}[on background layer]
+  \node[draw=black!35, dashed, rounded corners=3pt, inner sep=4pt,
+        fit=(taps)(fc)(kvproj)(kvcache)] (prepass) {};
+\end{scope}
+\node[lbl, below=0.5mm of prepass.south west, anchor=north west]
+  {\textbf{(2) Context pre-pass}, once per iteration};
+
+\node[tgt, minimum height=10mm, below=16mm of verify.south west, anchor=north west] (blockids)
+  {input token ids\\[1pt] bonus $+$ $\blk\!-\!1$ masks};
+\node[flat, minimum height=14mm, right=5mm of blockids] (embed)
+  {target embedding\\[1pt] $[\vocab,\dt]$};
+\node[narrow, right=5mm of embed] (inadapt)
+  {input adapter\\$\dt\!\to\!\dd$};
+\node[nar, right=5mm of inadapt] (layers)
+  {$L$ draft layers\\[1pt] $+$ norm at $\dd$};
+\node[widen, right=9mm of layers, minimum width=22mm] (head)
+  {folded head\\$\dd\!\to\!\vocab$};
+
+\begin{scope}[on background layer]
+  \node[draw=black!35, dashed, rounded corners=3pt, inner sep=4pt,
+        fit=(blockids)(embed)(inadapt)(layers)(head)] (draft) {};
+\end{scope}
+\node[lbl, below=0.5mm of draft.south west, anchor=north west]
+  {\textbf{(3) Draft forward}, all $\blk$ positions in one pass};
+
+\node[widen, text=armqtr, below=6mm of layers, font=\footnotesize] (outadapt)
+  {output adapter\\$\dd\!\to\!\dt$};
+\node[box, gonep, font=\footnotesize, minimum height=14mm] (lmhead)
+  at (outadapt -| head) {target LM head\\$[\vocab,\dt]$};
+\node[lbl, text=armqtr, anchor=east, align=right] at ($(outadapt.west)+(-3mm,-2mm)$)
+  {output adapter maps $\dd$ back to $\dt$\\for the target's LM head};
+
+\trapz{fc}{14mm}{7mm}{narp}
+\trapz{inadapt}{14mm}{7mm}{narp}
+\trapz{head}{7mm}{14mm}{narp}
+\trapz{outadapt}{7mm}{14mm}{gonep}
+
+\draw[ar] (verify) -- node[lbl, above] {hidden} (taps);
+\draw[ar] (taps) -- (fc);
+\draw[ar] (fc) -- (kvproj);
+\draw[ar] (kvproj) -- (kvcache);
+\draw[ar] (blockids.north |- verify.south) -- node[lbl, right] {bonus token} (blockids.north);
+\draw[ar] (blockids) -- (embed);
+\draw[ar] (embed) -- (inadapt);
+\draw[ar] (inadapt) -- (layers);
+\draw[ar] (layers) -- (head);
+\draw[ar] (kvcache.south) |- node[lbl, left, pos=0.3] {context $K,V$} ([yshift=5mm]layers.north) -- (layers.north);
+\draw[dar] (layers.south) -- (outadapt.north);
+\draw[dar] (outadapt) -- (lmhead);
+\coordinate (loopx) at ($(head.east -| kvcache.east)+(5mm,0)$);
+\draw[dashed, thick, armqtr] (lmhead.east) -| (loopx);
+\draw[ar] (head.east) -- (loopx) |- node[lbl, above, pos=0.75] {$\blk\!-\!1$ proposals, verified next iteration} ([yshift=6mm]verify.north) -- (verify.north);
+
+\end{tikzpicture}}
+\caption{\textbf{One DFlash decode iteration and where draft width acts.} Blue
+parts run at draft width $\dd$, grey parts at target width $\dt$ or independent
+of width, and trapezoids are projections that change width. The draft has $L{=}5$ layers on Qwen3-8B and 8 on GPT-OSS-20B. Dashed orange marks
+the training-only path. Training routes the draft through an output adapter to
+the target's frozen LM head. At load for inference, the two are folded into one
+narrow head.}
+\label{fig:path}
+\end{widefigure}

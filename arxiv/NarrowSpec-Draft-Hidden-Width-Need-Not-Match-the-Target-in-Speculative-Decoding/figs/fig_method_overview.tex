@@ -1,0 +1,83 @@
+\begingroup
+\providecommand{\moRes}[3]{%
+  \fill[armhalf!18] (#1-0.075,#2-#3/2) rectangle (#1+0.075,#2+#3/2);
+  \draw[armhalf, thin] (#1-0.075,#2-#3/2) rectangle (#1+0.075,#2+#3/2);}
+\providecommand{\moNrm}[3]{%
+  \fill[armhalf!55] (#1-0.025,#2-#3/2) rectangle (#1+0.025,#2+#3/2);}
+\providecommand{\moInner}[4]{%
+  \fill[accentgrey!22] (#1-#4/2,#2-#3/2) rectangle (#1+#4/2,#2+#3/2);
+  \draw[accentgrey!90!black, thin] (#1-#4/2,#2-#3/2) rectangle (#1+#4/2,#2+#3/2);}
+\providecommand{\moPC}{armhalf}
+\providecommand{\moProj}[5]{%
+  \fill[\moPC!16] (#1-#5,#2-#3/2) -- (#1+#5,#2-#4/2) -- (#1+#5,#2+#4/2) -- (#1-#5,#2+#3/2) -- cycle;
+  \draw[\moPC, thin] (#1-#5,#2-#3/2) -- (#1+#5,#2-#4/2) -- (#1+#5,#2+#4/2) -- (#1-#5,#2+#3/2) -- cycle;}
+\providecommand{\moPlus}[2]{\node[circle, draw, black!70, inner sep=0.4pt, font=\scriptsize] at (#1,#2) {$+$};}
+
+\providecommand{\moRow}[4]{%
+  \moRes{0}{#1}{#2}
+  \moNrm{0.5}{#1}{#2}
+  \moProj{1.35}{#1}{#2}{1.2}{0.32}
+  \moInner{2.85}{#1}{1.2}{1.42}
+  \node[font=\scriptsize, text=black!70, align=center] at (2.85,#1)
+    {\textbf{Attention}};
+  \moProj{4.35}{#1}{1.0}{#2}{0.32}
+  \moPlus{5.1}{#1}
+  \moNrm{5.6}{#1}{#2}
+  \moProj{6.45}{#1}{#2}{1.4}{0.32}
+  \moInner{7.75}{#1}{1.4}{0.15}
+  \moProj{9.05}{#1}{1.4}{#2}{0.32}
+  \moPlus{9.8}{#1}
+  \moNrm{10.5}{#1}{#2}
+  \moProj{11.4}{#1}{#2}{1.6}{0.45}
+  \moInner{12.5}{#1}{1.6}{0.15}
+  \foreach \a/\b in {0.08/0.47, 0.53/1.01, 1.69/2.12, 3.58/4.01, 4.69/4.98, 5.22/5.57, 5.63/6.11, 6.79/7.66, 7.84/8.71, 9.39/9.68, 9.92/10.47, 10.53/10.93, 11.87/12.41}
+    \draw[ar] (\a,#1) -- (\b,#1);
+  \draw[ar, rounded corners=2pt] (0,#1+#2/2) -- (0,#1+0.95) -| (5.1,#1+0.12);
+  \draw[ar, rounded corners=2pt] (5.35,#1) -- (5.35,#1+0.95) -| (9.8,#1+0.12);
+  \node[lb] at (0,#1-0.82)     {$X$\\$[\blk,#3]$};
+  \node[lb] at (1.35,#1-0.82)  {\textbf{QKV}\\$#3{\to}d_{\mathrm{qkv}}$};
+  \node[lb] at (4.35,#1-0.82)  {\textbf{O}\\$d_{\mathrm{attn}}{\to}#3$};
+  \node[lb] at (6.45,#1-0.82)  {\textbf{gate/up}\\$#3{\to}2d_{\mathrm{ff}}$};
+  \node[lb] at (7.75,#1-0.82)  {\textbf{SwiGLU}\\$2d_{\mathrm{ff}}{\to}d_{\mathrm{ff}}$};
+  \node[lb] at (9.05,#1-0.82)  {\textbf{MLP down}\\$d_{\mathrm{ff}}{\to}#3$};
+  \node[la] at (10.5,#1+#2/2+0.05) {norm};
+  \node[lb] at (11.4,#1-0.9)   {#4};
+  \node[la] at (12.5,#1+0.85)  {logits};
+}
+
+\begin{widefigure}
+\centering
+\resizebox{0.92\textwidth}{!}{%
+\begin{tikzpicture}[
+  x=1.2cm,
+  font=\footnotesize,
+  ar/.style={-{Stealth[length=1.5mm]}, thin, black!70},
+  lb/.style={font=\scriptsize, text=black!70, align=center, anchor=north, inner sep=1pt},
+  la/.style={font=\scriptsize, text=black!70, align=center, anchor=south, inner sep=1pt},
+  rw/.style={font=\footnotesize\bfseries, anchor=east, align=right},
+]
+\draw[decorate, decoration={brace, amplitude=3pt}, black!55]
+  (-0.15,1.1) -- node[above=2pt, font=\scriptsize, text=black!65] {$\times L$ draft layers in both rows} (10.0,1.1);
+\renewcommand{\moPC}{armexact}
+\moRow{0}{1.0}{\dt}{\textbf{vocab head}\\$[\vocab,\dt]$}
+\node[rw, text=armexact] at (-1.7,0) {Full width\\$d=\dt$};
+
+\renewcommand{\moPC}{armhalf}
+\moRow{-2.75}{0.5}{\dd}{\textbf{vocab head}\\$[\vocab,\dd]$}
+\node[rw, text=armhalf] at (-1.7,-2.75) {Half width\\$d=\dd=\dt/2$};
+\moProj{-1.2}{-2.75}{1.0}{0.5}{0.26}
+\draw[ar] (-0.92,-2.75) -- (-0.1,-2.75);
+\node[lb] at (-1.2,-3.57) {\textbf{input adapter}\\$\dt{\to}\dd$};
+\end{tikzpicture}}
+\caption{\textbf{One \arxivgpu{DFlash }draft layer at full and half width.} Blue tensors are the
+residual stream at width $d$, drawn 2:1. Trapezoids are projections, and every
+one of them reads or writes the residual, so all shrink with $d$. Grey parts
+(attention over $d_{\mathrm{attn}}$, the MLP's $d_{\mathrm{ff}}$) keep their
+size. The input adapter maps the target's $\dt$-wide inputs into the narrow
+stream.\arxivgpu{ EAGLE-3 differs in three places. It has one layer that runs $\blk$
+times, its QKV projection reads the $2d$ concatenation of token embedding and
+hidden state, and it scores with its own head over a pruned vocabulary
+(Figure~\ref{fig:path-e3}).}}
+\label{fig:overview}
+\end{widefigure}
+\endgroup
